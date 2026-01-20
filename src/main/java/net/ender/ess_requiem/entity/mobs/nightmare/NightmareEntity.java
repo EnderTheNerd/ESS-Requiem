@@ -9,6 +9,7 @@ import io.redspace.ironsspellbooks.entity.mobs.goals.melee.AttackAnimationData;
 import io.redspace.ironsspellbooks.entity.mobs.wizards.GenericAnimatedWarlockAttackGoal;
 import io.redspace.ironsspellbooks.util.OwnerHelper;
 import net.acetheeldritchking.aces_spell_utils.entity.mobs.UniqueAbstractSpellCastingMob;
+import net.ender.ess_requiem.entity.mobs.gilded_weapon.GildedWeaponEntity;
 import net.ender.ess_requiem.registries.GGEntityRegistry;
 import net.ender.ess_requiem.registries.GGSoundRegistry;
 import net.minecraft.nbt.CompoundTag;
@@ -20,6 +21,8 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.control.MoveControl;
+import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomFlyingGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
@@ -27,6 +30,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.neoforged.neoforge.fluids.FluidType;
+import org.spongepowered.asm.mixin.Unique;
 import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.SingletonGeoAnimatable;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
@@ -50,13 +54,37 @@ public class NightmareEntity  extends UniqueAbstractSpellCastingMob implements I
     public NightmareEntity(Level level, LivingEntity owner) {
         this(GGEntityRegistry.NIGHTMARE.get(), level);
         setSummoner(owner);
-        this.lookControl = createLookControl();
+
     }
 
-    public NightmareEntity(EntityType<? extends AbstractSpellCastingMob> entityType, Level world) {
+    public NightmareEntity(EntityType<? extends UniqueAbstractSpellCastingMob> entityType, Level world) {
         super(entityType, world);
         SingletonGeoAnimatable.registerSyncedAnimatable(this);
         xpReward = 0;
+        this.lookControl = createLookControl();
+        this.moveControl = createMoveControl();
+    }
+
+
+    protected MoveControl createMoveControl()
+    {
+        return new MoveControl(this)
+        {
+            @Override
+            protected float rotlerp(float sourceAngle, float targetAngle, float maximumChange) {
+                double x = this.wantedX - this.mob.getX();
+                double z = this.wantedZ - this.mob.getZ();
+
+                if (x * x + z * z < 0.5F)
+                {
+                    return sourceAngle;
+                }
+                else
+                {
+                    return super.rotlerp(sourceAngle, targetAngle, maximumChange * 0.25F);
+                }
+            }
+        };
     }
 
     @org.jetbrains.annotations.Nullable
@@ -80,39 +108,38 @@ public class NightmareEntity  extends UniqueAbstractSpellCastingMob implements I
 
     public static AttributeSupplier.Builder createAttributes() {
         return LivingEntity.createLivingAttributes()
-                .add(Attributes.ATTACK_KNOCKBACK, 1)
-                .add(Attributes.ATTACK_DAMAGE, 1)
-                .add(Attributes.MAX_HEALTH, 1)
-                .add(Attributes.FOLLOW_RANGE, 1)
-                .add(Attributes.ENTITY_INTERACTION_RANGE, 1)
-                .add(Attributes.MOVEMENT_SPEED, 1);
+                .add(Attributes.ATTACK_DAMAGE, 5)
+                .add(Attributes.MAX_HEALTH, 20.0)
+                .add(Attributes.FOLLOW_RANGE, 45.0)
+                .add(Attributes.ENTITY_INTERACTION_RANGE, 3)
+                .add(Attributes.MOVEMENT_SPEED, .85);
+
 
     }
 
     @Override
     protected void registerGoals() {
 
-        goalSelector.addGoal(3, new GenericFollowOwnerGoal(this, this::getSummoner, 1, 9, 4, true, 20));
-        goalSelector.addGoal(5, new WaterAvoidingRandomFlyingGoal(this, 0.75));
+        this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new GenericAnimatedWarlockAttackGoal<>(this, 1.5F, 5, 10)
                 .setMoveset(List.of(
-                        new AttackAnimationData(13, "one_arm_swing", 3),
-                        new AttackAnimationData(15, "two_arm_swing", 5)
+                        new AttackAnimationData(13, "one_arm_swing", 6),
+                        new AttackAnimationData(20, "two_arm_swing", 16)
                 ))
-                .setComboChance(3.5f)
-                .setMeleeAttackInverval(5, 10)
+                .setComboChance(2f)
+                .setMeleeAttackInverval(3, 8)
                 .setMeleeBias(1.0f, 1.0f)
                 .setMeleeMovespeedModifier(1.0f)
         );
-        this.targetSelector.addGoal(1, new GenericOwnerHurtByTargetGoal(this, this::getSummoner));
-        this.goalSelector.addGoal(9, new LookAtPlayerGoal(this, Player.class, 3.0F, 1.0F));
-        this.goalSelector.addGoal(10, new LookAtPlayerGoal(this, Mob.class, 8.0F));
         this.goalSelector.addGoal(7, new GenericFollowOwnerGoal(this, this::getSummoner, 0.9f, 8, 2, false, 50));
         this.goalSelector.addGoal(8, new WaterAvoidingRandomStrollGoal(this, 0.9D));
+        this.goalSelector.addGoal(9, new LookAtPlayerGoal(this, Player.class, 3.0F, 1.0F));
+        this.goalSelector.addGoal(10, new LookAtPlayerGoal(this, Mob.class, 8.0F));
+
+        this.targetSelector.addGoal(1, new GenericOwnerHurtByTargetGoal(this, this::getSummoner));
         this.targetSelector.addGoal(2, new GenericOwnerHurtTargetGoal(this, this::getSummoner));
         this.targetSelector.addGoal(3, new GenericCopyOwnerTargetGoal(this, this::getSummoner));
         this.targetSelector.addGoal(4, (new GenericHurtByTargetGoal(this, (entity) -> entity == getSummoner())).setAlertOthers());
-        this.targetSelector.addGoal(5, new GenericProtectOwnerTargetGoal(this, this::getSummoner));
     }
 
     @Override
@@ -186,11 +213,29 @@ public class NightmareEntity  extends UniqueAbstractSpellCastingMob implements I
     //ANIMATIONS
     RawAnimation animationToPlay = null;
     private final AnimationController<NightmareEntity> animationController = new AnimationController<>(this, "controller", 0, this::predicate);
+    private final AnimationController<NightmareEntity> attackAnimationController = new AnimationController<>(this, "attack_controller", 0, this::attackPredicate);
+
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(animationController);
+        controllers.add(attackAnimationController);
 
+    }
+
+
+    private PlayState attackPredicate(AnimationState<NightmareEntity> event)
+    {
+        var controller = event.getController();
+
+        if (this.animationToPlay != null)
+        {
+            controller.forceAnimationReset();
+            controller.setAnimation(animationToPlay);
+            animationToPlay = null;
+        }
+
+        return PlayState.CONTINUE;
     }
 
     private PlayState predicate(AnimationState<NightmareEntity> event)
