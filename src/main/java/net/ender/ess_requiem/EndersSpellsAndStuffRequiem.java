@@ -1,5 +1,8 @@
 package net.ender.ess_requiem;
 
+import net.ender.ess_requiem.compat.GGCompatManager;
+import net.ender.ess_requiem.compat.dte.DTEItemRegistry;
+import net.ender.ess_requiem.compat.dte.DTESpellRegistry;
 import net.ender.ess_requiem.item.ModCreativeModTabs;
 import net.ender.ess_requiem.registries.*;
 import org.slf4j.Logger;
@@ -55,7 +58,11 @@ public class EndersSpellsAndStuffRequiem
 
         ModCreativeModTabs.register(modEventBus);
 
-
+        if (GGCompatManager.isDTELoaded())
+        {
+            DTESpellRegistry.register(modEventBus);
+            DTEItemRegistry.register(modEventBus);
+        }
 
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);

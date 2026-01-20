@@ -42,6 +42,8 @@ public class GGSoundRegistry {
 
     public static DeferredHolder<SoundEvent, SoundEvent> GREATER_REVIVE = registerSoundEvent("greater_revive");
 
+    public static DeferredHolder<SoundEvent, SoundEvent> NIGHTMARE_AMBIENT = registerSoundEvent("nightmare_ambient");
+
     //SPELLBLADE
     public static DeferredHolder<SoundEvent, SoundEvent> PARRY = registerSoundEvent("parry");
 

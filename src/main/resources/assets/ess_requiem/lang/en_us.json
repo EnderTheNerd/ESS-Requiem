@@ -40,6 +40,7 @@
  "entity.ess_requiem.soulmaster_sword": "Soulmaster Sword",
  "entity.ess_requiem.battle_standard": "Battle Standard",
  "entity.ess_requiem.gilded_sword": "Gilded Sword",
+ "entity.ess_requiem.greg": "Greg.",
 
 
  "spell.ess_requiem.cataphract_tackle": "Cataphract Tackle (CREATIVE ONLY)",
@@ -120,7 +121,7 @@
  "spell.ess_requiem.uppercut": "Uppercut",
  "spell.ess_requiem.uppercut.guide": "Swing your weapon upward, anything hit by this gets flung backward into the air.",
  "spell.ess_requiem.sword_stance": "Sword Stance",
- "spell.ess_requiem.sword_stance.guide": "Take a defensive stance, with perfect timing block any attack, and reflect all projectiles",
+ "spell.ess_requiem.sword_stance.guide": "Take a defensive stance, with perfect timing block any attack, and reflect all projectiles.",
  "spell.ess_requiem.soulmaster_summon": "Conjure Blademaster Spirit",
  "spell.ess_requiem.soulmaster_summon.guide": "Summon a magical sword. The sword's damage matches the weapon in your hand's damage when you summon it.",
  "spell.ess_requiem.hone_edge": "Hone Edge",
@@ -130,11 +131,11 @@
  "spell.ess_requiem.undying_dread": "Undying Dread",
  "spell.ess_requiem.undying_dread.guide": "Strengthen the will of your soul, if you are killed when your soul is strengthened, delay your death by 2 minutes, while also gaining immense strength. Once those 2 minutes are up, instantly die.",
  "spell.ess_requiem.dismantle": "Dismantle",
- "spell.ess_requiem.dismantle.guide": "Tense your muscles with magic, swinging your weapon, and unleashing a wave of furious slashes. The ranged slashes do half the damage of your original swing. The evolved form of slash.",
+ "spell.ess_requiem.dismantle.guide": "Tense your muscles with magic, swinging your weapon, and unleashing a wave of furious slashes. The ranged slashes do half the damage of your original swing. The evolved form of Slash.",
  "spell.ess_requiem.cleave": "Cleave",
- "spell.ess_requiem.cleave.guide": "Violently Slam your sword into the ground, enhanced with magic hatred, deal more damage towards those with extra mana. The shockwave deals half the damage of the sword's downslam. The evolved form of slam.",
+ "spell.ess_requiem.cleave.guide": "Violently slam your sword into the ground, enhanced with magic hatred, deal more damage towards those with extra mana. The shockwave deals half the damage of the sword's downslam. The evolved form of Slam.",
  "spell.ess_requiem.place_standard": "Malevolent Standard",
- "spell.ess_requiem.place_standard.guide": "Place a sentient battle standard. The standard will fight, either by unleashing a wave, slashing all caught by it, summoning golden swords to fight for it, and once per summon, unleashing a huge wave of power which enhances allies fighting power, and gives those hit a counterspell shield for one hit, and extra damage.",
+ "spell.ess_requiem.place_standard.guide": "Place a sentient battle standard. The standard will fight, either by unleashing a wave, slashing all caught by it, summoning golden swords to fight for it. Summoning the standard grants a shield which blocks one counterspell, as well as granting one extra damage.",
 
  "ui.enders_spells.not_empty_hand": "You try and flex your claws, yet something's in the way.",
  "ui.ess_requiem.desperate_damage": "%d Desperation Damage",
@@ -203,6 +204,9 @@
  "item.ess_requiem.emboldened_ingot": "Emboldened Ingot",
  "item.ess_requiem.spellblade_spellbook": "Combat Master's Spellbook",
 
+
+ "item.ess_requiem.dream_ripper": "Dream Ripper",
+ "item.ess_requiem.dream_ripper.lore": "The Scythe bites with a new edge. Ripping open minds, devouring dreams with an endless hunger.",
 
  "death.attack.ess_requiem.boiling_blood": "%1$s was boiled alive by %2$s",
  "death.attack.ess_requiem.necrotic_burst": "%1$s was withered into ash by %2$s",

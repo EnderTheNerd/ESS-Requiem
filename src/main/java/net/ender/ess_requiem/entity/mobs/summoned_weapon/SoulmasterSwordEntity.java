@@ -2,6 +2,7 @@ package net.ender.ess_requiem.entity.mobs.summoned_weapon;
 
 import io.redspace.ironsspellbooks.IronsSpellbooks;
 import io.redspace.ironsspellbooks.api.util.Utils;
+import io.redspace.ironsspellbooks.capabilities.magic.MagicManager;
 import io.redspace.ironsspellbooks.entity.mobs.IAnimatedAttacker;
 import io.redspace.ironsspellbooks.entity.mobs.IMagicSummon;
 import io.redspace.ironsspellbooks.entity.mobs.abstract_spell_casting_mob.AbstractSpellCastingMob;
@@ -10,8 +11,12 @@ import io.redspace.ironsspellbooks.entity.mobs.goals.melee.AttackAnimationData;
 import io.redspace.ironsspellbooks.entity.mobs.wizards.GenericAnimatedWarlockAttackGoal;
 import io.redspace.ironsspellbooks.util.OwnerHelper;
 import net.ender.ess_requiem.registries.GGEntityRegistry;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -21,6 +26,7 @@ import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.fluids.FluidType;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animation.*;
@@ -129,12 +135,36 @@ public class SoulmasterSwordEntity  extends AbstractSpellCastingMob implements I
         }
     }
 
+    @Override
+    public boolean hurt(DamageSource pSource, float pAmount) {
+        if (!pSource.is(DamageTypeTags.BYPASSES_INVULNERABILITY) && shouldIgnoreDamage(pSource)) {
+            return false;
+        }
+        return super.hurt(pSource, pAmount);
+    }
 
+    @Override
+    protected void checkFallDamage(double pY, boolean pOnGround, BlockState pState, BlockPos pPos) {
+    }
 
     @Override
     public void onUnSummon() {
-
+        if (!this.level().isClientSide) {
+            MagicManager.spawnParticles(this.level(), ParticleTypes.ENCHANT,
+                    getX(), getY(), getZ(),
+                    25, 0.4, 0.8, 0.4, 0.03, false);
+            discard();
+        }
     }
+
+    @Override
+    public void onRemovedFromLevel() {
+
+
+        super.onRemovedFromLevel();
+    }
+
+
     // Geckolib & Animations
     RawAnimation animationToPlay = null;
 

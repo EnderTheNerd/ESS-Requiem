@@ -12,6 +12,7 @@ import io.redspace.ironsspellbooks.capabilities.magic.SummonManager;
 import io.redspace.ironsspellbooks.capabilities.magic.SummonedEntitiesCastData;
 import net.ender.ess_requiem.EndersSpellsAndStuffRequiem;
 import net.ender.ess_requiem.entity.mobs.hopping_skull.HoppingSkullEntity;
+import net.ender.ess_requiem.entity.mobs.skull_mass.SkullMassEntity;
 import net.ender.ess_requiem.entity.mobs.summoned_weapon.SoulmasterSwordEntity;
 import net.ender.ess_requiem.registries.GGSchoolRegistry;
 import net.minecraft.core.component.DataComponents;
@@ -81,32 +82,55 @@ public class SoulmasterSummonSpell extends AbstractSpell {
         return defaultConfig;
     }
 
+    @Override
+    public int getRecastCount(int spellLevel, @Nullable LivingEntity entity) {
+        return 2;
+    }
 
+    @Override
+    public void onRecastFinished(ServerPlayer serverPlayer, RecastInstance recastInstance, RecastResult recastResult, ICastDataSerializable castDataSerializable) {
+        if (SummonManager.recastFinishedHelper(serverPlayer, recastInstance, recastResult, castDataSerializable)) {
+            super.onRecastFinished(serverPlayer, recastInstance, recastResult, castDataSerializable);
+        }
+    }
 
+    @Override
+    public ICastDataSerializable getEmptyCastData() {
+        return new SummonedEntitiesCastData();
+    }
 
     @Override
     public void onCast(Level world, int spellLevel, LivingEntity entity, CastSource castSource, MagicData playerMagicData) {
-        AttributeModifier healthModifier = new AttributeModifier(IronsSpellbooks.id("spell_power_health_bonus"), getHealthBonus(spellLevel, entity), AttributeModifier.Operation.ADD_VALUE);
-       AttributeModifier damageModifier = new AttributeModifier(IronsSpellbooks.id("spell_power_damage_bonus"), getDamage(spellLevel, entity), AttributeModifier.Operation.ADD_VALUE);
-        int summonTime = 20 * 60 * 10;
-
+        var recasts = playerMagicData.getPlayerRecasts();
+        if (!recasts.hasRecastForSpell(this)) {
+            AttributeModifier healthModifier = new AttributeModifier(IronsSpellbooks.id("spell_power_health_bonus"), getHealthBonus(spellLevel, entity), AttributeModifier.Operation.ADD_VALUE);
+            AttributeModifier damageModifier = new AttributeModifier(IronsSpellbooks.id("spell_power_damage_bonus"), getDamage(spellLevel, entity), AttributeModifier.Operation.ADD_VALUE);
+            int summonTime = 20 * 60 * 10;
 
             SummonedEntitiesCastData summonedEntitiesCastData = new SummonedEntitiesCastData();
+            int count = 1;
+            for (int i = 0; i < count; i++) {
+                SoulmasterSwordEntity sword = new SoulmasterSwordEntity(world, entity);
+                sword.moveTo(entity.getEyePosition().add(new Vec3(Utils.getRandomScaled(2), 1, Utils.getRandomScaled(2))));
+                sword.getAttribute(Attributes.ATTACK_DAMAGE).addPermanentModifier(damageModifier);
+                sword.getAttribute(Attributes.MAX_HEALTH).addPermanentModifier(healthModifier);
+                sword.setHealth(sword.getMaxHealth());
+                sword.finalizeSpawn((ServerLevel) world, world.getCurrentDifficultyAt(sword.getOnPos()), MobSpawnType.MOB_SUMMONED, null);
+                var creature = NeoForge.EVENT_BUS.post(new SpellSummonEvent<>(entity, sword, this.spellId, spellLevel)).getCreature();
+                world.addFreshEntity(creature);
+                SummonManager.initSummon(entity, creature, summonTime, summonedEntitiesCastData);
+            }
+            RecastInstance recastInstance = new RecastInstance(this.getSpellId(), spellLevel, getRecastCount(spellLevel, entity), summonTime, castSource, summonedEntitiesCastData);
+            recasts.addRecast(recastInstance, playerMagicData);
+        }
+        super.onCast(world, spellLevel, entity, castSource, playerMagicData);
 
 
-            SoulmasterSwordEntity weapon = new SoulmasterSwordEntity(world, entity);
-            weapon.moveTo(entity.getEyePosition().add(new Vec3(Utils.getRandomScaled(2), 1, Utils.getRandomScaled(2))));
-            weapon.finalizeSpawn((ServerLevel) world, world.getCurrentDifficultyAt(weapon.getOnPos()), MobSpawnType.MOB_SUMMONED, null);
-            weapon.getAttribute(Attributes.ATTACK_DAMAGE).addPermanentModifier(damageModifier);
-            weapon.getAttribute(Attributes.MAX_HEALTH).addPermanentModifier(healthModifier);
-            weapon.setHealth(weapon.getMaxHealth());
-            var creature = NeoForge.EVENT_BUS.post(new SpellSummonEvent<>(entity, weapon, this.spellId, spellLevel)).getCreature();
-            world.addFreshEntity(creature);
-            SummonManager.initSummon(entity, creature, summonTime, summonedEntitiesCastData);
 
-
-            super.onCast(world, spellLevel, entity, castSource, playerMagicData);
     }
+
+
+
 
     private float getDamage(int spellLevel, LivingEntity entity) {
         return getWeaponDamage(entity);

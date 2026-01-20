@@ -1,6 +1,9 @@
 package net.ender.ess_requiem.item;
 
 import net.ender.ess_requiem.EndersSpellsAndStuffRequiem;
+import net.ender.ess_requiem.compat.GGCompatManager;
+import net.ender.ess_requiem.compat.dte.DTEItemRegistry;
+import net.ender.ess_requiem.compat.dte.DTEWeaponTiers;
 import net.ender.ess_requiem.registries.GGEffectRegistry;
 import net.ender.ess_requiem.registries.GGItemRegistry;
 import net.minecraft.core.registries.Registries;
@@ -53,10 +56,16 @@ public class ModCreativeModTabs {
                         output.accept(GGItemRegistry.PRACTICE);
                         output.accept(GGItemRegistry.EXPERTISE);
                         output.accept(GGItemRegistry.INTERTWINED_PEAK);
-                        output.accept((ItemLike) GGItemRegistry.SUMMON_UPGRADE_ORB);
-                        output.accept(GGItemRegistry.PRIMAL_FLESH);
+                        //output.accept((ItemLike) GGItemRegistry.SUMMON_UPGRADE_ORB);
+                        //output.accept(GGItemRegistry.PRIMAL_FLESH);
+
+                        if (GGCompatManager.isDTELoaded())
+                        {
+                            output.accept(DTEItemRegistry.DREAM_RIPPER_SCYTHE.get());
+
+                        }
 
                     })
 
-                    .build()    );
+                    .build());
 }

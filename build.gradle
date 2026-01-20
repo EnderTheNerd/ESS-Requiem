@@ -151,6 +151,18 @@ dependencies {
     //implementation "curse.maven:irons-jewelry-1101111:7358426"
     //implementation "curse.maven:atlas-api-1145462:6880789"
 
+
+    //DTE
+    //implementation "curse.maven:discerning-the-eldritch-1143065:7469786"
+    //AZURE
+   // implementation "curse.maven:azurelib-817423:7119590"
+    //TITAN
+    //implementation "curse.maven:prometheus-1365195:7364871"
+    //SOUL FIRE
+  //  implementation "curse.maven:soul-fire-d-662413:7364962"
+    //Cobweb
+   // implementation "curse.maven:cobweb-968456:7186943"
+
     //NEAT
     implementation "curse.maven:neat-238372:5838045"
 
@@ -169,7 +181,7 @@ dependencies {
     implementation "curse.maven:placebo-283644:6446766"
 
     //ACE
-    implementation "curse.maven:aces-spell-utils-1299492:7435761"
+    implementation "curse.maven:aces-spell-utils-1299492:7465123"
 
 
     // GECKOLIB

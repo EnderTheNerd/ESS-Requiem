@@ -121,5 +121,11 @@
     "sounds": [
       "ess_requiem:greater_revive"
     ]
+  },
+  "nightmare_loop": {
+    "subtitle": "sounds.ess_requiem.nightmare_whisper",
+    "sounds": [
+      "ess_requiem:nightmare_loop"
+    ]
   }
 }
