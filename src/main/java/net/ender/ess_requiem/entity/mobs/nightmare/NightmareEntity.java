@@ -1,6 +1,7 @@
 package net.ender.ess_requiem.entity.mobs.nightmare;
 
 import io.redspace.ironsspellbooks.IronsSpellbooks;
+import io.redspace.ironsspellbooks.api.registry.AttributeRegistry;
 import io.redspace.ironsspellbooks.entity.mobs.IAnimatedAttacker;
 import io.redspace.ironsspellbooks.entity.mobs.IMagicSummon;
 import io.redspace.ironsspellbooks.entity.mobs.abstract_spell_casting_mob.AbstractSpellCastingMob;
@@ -90,7 +91,7 @@ public class NightmareEntity  extends UniqueAbstractSpellCastingMob implements I
     @org.jetbrains.annotations.Nullable
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType pSpawnType, @org.jetbrains.annotations.Nullable SpawnGroupData pSpawnGroupData) {
-        this.setNoGravity(true);
+
         return super.finalizeSpawn(pLevel, pDifficulty, pSpawnType, pSpawnGroupData);
     }
 
@@ -108,11 +109,15 @@ public class NightmareEntity  extends UniqueAbstractSpellCastingMob implements I
 
     public static AttributeSupplier.Builder createAttributes() {
         return LivingEntity.createLivingAttributes()
-                .add(Attributes.ATTACK_DAMAGE, 5)
-                .add(Attributes.MAX_HEALTH, 20.0)
+                .add(Attributes.ATTACK_DAMAGE, 0)
+                .add(Attributes.MAX_HEALTH, 1)
                 .add(Attributes.FOLLOW_RANGE, 45.0)
+                .add(Attributes.ARMOR, 0)
+                .add(AttributeRegistry.SPELL_POWER, 0)
+                .add(AttributeRegistry.ELDRITCH_SPELL_POWER, 0)
                 .add(Attributes.ENTITY_INTERACTION_RANGE, 3)
-                .add(Attributes.MOVEMENT_SPEED, .85);
+                .add(Attributes.MOVEMENT_SPEED, 0);
+
 
 
     }
