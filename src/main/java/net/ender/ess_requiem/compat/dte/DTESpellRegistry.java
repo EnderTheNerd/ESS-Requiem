@@ -3,6 +3,7 @@ package net.ender.ess_requiem.compat.dte;
 import io.redspace.ironsspellbooks.api.spells.AbstractSpell;
 import net.ender.ess_requiem.EndersSpellsAndStuffRequiem;
 import net.ender.ess_requiem.compat.dte.compat_spells.eldritch.NightmareSummonSpell;
+import net.ender.ess_requiem.compat.dte.compat_spells.eldritch.uncraftable.NightmareScreamSpell;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -19,6 +20,10 @@ public class DTESpellRegistry {
 
     //ELDRITCH
     public static final Supplier<AbstractSpell> NIGHTMARE_SUMMON = registerSpell (new NightmareSummonSpell());
+
+
+    //UNCRAFTABLE ELDRITCH
+    public static final Supplier<AbstractSpell> NIGHTMARE_SCREAM = registerSpell(new NightmareScreamSpell());
 
 
 

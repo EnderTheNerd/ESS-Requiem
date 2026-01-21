@@ -2,17 +2,21 @@ package net.ender.ess_requiem.entity.mobs.nightmare;
 
 import io.redspace.ironsspellbooks.IronsSpellbooks;
 import io.redspace.ironsspellbooks.api.registry.AttributeRegistry;
+import io.redspace.ironsspellbooks.api.util.Utils;
 import io.redspace.ironsspellbooks.entity.mobs.IAnimatedAttacker;
 import io.redspace.ironsspellbooks.entity.mobs.IMagicSummon;
 import io.redspace.ironsspellbooks.entity.mobs.abstract_spell_casting_mob.AbstractSpellCastingMob;
 import io.redspace.ironsspellbooks.entity.mobs.goals.*;
 import io.redspace.ironsspellbooks.entity.mobs.goals.melee.AttackAnimationData;
 import io.redspace.ironsspellbooks.entity.mobs.wizards.GenericAnimatedWarlockAttackGoal;
+import io.redspace.ironsspellbooks.registries.MobEffectRegistry;
 import io.redspace.ironsspellbooks.util.OwnerHelper;
 import net.acetheeldritchking.aces_spell_utils.entity.mobs.UniqueAbstractSpellCastingMob;
+import net.ender.ess_requiem.compat.dte.DTESpellRegistry;
 import net.ender.ess_requiem.entity.mobs.gilded_weapon.GildedWeaponEntity;
 import net.ender.ess_requiem.registries.GGEntityRegistry;
 import net.ender.ess_requiem.registries.GGSoundRegistry;
+import net.ender.ess_requiem.registries.GGSpellRegistry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -27,10 +31,12 @@ import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomFlyingGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.neoforged.neoforge.fluids.FluidType;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Unique;
 import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.SingletonGeoAnimatable;
@@ -126,21 +132,25 @@ public class NightmareEntity  extends UniqueAbstractSpellCastingMob implements I
     protected void registerGoals() {
 
         this.goalSelector.addGoal(0, new FloatGoal(this));
-        this.goalSelector.addGoal(1, new GenericAnimatedWarlockAttackGoal<>(this, 1.5F, 5, 10)
+        this.goalSelector.addGoal(1, new NightmareAnimatedWarlockAttackGoal(this, 1.5F, 5, 10)
                 .setMoveset(List.of(
-                        new AttackAnimationData(13, "one_arm_swing", 6),
-                        new AttackAnimationData(20, "two_arm_swing", 16)
+                        new AttackAnimationData(13, "one_arm_swing", 4),
+                        new AttackAnimationData(20, "two_arm_swing", 3)
+
                 ))
+
                 .setComboChance(2f)
                 .setMeleeAttackInverval(3, 8)
                 .setMeleeBias(1.0f, 1.0f)
                 .setMeleeMovespeedModifier(1.0f)
-        );
+                .setSingleUseSpell(DTESpellRegistry.NIGHTMARE_SCREAM.get(), 5, 15, 1, 1));
+
+
         this.goalSelector.addGoal(7, new GenericFollowOwnerGoal(this, this::getSummoner, 0.9f, 8, 2, false, 50));
         this.goalSelector.addGoal(8, new WaterAvoidingRandomStrollGoal(this, 0.9D));
         this.goalSelector.addGoal(9, new LookAtPlayerGoal(this, Player.class, 3.0F, 1.0F));
         this.goalSelector.addGoal(10, new LookAtPlayerGoal(this, Mob.class, 8.0F));
-
+        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Player.class, true));
         this.targetSelector.addGoal(1, new GenericOwnerHurtByTargetGoal(this, this::getSummoner));
         this.targetSelector.addGoal(2, new GenericOwnerHurtTargetGoal(this, this::getSummoner));
         this.targetSelector.addGoal(3, new GenericCopyOwnerTargetGoal(this, this::getSummoner));
@@ -167,17 +177,12 @@ public class NightmareEntity  extends UniqueAbstractSpellCastingMob implements I
 
     //Sounds and Stuff
     protected SoundEvent getHurtSound(DamageSource damageSource) {
-        return SoundEvents.WOOL_HIT;
-    }
-
-    @Override
-    protected SoundEvent getAmbientSound() {
-        return GGSoundRegistry.NIGHTMARE_AMBIENT.get();
+        return GGSoundRegistry.NIGHTMARE_HURT.get();
     }
 
     @Override
     protected SoundEvent getDeathSound() {
-        return SoundEvents.WOOL_BREAK;
+        return GGSoundRegistry.NIGHTMARE_DEATH.get();
     }
 
 
@@ -214,17 +219,29 @@ public class NightmareEntity  extends UniqueAbstractSpellCastingMob implements I
         OwnerHelper.serializeOwner(pCompound, summonerUUID);
     }
 
+    @Override
+    public boolean doHurtTarget(@NotNull Entity entity) {
+        if (entity instanceof LivingEntity && ((LivingEntity) entity).hasEffect(MobEffectRegistry.ABYSSAL_SHROUD)) {
+            ((LivingEntity) entity).removeEffect(MobEffectRegistry.ABYSSAL_SHROUD);
+        }
+
+        return Utils.doMeleeAttack(this, entity, DTESpellRegistry.NIGHTMARE_SUMMON.get().getDamageSource(this, getSummoner()));
+    }
+
+
+
 
     //ANIMATIONS
     RawAnimation animationToPlay = null;
     private final AnimationController<NightmareEntity> animationController = new AnimationController<>(this, "controller", 0, this::predicate);
     private final AnimationController<NightmareEntity> attackAnimationController = new AnimationController<>(this, "attack_controller", 0, this::attackPredicate);
-
+    private final AnimationController<NightmareEntity> castingAnimationController = new AnimationController<>(this, "casting_controller", 0, this::castingPredicate);
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(animationController);
         controllers.add(attackAnimationController);
+        controllers.add(castingAnimationController);
 
     }
 
@@ -242,6 +259,20 @@ public class NightmareEntity  extends UniqueAbstractSpellCastingMob implements I
 
         return PlayState.CONTINUE;
     }
+
+    private PlayState castingPredicate(AnimationState<NightmareEntity> event)
+    {
+
+            if (isCasting() && this.animationToPlay == null)
+            {
+                event.getController().setAnimation(RawAnimation.begin().thenPlay("scream"));
+                return PlayState.CONTINUE;
+            }
+
+        return PlayState.STOP;
+    }
+
+
 
     private PlayState predicate(AnimationState<NightmareEntity> event)
     {

@@ -1,6 +1,5 @@
 package net.ender.ess_requiem.compat.dte.compat_spells.eldritch;
 
-import io.redspace.ironsspellbooks.IronsSpellbooks;
 import io.redspace.ironsspellbooks.api.config.DefaultConfig;
 import io.redspace.ironsspellbooks.api.events.SpellSummonEvent;
 import io.redspace.ironsspellbooks.api.magic.MagicData;
@@ -12,26 +11,20 @@ import io.redspace.ironsspellbooks.api.util.Utils;
 import io.redspace.ironsspellbooks.capabilities.magic.*;
 import net.acetheeldritchking.aces_spell_utils.spells.ASSpellAnimations;
 import net.ender.ess_requiem.EndersSpellsAndStuffRequiem;
-import net.ender.ess_requiem.entity.mobs.battle_standard.BattleStandardEntity;
 import net.ender.ess_requiem.entity.mobs.nightmare.NightmareEntity;
-import net.ender.ess_requiem.registries.GGEffectRegistry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.NeoForge;
 
-import javax.annotation.Nullable;
+
 
 
 public class NightmareSummonSpell extends AbstractSpell {
-    private final ResourceLocation spellId = ResourceLocation.fromNamespaceAndPath(EndersSpellsAndStuffRequiem.MOD_ID, "nightmare_spell");
+    private final ResourceLocation spellId = ResourceLocation.fromNamespaceAndPath(EndersSpellsAndStuffRequiem.MOD_ID, "nightmare");
 
 
     private final DefaultConfig defaultConfig = new DefaultConfig()
@@ -46,7 +39,7 @@ public class NightmareSummonSpell extends AbstractSpell {
         this.baseSpellPower = 10;
         this.spellPowerPerLevel = 5;
         this.castTime = 0;
-        this.baseManaCost = 400;
+        this.baseManaCost = 250;
     }
 
     @Override
