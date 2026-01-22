@@ -57,7 +57,7 @@ public class NightmareScreamSpell extends AbstractSpell {
 
     public NightmareScreamSpell() {
         this.manaCostPerLevel = 0;
-        this.baseSpellPower = 5;
+        this.baseSpellPower = 15;
         this.spellPowerPerLevel = 0;
         this.castTime = 8;
         this.baseManaCost = 0;

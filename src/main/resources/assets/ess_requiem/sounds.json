@@ -122,10 +122,34 @@
       "ess_requiem:greater_revive"
     ]
   },
-  "nightmare_loop": {
-    "subtitle": "sounds.ess_requiem.nightmare_whisper",
+  "nightmare_hurt": {
+    "subtitle": "sounds.ess_requiem.nightmare_hurt",
     "sounds": [
-      "ess_requiem:nightmare_loop"
+      "ess_requiem:nightmare_hurt"
+    ]
+  },
+  "nightmare_death": {
+    "subtitle": "sounds.ess_requiem.nightmare_death",
+    "sounds": [
+      "ess_requiem:nightmare_death"
+    ]
+  },
+  "nightmare_attack": {
+    "subtitle": "sounds.ess_requiem.nightmare_attack",
+    "sounds": [
+      "ess_requiem:nightmare_attack"
+    ]
+  },
+  "eldritch_wail_start": {
+    "subtitle": "sounds.ess_requiem.eldritch_wail_start",
+    "sounds": [
+      "ess_requiem:eldritch_wail_start"
+    ]
+  },
+  "eldritch_wail_end": {
+    "subtitle": "sounds.ess_requiem.eldritch_wail_end",
+    "sounds": [
+      "ess_requiem:eldritch_wail_end"
     ]
   }
 }

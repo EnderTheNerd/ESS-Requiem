@@ -207,6 +207,12 @@
 
  "item.ess_requiem.dream_ripper": "Dream Ripper",
  "item.ess_requiem.dream_ripper.lore": "The Scythe bites with a new edge. Ripping open minds, devouring dreams with an endless hunger.",
+ "spell.ess_requiem.nightmare": "Dream Eater",
+ "spell.ess_requiem.nightmare.guide": "Once a target is wrapped in sleep, summon a nightmare to hunt them down. Nightmare's copy the stats of what's being targeted.",
+ "spell.ess_requiem.forever_dreaming": "Forever Dreaming",
+ "spell.ess_requiem.forever_dreaming.guide": "If an entity is below 25% HP, rip open the invisible bubble of exhaustion, lulling them into a blissful slumber. While sleeping, the dreams and nightmares of entities are vulnerable, but their mortal bodies cannot be harmed.",
+ "entity.ess_requiem.nightmare": "Nightmare",
+
 
  "death.attack.ess_requiem.boiling_blood": "%1$s was boiled alive by %2$s",
  "death.attack.ess_requiem.necrotic_burst": "%1$s was withered into ash by %2$s",

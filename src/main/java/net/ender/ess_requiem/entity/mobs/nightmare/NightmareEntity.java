@@ -5,21 +5,16 @@ import io.redspace.ironsspellbooks.api.registry.AttributeRegistry;
 import io.redspace.ironsspellbooks.api.util.Utils;
 import io.redspace.ironsspellbooks.entity.mobs.IAnimatedAttacker;
 import io.redspace.ironsspellbooks.entity.mobs.IMagicSummon;
-import io.redspace.ironsspellbooks.entity.mobs.abstract_spell_casting_mob.AbstractSpellCastingMob;
 import io.redspace.ironsspellbooks.entity.mobs.goals.*;
 import io.redspace.ironsspellbooks.entity.mobs.goals.melee.AttackAnimationData;
-import io.redspace.ironsspellbooks.entity.mobs.wizards.GenericAnimatedWarlockAttackGoal;
 import io.redspace.ironsspellbooks.registries.MobEffectRegistry;
 import io.redspace.ironsspellbooks.util.OwnerHelper;
 import net.acetheeldritchking.aces_spell_utils.entity.mobs.UniqueAbstractSpellCastingMob;
-import net.ender.ess_requiem.compat.dte.DTESpellRegistry;
-import net.ender.ess_requiem.entity.mobs.gilded_weapon.GildedWeaponEntity;
+import net.ender.ess_requiem.compat.dte.dte_registry.DTESpellRegistry;
 import net.ender.ess_requiem.registries.GGEntityRegistry;
 import net.ender.ess_requiem.registries.GGSoundRegistry;
-import net.ender.ess_requiem.registries.GGSpellRegistry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
@@ -29,7 +24,6 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
-import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomFlyingGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.player.Player;
@@ -37,8 +31,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.neoforged.neoforge.fluids.FluidType;
 import org.jetbrains.annotations.NotNull;
-import org.spongepowered.asm.mixin.Unique;
-import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.SingletonGeoAnimatable;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animation.*;
@@ -117,8 +109,11 @@ public class NightmareEntity  extends UniqueAbstractSpellCastingMob implements I
         return LivingEntity.createLivingAttributes()
                 .add(Attributes.ATTACK_DAMAGE, 0)
                 .add(Attributes.MAX_HEALTH, 1)
+                .add(Attributes.KNOCKBACK_RESISTANCE, 0)
                 .add(Attributes.FOLLOW_RANGE, 45.0)
+                .add(Attributes.ARMOR_TOUGHNESS, 0)
                 .add(Attributes.ARMOR, 0)
+                .add(Attributes.SCALE, 1)
                 .add(AttributeRegistry.SPELL_POWER, 0)
                 .add(AttributeRegistry.ELDRITCH_SPELL_POWER, 0)
                 .add(Attributes.ENTITY_INTERACTION_RANGE, 3)

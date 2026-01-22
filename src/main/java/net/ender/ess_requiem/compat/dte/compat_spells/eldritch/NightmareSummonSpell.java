@@ -11,9 +11,14 @@ import io.redspace.ironsspellbooks.api.util.Utils;
 import io.redspace.ironsspellbooks.capabilities.magic.*;
 import net.acetheeldritchking.aces_spell_utils.spells.ASSpellAnimations;
 import net.ender.ess_requiem.EndersSpellsAndStuffRequiem;
+import net.ender.ess_requiem.compat.dte.dte_registry.DTE_EffectRegistry;
 import net.ender.ess_requiem.entity.mobs.nightmare.NightmareEntity;
+import net.ender.ess_requiem.registries.GGEffectRegistry;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -73,36 +78,39 @@ public class NightmareSummonSpell extends AbstractSpell {
         if (playerMagicData.getAdditionalCastData() instanceof TargetEntityCastData targetData) {
             var targetEntity = targetData.getTarget((ServerLevel) world);
             {
-                int summonTime = 20 * 60 * 10;
-                SummonedEntitiesCastData summonedEntitiesCastData = new SummonedEntitiesCastData();
+                if (targetEntity.hasEffect(DTE_EffectRegistry.BLISSFUL_SLEEP)) {
+                    int summonTime = 20 * 60 * 10;
+                    SummonedEntitiesCastData summonedEntitiesCastData = new SummonedEntitiesCastData();
+
+                    NightmareEntity nightmare = new NightmareEntity(world, entity);
+
+                    nightmare.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(targetEntity.getAttributeBaseValue(Attributes.ATTACK_DAMAGE));
+                    nightmare.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(targetEntity.getAttributeBaseValue(Attributes.KNOCKBACK_RESISTANCE));
+                    nightmare.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(targetEntity.getAttributeBaseValue(Attributes.ARMOR_TOUGHNESS));
+                    nightmare.getAttribute(Attributes.MAX_HEALTH).setBaseValue(targetEntity.getAttributeBaseValue(Attributes.MAX_HEALTH));
+                    nightmare.getAttribute(Attributes.ARMOR).setBaseValue(targetEntity.getAttributeBaseValue(Attributes.ARMOR));
+                    nightmare.getAttribute(Attributes.SCALE).setBaseValue(targetEntity.getAttributeBaseValue(Attributes.SCALE));
+                    nightmare.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(targetEntity.getAttributeBaseValue(Attributes.MOVEMENT_SPEED));
+                    nightmare.getAttribute(AttributeRegistry.SPELL_POWER).setBaseValue(targetEntity.getAttributeBaseValue(AttributeRegistry.SPELL_POWER));
+                    nightmare.getAttribute(AttributeRegistry.ELDRITCH_SPELL_POWER).setBaseValue(targetEntity.getAttributeBaseValue(AttributeRegistry.ELDRITCH_SPELL_POWER));
+                    nightmare.setHealth((float) nightmare.getAttributeValue(Attributes.MAX_HEALTH));
+
+                    nightmare.moveTo(entity.position());
+                    nightmare.finalizeSpawn((ServerLevel) world, world.getCurrentDifficultyAt(nightmare.getOnPos()), MobSpawnType.MOB_SUMMONED, null);
+                    var creature = NeoForge.EVENT_BUS.post(new SpellSummonEvent<>(entity, nightmare, this.spellId, spellLevel)).getCreature();
+                    world.addFreshEntity(creature);
+                    SummonManager.initSummon(entity, creature, summonTime, summonedEntitiesCastData);
 
 
-                NightmareEntity nightmare = new NightmareEntity(world, entity);
-
-
-                nightmare.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(targetEntity.getAttributeValue(Attributes.ATTACK_DAMAGE));
-                nightmare.getAttribute(Attributes.MAX_HEALTH).setBaseValue(targetEntity.getAttributeValue(Attributes.MAX_HEALTH));
-                nightmare.getAttribute(Attributes.ARMOR).setBaseValue(targetEntity.getAttributeValue(Attributes.ARMOR));
-                nightmare.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(targetEntity.getAttributeValue(Attributes.MOVEMENT_SPEED));
-                nightmare.getAttribute(AttributeRegistry.SPELL_POWER).setBaseValue(targetEntity.getAttributeValue(AttributeRegistry.SPELL_POWER));
-                nightmare.getAttribute(AttributeRegistry.ELDRITCH_SPELL_POWER).setBaseValue(targetEntity.getAttributeValue(AttributeRegistry.ELDRITCH_SPELL_POWER));
-                nightmare.setHealth((float) nightmare.getAttributeValue(Attributes.MAX_HEALTH));
-
-                nightmare.moveTo(entity.position());
-                nightmare.finalizeSpawn((ServerLevel) world, world.getCurrentDifficultyAt(nightmare.getOnPos()), MobSpawnType.MOB_SUMMONED, null);
-                var creature = NeoForge.EVENT_BUS.post(new SpellSummonEvent<>(entity, nightmare, this.spellId, spellLevel)).getCreature();
-                world.addFreshEntity(creature);
-                SummonManager.initSummon(entity, creature, summonTime, summonedEntitiesCastData);
-
-
-                super.onCast(world, spellLevel, entity, castSource, playerMagicData);
+                }
+                else if (entity instanceof ServerPlayer serverPlayer) {
+                    serverPlayer.displayClientMessage(Component.literal(ChatFormatting.ITALIC + "This entity is too awake, for their dreams to be realized.")
+                            .withStyle(s -> s.withColor(ChatFormatting.DARK_RED)), true);
                 }
 
+                super.onCast(world, spellLevel, entity, castSource, playerMagicData);
+            }
 
-
-
-
-            super.onCast(world, spellLevel, entity, castSource, playerMagicData);
         }
 
     }

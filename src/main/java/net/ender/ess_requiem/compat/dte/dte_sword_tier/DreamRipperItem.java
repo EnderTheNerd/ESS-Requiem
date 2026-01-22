@@ -7,7 +7,8 @@ import io.redspace.ironsspellbooks.item.UniqueItem;
 import io.redspace.ironsspellbooks.util.ItemPropertiesHelper;
 import net.acetheeldritchking.aces_spell_utils.utils.ASRarities;
 
-import net.ender.ess_requiem.compat.dte.DTEWeaponTiers;
+import net.ender.ess_requiem.compat.dte.dte_registry.DTESpellRegistry;
+import net.ender.ess_requiem.compat.dte.dte_registry.DTEWeaponTiers;
 import net.ender.ess_requiem.registries.GGSpellRegistry;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponents;
@@ -27,8 +28,9 @@ public class DreamRipperItem extends MagicSwordItem implements UniqueItem {
                 ItemPropertiesHelper.equipment(1).fireResistant().rarity(ASRarities.ACCURSED_RARITY_PROXY.getValue()).attributes(ExtendedSwordItem.createAttributes(DTEWeaponTiers.DREAM_RIPPER_SCYTHE)).component(DataComponents.UNBREAKABLE, new Unbreakable(false)),
                 SpellDataRegistryHolder.of(
 
-                        new SpellDataRegistryHolder(GGSpellRegistry.PALE_FLAME, 6))
-        );
+                        new SpellDataRegistryHolder(DTESpellRegistry.FOREVER_DREAMING, 1),
+                        new SpellDataRegistryHolder(DTESpellRegistry.NIGHTMARE_SUMMON, 1)));
+
     }
 
     @Override

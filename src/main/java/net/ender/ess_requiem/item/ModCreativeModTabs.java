@@ -2,9 +2,7 @@ package net.ender.ess_requiem.item;
 
 import net.ender.ess_requiem.EndersSpellsAndStuffRequiem;
 import net.ender.ess_requiem.compat.GGCompatManager;
-import net.ender.ess_requiem.compat.dte.DTEItemRegistry;
-import net.ender.ess_requiem.compat.dte.DTEWeaponTiers;
-import net.ender.ess_requiem.registries.GGEffectRegistry;
+import net.ender.ess_requiem.compat.dte.dte_registry.DTEItemRegistry;
 import net.ender.ess_requiem.registries.GGItemRegistry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;

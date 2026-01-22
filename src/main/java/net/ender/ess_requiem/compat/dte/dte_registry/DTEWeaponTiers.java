@@ -1,4 +1,4 @@
-package net.ender.ess_requiem.compat.dte;
+package net.ender.ess_requiem.compat.dte.dte_registry;
 
 import io.redspace.ironsspellbooks.api.registry.AttributeRegistry;
 import io.redspace.ironsspellbooks.item.weapons.AttributeContainer;

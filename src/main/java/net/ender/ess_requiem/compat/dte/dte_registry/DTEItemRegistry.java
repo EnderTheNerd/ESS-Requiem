@@ -1,4 +1,4 @@
-package net.ender.ess_requiem.compat.dte;
+package net.ender.ess_requiem.compat.dte.dte_registry;
 
 import net.ender.ess_requiem.EndersSpellsAndStuffRequiem;
 import net.ender.ess_requiem.compat.dte.dte_sword_tier.DreamRipperItem;
