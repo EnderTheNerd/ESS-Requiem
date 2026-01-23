@@ -199,7 +199,7 @@ public class ModEvents {
             ItemStack mainhandItem = ((LivingEntity) serverPlayer).getMainHandItem();
             ItemStack offhandItem = ((LivingEntity) serverPlayer).getOffhandItem();
             if (serverPlayer.isCrouching() && (mainhandItem.getItem() instanceof SkyfallsCause && offhandItem.getItem() instanceof SwiftDemise)) {
-                serverPlayer.displayClientMessage(Component.literal(ChatFormatting.ITALIC + "Your weapons refue to move whilst crouched.")
+                serverPlayer.displayClientMessage(Component.literal(ChatFormatting.ITALIC + "Your weapons refuse to move whilst crouched.")
                         .withStyle(s -> s.withColor(TextColor.fromRgb(14522123))), true);
 
 
