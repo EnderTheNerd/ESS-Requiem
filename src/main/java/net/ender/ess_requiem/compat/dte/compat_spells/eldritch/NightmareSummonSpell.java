@@ -79,6 +79,7 @@ public class NightmareSummonSpell extends AbstractSpell {
             var targetEntity = targetData.getTarget((ServerLevel) world);
             {
                 if (targetEntity.hasEffect(DTE_EffectRegistry.BLISSFUL_SLEEP)) {
+                    targetEntity.removeEffect(DTE_EffectRegistry.BLISSFUL_SLEEP);
                     int summonTime = 20 * 60 * 10;
                     SummonedEntitiesCastData summonedEntitiesCastData = new SummonedEntitiesCastData();
 

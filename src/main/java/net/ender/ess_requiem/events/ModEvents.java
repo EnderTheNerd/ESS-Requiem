@@ -23,6 +23,7 @@ import io.redspace.ironsspellbooks.registries.ParticleRegistry;
 import io.redspace.ironsspellbooks.registries.SoundRegistry;
 import io.redspace.ironsspellbooks.spells.eldritch.SculkTentaclesSpell;
 import io.redspace.ironsspellbooks.util.ParticleHelper;
+import net.ender.ess_requiem.compat.dte.dte_registry.DTE_EffectRegistry;
 import net.ender.ess_requiem.item.sword_tier.BloodWeapons.ArmOfDecay;
 import net.ender.ess_requiem.item.sword_tier.BloodWeapons.ScytheOfRottenDreams;
 import net.ender.ess_requiem.item.sword_tier.EldritchWeapons.BrokenPromise;
@@ -102,6 +103,23 @@ public class ModEvents {
         }
 
     }
+
+    @SubscribeEvent
+    public static void SleepingProtection(LivingIncomingDamageEvent event) {
+        var targetEntity = event.getEntity();
+        var damager = event.getSource().getDirectEntity();
+
+        if (targetEntity.hasEffect(DTE_EffectRegistry.BLISSFUL_SLEEP))
+        {
+            event.setCanceled(true);
+        }
+        if (damager instanceof ServerPlayer player && targetEntity.hasEffect(DTE_EffectRegistry.BLISSFUL_SLEEP)) {
+            player.displayClientMessage(Component.literal(ChatFormatting.ITALIC + "Protected by the veil of dreams. ")
+                    .withStyle(s -> s.withColor(ChatFormatting.DARK_RED)), true);
+        }
+
+    }
+
 
     @SubscribeEvent
     public static void SkillfulCombos(LivingDamageEvent.Pre event) {

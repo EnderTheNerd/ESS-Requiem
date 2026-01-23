@@ -41,7 +41,7 @@ public class ForeverDreamingSpell extends AbstractSpell {
     @Override
     public List<MutableComponent> getUniqueInfo(int spellLevel, LivingEntity caster) {
         return List.of(
-                Component.translatable("ui.irons_spellbooks.effect_length", Utils.timeFromTicks(getDuration(spellLevel, caster) * 40, 1)));
+                Component.translatable("ui.irons_spellbooks.effect_length", Utils.timeFromTicks(getDuration(spellLevel, caster) * 3, 1)));
     }
 
     private final DefaultConfig defaultConfig = new DefaultConfig()
@@ -130,12 +130,8 @@ public class ForeverDreamingSpell extends AbstractSpell {
 
 
 
-    private float getRadius(int spellLevel, LivingEntity entity) {
-        return getSpellPower(spellLevel, entity);
-    }
-
     public int getDuration(int spellLevel, LivingEntity caster) {
-        return (int) (getSpellPower(spellLevel, caster) * 40);
+        return (int) (getSpellPower(spellLevel, caster) * 3);
     }
 
     @Override

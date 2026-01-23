@@ -78,6 +78,7 @@ public class ClientSetup {
         event.registerSpriteSet(GGParticleRegistry.CATAPHRACT_STAR_ONE_PARTICLE.get(), CataphractStarOneParticle.Provider::new);
         event.registerSpriteSet(GGParticleRegistry.BIG_SLASH_LEFT.get(), BigSlashLeftParticle.Provider::new);
         event.registerSpriteSet(GGParticleRegistry.BIG_SLASH_RIGHT.get(), BigSlashRightParticle.Provider::new);
+        event.registerSpriteSet(GGParticleRegistry.SLEEPING_PARTICLE.get(), SleepingParticle.Provider::new);
 
     }
 

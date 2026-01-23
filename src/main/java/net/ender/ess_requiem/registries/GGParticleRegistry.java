@@ -1,6 +1,7 @@
 package net.ender.ess_requiem.registries;
 
 import net.ender.ess_requiem.EndersSpellsAndStuffRequiem;
+import net.ender.ess_requiem.compat.GGCompatManager;
 import net.ender.ess_requiem.particle.DarkSlashParticle;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -33,4 +34,5 @@ public class GGParticleRegistry {
 
     public static final Supplier<SimpleParticleType> BIG_SLASH_RIGHT = PARTICLE_TYPES.register("big_slash_right", () -> new SimpleParticleType(false));
 
+    public static final Supplier<SimpleParticleType> SLEEPING_PARTICLE = PARTICLE_TYPES.register("sleeping_particle", () -> new SimpleParticleType(false));
 }
