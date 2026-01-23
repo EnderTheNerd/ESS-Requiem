@@ -128,6 +128,20 @@ public class ForeverDreamingSpell extends AbstractSpell {
     }
 
 
+    @Override
+    public boolean canBeCraftedBy(Player player) {
+        return false;
+    }
+
+    @Override
+    public boolean allowCrafting() {
+        return false;
+    }
+
+    @Override
+    public boolean allowLooting() {
+        return false;
+    }
 
 
     public int getDuration(int spellLevel, LivingEntity caster) {

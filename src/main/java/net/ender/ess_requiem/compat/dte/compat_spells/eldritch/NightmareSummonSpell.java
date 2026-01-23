@@ -13,6 +13,7 @@ import net.acetheeldritchking.aces_spell_utils.spells.ASSpellAnimations;
 import net.ender.ess_requiem.EndersSpellsAndStuffRequiem;
 import net.ender.ess_requiem.compat.dte.dte_registry.DTE_EffectRegistry;
 import net.ender.ess_requiem.entity.mobs.nightmare.NightmareEntity;
+import net.ender.ess_requiem.entity.mobs.summoned_weapon.SoulmasterSwordEntity;
 import net.ender.ess_requiem.registries.GGEffectRegistry;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -22,10 +23,12 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.NeoForge;
 
-
+import javax.annotation.Nullable;
 
 
 public class NightmareSummonSpell extends AbstractSpell {
@@ -64,59 +67,101 @@ public class NightmareSummonSpell extends AbstractSpell {
 
 
 
+    @Override
+    public boolean canBeCraftedBy(Player player) {
+        return false;
+    }
+
+    @Override
+    public boolean allowCrafting() {
+        return false;
+    }
+
+    @Override
+    public boolean allowLooting() {
+        return false;
+    }
 
 
+
+
+
+
+
+
+     //
+
+           // else if (entity instanceof ServerPlayer serverPlayer) {
+       // serverPlayer.displayClientMessage(Component.literal(ChatFormatting.ITALIC + "This entity is too awake, for their dreams to be realized.")
+              //  .withStyle(s -> s.withColor(ChatFormatting.DARK_RED)), true);
+  //  }
+
+    @Override
+    public int getRecastCount(int spellLevel, @Nullable LivingEntity entity) {
+        return 2;
+    }
+
+    @Override
+    public void onRecastFinished(ServerPlayer serverPlayer, RecastInstance recastInstance, RecastResult recastResult, ICastDataSerializable castDataSerializable) {
+        if (SummonManager.recastFinishedHelper(serverPlayer, recastInstance, recastResult, castDataSerializable)) {
+            super.onRecastFinished(serverPlayer, recastInstance, recastResult, castDataSerializable);
+        }
+    }
 
     @Override
     public boolean checkPreCastConditions(Level level, int spellLevel, LivingEntity entity, MagicData playerMagicData) {
         return Utils.preCastTargetHelper(level, entity, playerMagicData, this, 30, .35f);
     }
 
+    @Override
+    public ICastDataSerializable getEmptyCastData() {
+        return new SummonedEntitiesCastData();
+    }
 
     @Override
     public void onCast(Level world, int spellLevel, LivingEntity entity, CastSource castSource, MagicData playerMagicData) {
         if (playerMagicData.getAdditionalCastData() instanceof TargetEntityCastData targetData) {
             var targetEntity = targetData.getTarget((ServerLevel) world);
-            {
+            var recasts = playerMagicData.getPlayerRecasts();
+            if (!recasts.hasRecastForSpell(this)) {
                 if (targetEntity.hasEffect(DTE_EffectRegistry.BLISSFUL_SLEEP)) {
                     targetEntity.removeEffect(DTE_EffectRegistry.BLISSFUL_SLEEP);
                     int summonTime = 20 * 60 * 10;
+
                     SummonedEntitiesCastData summonedEntitiesCastData = new SummonedEntitiesCastData();
-
-                    NightmareEntity nightmare = new NightmareEntity(world, entity);
-
-                    nightmare.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(targetEntity.getAttributeBaseValue(Attributes.ATTACK_DAMAGE));
-                    nightmare.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(targetEntity.getAttributeBaseValue(Attributes.KNOCKBACK_RESISTANCE));
-                    nightmare.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(targetEntity.getAttributeBaseValue(Attributes.ARMOR_TOUGHNESS));
-                    nightmare.getAttribute(Attributes.MAX_HEALTH).setBaseValue(targetEntity.getAttributeBaseValue(Attributes.MAX_HEALTH));
-                    nightmare.getAttribute(Attributes.ARMOR).setBaseValue(targetEntity.getAttributeBaseValue(Attributes.ARMOR));
-                    nightmare.getAttribute(Attributes.SCALE).setBaseValue(targetEntity.getAttributeBaseValue(Attributes.SCALE));
-                    nightmare.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(targetEntity.getAttributeBaseValue(Attributes.MOVEMENT_SPEED));
-                    nightmare.getAttribute(AttributeRegistry.SPELL_POWER).setBaseValue(targetEntity.getAttributeBaseValue(AttributeRegistry.SPELL_POWER));
-                    nightmare.getAttribute(AttributeRegistry.ELDRITCH_SPELL_POWER).setBaseValue(targetEntity.getAttributeBaseValue(AttributeRegistry.ELDRITCH_SPELL_POWER));
-                    nightmare.setHealth((float) nightmare.getAttributeValue(Attributes.MAX_HEALTH));
-
-                    nightmare.moveTo(entity.position());
-                    nightmare.finalizeSpawn((ServerLevel) world, world.getCurrentDifficultyAt(nightmare.getOnPos()), MobSpawnType.MOB_SUMMONED, null);
-                    var creature = NeoForge.EVENT_BUS.post(new SpellSummonEvent<>(entity, nightmare, this.spellId, spellLevel)).getCreature();
-                    world.addFreshEntity(creature);
-                    SummonManager.initSummon(entity, creature, summonTime, summonedEntitiesCastData);
+                    int count = 1;
+                    for (int i = 0; i < count; i++) {
+                        NightmareEntity nightmare = new NightmareEntity(world, entity);
 
 
+                        nightmare.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(targetEntity.getAttributeBaseValue(Attributes.ATTACK_DAMAGE));
+                        nightmare.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(targetEntity.getAttributeBaseValue(Attributes.KNOCKBACK_RESISTANCE));
+                        nightmare.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(targetEntity.getAttributeBaseValue(Attributes.ARMOR_TOUGHNESS));
+                        nightmare.getAttribute(Attributes.MAX_HEALTH).setBaseValue(targetEntity.getAttributeBaseValue(Attributes.MAX_HEALTH));
+                        nightmare.getAttribute(Attributes.ARMOR).setBaseValue(targetEntity.getAttributeBaseValue(Attributes.ARMOR));
+                        nightmare.getAttribute(Attributes.SCALE).setBaseValue(targetEntity.getAttributeBaseValue(Attributes.SCALE));
+                        nightmare.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(targetEntity.getAttributeBaseValue(Attributes.MOVEMENT_SPEED));
+                        nightmare.getAttribute(AttributeRegistry.SPELL_POWER).setBaseValue(targetEntity.getAttributeBaseValue(AttributeRegistry.SPELL_POWER));
+                        nightmare.getAttribute(AttributeRegistry.ELDRITCH_SPELL_POWER).setBaseValue(targetEntity.getAttributeBaseValue(AttributeRegistry.ELDRITCH_SPELL_POWER));
+                        nightmare.setHealth((float) nightmare.getAttributeValue(Attributes.MAX_HEALTH));
+
+
+                        nightmare.moveTo(entity.getEyePosition().add(new Vec3(Utils.getRandomScaled(2), 1, Utils.getRandomScaled(2))));
+                        nightmare.setHealth(nightmare.getMaxHealth());
+                        nightmare.finalizeSpawn((ServerLevel) world, world.getCurrentDifficultyAt(nightmare.getOnPos()), MobSpawnType.MOB_SUMMONED, null);
+                        var creature = NeoForge.EVENT_BUS.post(new SpellSummonEvent<>(entity, nightmare, this.spellId, spellLevel)).getCreature();
+                        world.addFreshEntity(creature);
+                        SummonManager.initSummon(entity, creature, summonTime, summonedEntitiesCastData);
+                    }
+                    RecastInstance recastInstance = new RecastInstance(this.getSpellId(), spellLevel, getRecastCount(spellLevel, entity), summonTime, castSource, summonedEntitiesCastData);
+                    recasts.addRecast(recastInstance, playerMagicData);
                 }
-                else if (entity instanceof ServerPlayer serverPlayer) {
-                    serverPlayer.displayClientMessage(Component.literal(ChatFormatting.ITALIC + "This entity is too awake, for their dreams to be realized.")
-                            .withStyle(s -> s.withColor(ChatFormatting.DARK_RED)), true);
-                }
 
-                super.onCast(world, spellLevel, entity, castSource, playerMagicData);
             }
 
         }
 
     }
-
-
 
 
     @Override
