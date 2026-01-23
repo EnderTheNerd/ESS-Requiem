@@ -1,7 +1,6 @@
 package net.ender.ess_requiem.registries;
 
 import io.redspace.ironsspellbooks.api.spells.AbstractSpell;
-import io.redspace.ironsspellbooks.api.spells.AutoSpellConfig;
 import net.ender.ess_requiem.EndersSpellsAndStuffRequiem;
 
 import net.ender.ess_requiem.spells.blood.*;
@@ -32,7 +31,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.function.Supplier;
 
-@AutoSpellConfig
+
 public class GGSpellRegistry {
     public static final DeferredRegister<AbstractSpell> SPELLS =
             DeferredRegister.create(io.redspace.ironsspellbooks.api.registry.SpellRegistry.SPELL_REGISTRY_KEY, EndersSpellsAndStuffRequiem.MOD_ID);
@@ -70,6 +69,8 @@ public class GGSpellRegistry {
     public static final Supplier <AbstractSpell> CURSED_IMMORTALITY = registerSpell(new CursedImmortalitySpell());
     public static final Supplier <AbstractSpell> ETERNAL_BATTLEFIELD = registerSpell(new EternalBattlefieldSpell());
     public static final Supplier <AbstractSpell> TWILIGHT_ASSAULT = registerSpell(new TwilightAssaultSpell());
+
+    //COMPAT
 
     //UNCRAFTABLE ELDRITCH
     public static final Supplier <AbstractSpell> EBONY_CATAPHRACT = registerSpell(new EbonyCataphractSpell());

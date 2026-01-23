@@ -76,7 +76,7 @@ public class GGSwordTier implements Tier, IronsWeaponTier {
             BlockTags.INCORRECT_FOR_NETHERITE_TOOL,
             () -> Ingredient.of(Items.POLISHED_DEEPSLATE),
             new AttributeContainer(AttributeRegistry.ELDRITCH_SPELL_POWER, 0.20, AttributeModifier.Operation.ADD_MULTIPLIED_BASE),
-            new AttributeContainer(ALObjects.Attributes.ARMOR_PIERCE, .10, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
+            new AttributeContainer(ALObjects.Attributes.ARMOR_SHRED, .10, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
 
     //HOLY
     public static ExtendedWeaponTier HOPE = new ExtendedWeaponTier(2600, 10f, -2.7f, 30,
@@ -106,7 +106,7 @@ public class GGSwordTier implements Tier, IronsWeaponTier {
             BlockTags.INCORRECT_FOR_NETHERITE_TOOL,
             () -> Ingredient.of(GGItemRegistry.FRAGMENT_OF_CLARITY),
             new AttributeContainer(GGAttributeRegistry.BLADE_SPELL_POWER, 0.20, AttributeModifier.Operation.ADD_MULTIPLIED_BASE),
-            new AttributeContainer(ALObjects.Attributes.PROT_PIERCE, 0.15, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
+            new AttributeContainer(ALObjects.Attributes.PROT_SHRED, 0.15, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
 
     public static ExtendedWeaponTier SKYFALLS_CAUSE = new ExtendedWeaponTier(5000, 16f, -2.2f, 0,
             BlockTags.INCORRECT_FOR_NETHERITE_TOOL,

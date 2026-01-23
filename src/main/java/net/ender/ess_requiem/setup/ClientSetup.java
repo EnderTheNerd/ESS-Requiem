@@ -6,9 +6,13 @@ import net.ender.ess_requiem.entity.mobs.battle_standard.BattleStandardModel;
 import net.ender.ess_requiem.entity.mobs.battle_standard.BattleStandardRenderer;
 import net.ender.ess_requiem.entity.mobs.gilded_weapon.GildedSwordRenderer;
 import net.ender.ess_requiem.entity.mobs.gilded_weapon.GildedWeaponModel;
+import net.ender.ess_requiem.entity.mobs.greg.GregModel;
+import net.ender.ess_requiem.entity.mobs.greg.GregRenderer;
 import net.ender.ess_requiem.entity.mobs.hopping_skull.HoppingSkullModel;
 import net.ender.ess_requiem.entity.mobs.hopping_skull.HoppingSkullRenderer;
 
+import net.ender.ess_requiem.entity.mobs.nightmare.NightmareModel;
+import net.ender.ess_requiem.entity.mobs.nightmare.NightmareRenderer;
 import net.ender.ess_requiem.entity.mobs.skull_mass.SkullMassModel;
 import net.ender.ess_requiem.entity.mobs.skull_mass.SkullMassRenderer;
 import net.ender.ess_requiem.entity.spells.black_flame.BlackFlameRenderer;
@@ -55,8 +59,10 @@ public class ClientSetup {
         event.registerEntityRenderer(GGEntityRegistry.BATTLE_STANDARD.get(), context -> {return new BattleStandardRenderer(context, new BattleStandardModel());});
         event.registerEntityRenderer(GGEntityRegistry.SKULL_MASS.get(), context -> {return new SkullMassRenderer(context, new SkullMassModel());});
         event.registerEntityRenderer(GGEntityRegistry.BONE_SPEAR.get(), context -> {return new BoneSpearRenderer(context, new BoneSpearModel());});
+        event.registerEntityRenderer(GGEntityRegistry.NIGHTMARE.get(), context -> {return new NightmareRenderer(context, new NightmareModel());});
         event.registerEntityRenderer(GGEntityRegistry.DISMANTLE.get(),DismantleProjectileRenderer::new);
         event.registerEntityRenderer(GGEntityRegistry.SPELLBLADE_CUT.get(), SpellbladeCutRenderer::new);
+        event.registerEntityRenderer(GGEntityRegistry.GREG.get(), context -> {return new GregRenderer(context, new GregModel());});
 
         }
 
@@ -72,6 +78,7 @@ public class ClientSetup {
         event.registerSpriteSet(GGParticleRegistry.CATAPHRACT_STAR_ONE_PARTICLE.get(), CataphractStarOneParticle.Provider::new);
         event.registerSpriteSet(GGParticleRegistry.BIG_SLASH_LEFT.get(), BigSlashLeftParticle.Provider::new);
         event.registerSpriteSet(GGParticleRegistry.BIG_SLASH_RIGHT.get(), BigSlashRightParticle.Provider::new);
+        event.registerSpriteSet(GGParticleRegistry.SLEEPING_PARTICLE.get(), SleepingParticle.Provider::new);
 
     }
 

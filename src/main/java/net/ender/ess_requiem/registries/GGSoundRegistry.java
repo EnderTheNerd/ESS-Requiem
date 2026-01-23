@@ -42,6 +42,18 @@ public class GGSoundRegistry {
 
     public static DeferredHolder<SoundEvent, SoundEvent> GREATER_REVIVE = registerSoundEvent("greater_revive");
 
+    public static DeferredHolder<SoundEvent, SoundEvent> NIGHTMARE_HURT = registerSoundEvent("nightmare_hurt");
+
+    public static DeferredHolder<SoundEvent, SoundEvent> NIGHTMARE_DEATH = registerSoundEvent("nightmare_death");
+
+    public static DeferredHolder<SoundEvent, SoundEvent> NIGHTMARE_ATTACK = registerSoundEvent("nightmare_attack");
+
+    public static DeferredHolder<SoundEvent, SoundEvent> WAIL_START = registerSoundEvent("eldritch_wail_start");
+
+    public static DeferredHolder<SoundEvent, SoundEvent> WAIL_END = registerSoundEvent("eldritch_wail_end");
+
+
+
     //SPELLBLADE
     public static DeferredHolder<SoundEvent, SoundEvent> PARRY = registerSoundEvent("parry");
 

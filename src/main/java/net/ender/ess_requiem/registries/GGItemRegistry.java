@@ -78,8 +78,12 @@ public class GGItemRegistry {
     public static final DeferredHolder<Item, Item> SPELLBLADE_UPGRADE_ORB = ITEMS.register("spellblade_upgrade_orb",
          () -> new UpgradeOrbItem(ItemPropertiesHelper.material().rarity(Rarity.UNCOMMON).component(ComponentRegistry.UPGRADE_ORB_TYPE, GGUpgradeOrbRegistry.SPELLBLADE_SPELL_POWER)));
 
+
+    //public static final DeferredHolder<Item, Item> SUMMON_UPGRADE_ORB = ITEMS.register("summon_upgrade_orb",
+            //() -> new UpgradeOrbItem(ItemPropertiesHelper.material().rarity(Rarity.EPIC).component(ComponentRegistry.UPGRADE_ORB_TYPE, GGUpgradeOrbRegistry.SUMMON_DAMAGE)));
+
  public static final DeferredHolder<Item, Item> SPELLBLADE_SPELLBOOK = ITEMS.register("spellblade_spellbook", () -> new SpellBook(10)
-         .withSpellbookAttributes(new AttributeContainer(GGAttributeRegistry.BLADE_SPELL_POWER, .1, AttributeModifier.Operation.ADD_MULTIPLIED_BASE), new AttributeContainer(ALObjects.Attributes.ARMOR_PIERCE, 4, AttributeModifier.Operation.ADD_VALUE), new AttributeContainer(AttributeRegistry.MAX_MANA, 200, AttributeModifier.Operation.ADD_VALUE)));
+         .withSpellbookAttributes(new AttributeContainer(GGAttributeRegistry.BLADE_SPELL_POWER, .15, AttributeModifier.Operation.ADD_MULTIPLIED_BASE), new AttributeContainer(ALObjects.Attributes.ARMOR_PIERCE, 4, AttributeModifier.Operation.ADD_VALUE), new AttributeContainer(AttributeRegistry.MAX_MANA, 300, AttributeModifier.Operation.ADD_VALUE)));
 
     public static final DeferredItem<Item> POTENTIAL = ITEMS.register("potential", Potential::new);
     public static final DeferredItem<Item> PRACTICE = ITEMS.register("practice", Practice::new);
@@ -89,7 +93,9 @@ public class GGItemRegistry {
     public static final DeferredItem<Item> SWIFT_DEMISE = ITEMS.register("swift_demise", SwiftDemise::new);
 
 
-
+    //FLESH STUFF
+    //public static final DeferredItem<Item> PRIMAL_FLESH = ITEMS.register("primal_flesh",
+         // () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
 
     //CRAFTING - She craft on my table till I item
     public static final DeferredItem<Item> FRAGMENT_OF_CLARITY = ITEMS.register("fragment_of_clarity",

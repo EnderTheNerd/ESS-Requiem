@@ -1,16 +1,18 @@
 package net.ender.ess_requiem;
 
+import net.ender.ess_requiem.compat.GGCompatManager;
+import net.ender.ess_requiem.compat.dte.dte_registry.DTEItemRegistry;
+import net.ender.ess_requiem.compat.dte.dte_registry.DTESpellRegistry;
+import net.ender.ess_requiem.compat.dte.dte_registry.DTE_EffectRegistry;
 import net.ender.ess_requiem.item.ModCreativeModTabs;
 import net.ender.ess_requiem.registries.*;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
 
-import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
-import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
@@ -55,7 +57,12 @@ public class EndersSpellsAndStuffRequiem
 
         ModCreativeModTabs.register(modEventBus);
 
-
+        if (GGCompatManager.isDTELoaded())
+        {
+            DTESpellRegistry.register(modEventBus);
+            DTEItemRegistry.register(modEventBus);
+            DTE_EffectRegistry.register(modEventBus);
+        }
 
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);

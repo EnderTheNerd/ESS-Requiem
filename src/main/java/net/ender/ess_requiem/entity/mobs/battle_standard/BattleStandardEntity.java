@@ -19,6 +19,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
@@ -106,6 +107,14 @@ public class BattleStandardEntity extends UniqueAbstractSpellCastingMob implemen
         this.targetSelector.addGoal(3, new GenericCopyOwnerTargetGoal(this, this::getSummoner));
         this.targetSelector.addGoal(4, (new GenericHurtByTargetGoal(this, (entity) -> entity == getSummoner())).setAlertOthers());
 
+    }
+
+    @Override
+    public boolean hurt(DamageSource pSource, float pAmount) {
+        if (!pSource.is(DamageTypeTags.BYPASSES_INVULNERABILITY) && shouldIgnoreDamage(pSource)) {
+            return false;
+        }
+        return super.hurt(pSource, pAmount);
     }
 
     @Override
@@ -224,5 +233,7 @@ public class BattleStandardEntity extends UniqueAbstractSpellCastingMob implemen
     public double getTick(Object object) {
         return this.tickCount;
     }
+
+
 
 }

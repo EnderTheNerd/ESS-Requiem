@@ -144,8 +144,24 @@ configurations {
 }
 
 dependencies {
-    // ISS ***************************************************************************************************
+    // ISS
     implementation "curse.maven:irons-spells-n-spellbooks-855414:7402503"
+
+    //GEMS AND JEWLERY
+    //implementation "curse.maven:irons-jewelry-1101111:7358426"
+    //implementation "curse.maven:atlas-api-1145462:6880789"
+
+
+    //DTE
+    implementation "curse.maven:discerning-the-eldritch-1143065:7469786"
+    //AZURE
+    implementation "curse.maven:azurelib-817423:7119590"
+    //TITAN
+    implementation "curse.maven:prometheus-1365195:7364871"
+    //SOUL FIRE
+    implementation "curse.maven:soul-fire-d-662413:7364962"
+    //Cobweb
+    implementation "curse.maven:cobweb-968456:7186943"
 
     //NEAT
     implementation "curse.maven:neat-238372:5838045"
@@ -156,7 +172,7 @@ dependencies {
     //APOTHIC ATTRIBUTES
     implementation "curse.maven:apothic-attributes-898963:6514649"
 
-    // PLAYER ANIMATOR ********************************************************************************************
+    // PLAYER ANIMATOR
     //compileOnly "dev.kosmx.player-anim:player-animation-lib-forge:${player_animator_version}"
     implementation "dev.kosmx.player-anim:player-animation-lib-forge:${player_animator_version}"
     //jarJar(group: "dev.kosmx.player-anim", name: "player-animation-lib-forge", version: "[${player_animator_version},${player_animator_version}]")
@@ -165,13 +181,13 @@ dependencies {
     implementation "curse.maven:placebo-283644:6446766"
 
     //ACE
-    implementation "curse.maven:aces-spell-utils-1299492:7435761"
+    implementation "curse.maven:aces-spell-utils-1299492:7465123"
 
 
-    // GECKOLIB ***************************************************************************************************
+    // GECKOLIB
     implementation "curse.maven:geckolib-388172:6304958"
 
-    // CAELUS *****************************************************************************************************
+    // CAELUS
     compileOnly "com.illusivesoulworks.caelus:caelus-neoforge:${caelus_version}:api"
     localRuntime "com.illusivesoulworks.caelus:caelus-neoforge:${caelus_version}"
 
