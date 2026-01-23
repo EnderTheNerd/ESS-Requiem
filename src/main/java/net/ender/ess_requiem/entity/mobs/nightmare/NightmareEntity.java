@@ -3,6 +3,7 @@ package net.ender.ess_requiem.entity.mobs.nightmare;
 import io.redspace.ironsspellbooks.IronsSpellbooks;
 import io.redspace.ironsspellbooks.api.registry.AttributeRegistry;
 import io.redspace.ironsspellbooks.api.util.Utils;
+import io.redspace.ironsspellbooks.capabilities.magic.MagicManager;
 import io.redspace.ironsspellbooks.entity.mobs.IAnimatedAttacker;
 import io.redspace.ironsspellbooks.entity.mobs.IMagicSummon;
 import io.redspace.ironsspellbooks.entity.mobs.goals.*;
@@ -13,6 +14,7 @@ import net.acetheeldritchking.aces_spell_utils.entity.mobs.UniqueAbstractSpellCa
 import net.ender.ess_requiem.compat.dte.dte_registry.DTESpellRegistry;
 import net.ender.ess_requiem.registries.GGEntityRegistry;
 import net.ender.ess_requiem.registries.GGSoundRegistry;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.DamageTypeTags;
@@ -166,8 +168,21 @@ public class NightmareEntity  extends UniqueAbstractSpellCastingMob implements I
 
     @Override
     public void onUnSummon() {
-
+        if (!this.level().isClientSide) {
+            MagicManager.spawnParticles(this.level(), ParticleTypes.ENCHANT,
+                    getX(), getY(), getZ(),
+                    25, 0.4, 0.8, 0.4, 0.03, false);
+            discard();
+        }
     }
+
+    @Override
+    public void onRemovedFromLevel() {
+
+
+        super.onRemovedFromLevel();
+    }
+
 
     //Sounds and Stuff
     protected SoundEvent getHurtSound(DamageSource damageSource) {

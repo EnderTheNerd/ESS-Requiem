@@ -24,6 +24,7 @@ import io.redspace.ironsspellbooks.registries.SoundRegistry;
 import io.redspace.ironsspellbooks.spells.eldritch.SculkTentaclesSpell;
 import io.redspace.ironsspellbooks.util.ParticleHelper;
 import net.ender.ess_requiem.compat.dte.dte_registry.DTE_EffectRegistry;
+import net.ender.ess_requiem.entity.mobs.nightmare.NightmareEntity;
 import net.ender.ess_requiem.item.sword_tier.BloodWeapons.ArmOfDecay;
 import net.ender.ess_requiem.item.sword_tier.BloodWeapons.ScytheOfRottenDreams;
 import net.ender.ess_requiem.item.sword_tier.EldritchWeapons.BrokenPromise;
@@ -109,8 +110,7 @@ public class ModEvents {
         var targetEntity = event.getEntity();
         var damager = event.getSource().getDirectEntity();
 
-        if (targetEntity.hasEffect(DTE_EffectRegistry.BLISSFUL_SLEEP))
-        {
+        if (targetEntity.hasEffect(DTE_EffectRegistry.BLISSFUL_SLEEP)) {
             event.setCanceled(true);
         }
         if (damager instanceof ServerPlayer player && targetEntity.hasEffect(DTE_EffectRegistry.BLISSFUL_SLEEP)) {
@@ -175,6 +175,22 @@ public class ModEvents {
         }
 
     }
+
+
+    @SubscribeEvent
+    public static void NightmareCounterspellEnrage(CounterSpellEvent event) {
+        if (event.target instanceof NightmareEntity livingEntity) {
+
+            event.setCanceled(true);
+            livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 100, 1));
+
+            livingEntity.level().playSound(null, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), GGSoundRegistry.BANNER_SPELL_PARRY, SoundSource.NEUTRAL, .8F, 1.3F);
+
+        }
+
+}
+
+
 
     @SubscribeEvent
     public static void WeaponCombining(PlayerInteractEvent.RightClickItem event) {
