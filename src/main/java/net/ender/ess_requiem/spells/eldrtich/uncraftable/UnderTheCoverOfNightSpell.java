@@ -232,4 +232,9 @@ public class UnderTheCoverOfNightSpell  extends AbstractSpell {
         return false;
     }
 
+    @Override
+    public boolean requiresLearning() {
+        return false;
+    }
+
 }

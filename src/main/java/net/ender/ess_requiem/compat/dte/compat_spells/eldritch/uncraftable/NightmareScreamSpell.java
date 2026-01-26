@@ -50,7 +50,7 @@ public class NightmareScreamSpell extends AbstractSpell {
 
     private final DefaultConfig defaultConfig = new DefaultConfig()
             .setMinRarity(SpellRarity.LEGENDARY)
-            .setSchoolResource(SchoolRegistry.ELDRITCH_RESOURCE)
+            .setSchoolResource(SchoolRegistry.EVOCATION_RESOURCE)
             .setMaxLevel(1)
             .setCooldownSeconds(65)
             .build();
@@ -132,7 +132,7 @@ public class NightmareScreamSpell extends AbstractSpell {
 
     private float getDamage(int spellLevel, LivingEntity entity)
     {
-        float damage = getDamageForAttribute(this, entity, spellLevel, AttributeRegistry.SPELL_POWER, 1);
+        float damage = getDamageForAttribute(this, entity, spellLevel, AttributeRegistry.ELDRITCH_SPELL_POWER, 1);
 
         return damage;
     }
@@ -141,7 +141,7 @@ public class NightmareScreamSpell extends AbstractSpell {
     {
         double attrValue1;
         if(entity != null) {
-            attrValue1 = entity.getAttributeValue(AttributeRegistry.SPELL_POWER);
+            attrValue1 = entity.getAttributeValue(AttributeRegistry.ELDRITCH_SPELL_POWER);
         }else{
             attrValue1 = 1;
         }
@@ -163,6 +163,11 @@ public class NightmareScreamSpell extends AbstractSpell {
 
     @Override
     public boolean allowLooting() {
+        return false;
+    }
+
+    @Override
+    public boolean requiresLearning() {
         return false;
     }
 

@@ -143,10 +143,17 @@ public class ForeverDreamingSpell extends AbstractSpell {
         return false;
     }
 
+    @Override
+    public boolean requiresLearning() {
+        return false;
+    }
+
 
     public int getDuration(int spellLevel, LivingEntity caster) {
         return (int) (getSpellPower(spellLevel, caster) * 3);
     }
+
+
 
     @Override
     public AnimationHolder getCastStartAnimation() {

@@ -210,6 +210,11 @@ public class DamnationSpell extends AbstractSpell {
     public boolean allowLooting() {
         return false;
     }
+
+    @Override
+    public boolean requiresLearning() {
+        return false;
+    }
 }
 
 

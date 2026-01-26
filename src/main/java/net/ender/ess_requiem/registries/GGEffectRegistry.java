@@ -114,14 +114,20 @@ public class GGEffectRegistry {
             () -> new BannerProtectionEffect(MobEffectCategory.BENEFICIAL, 14522123));
 
     public static final DeferredHolder<MobEffect, MobEffect> OVERWHELMING_DREAD = MOB_EFFECT_DEFERRED_REGISTER.register("overwhelming_force",
-            () -> new BannerProtectionEffect(MobEffectCategory.BENEFICIAL, 3020845));
+            () -> new OverwhelmingDreadEffect(MobEffectCategory.BENEFICIAL, 3020845));
 
     public static final DeferredHolder<MobEffect, MobEffect> SKILLFUL_WOUND = MOB_EFFECT_DEFERRED_REGISTER.register("skillful_wound",
-            () -> new BannerProtectionEffect(MobEffectCategory.BENEFICIAL, 13528209));
+            () -> new SkillfulWoundEffect(MobEffectCategory.BENEFICIAL, 13528209));
 
     public static final DeferredHolder<MobEffect, MobEffect> SHATTERED_WILL = MOB_EFFECT_DEFERRED_REGISTER.register("shattered_will",
-            () -> new BannerProtectionEffect(MobEffectCategory.BENEFICIAL, 7552367));
+            () -> new ShatteredWillEffect(MobEffectCategory.BENEFICIAL, 7552367));
 
+    //EVOCATION EFFECTS
+    public static final DeferredHolder<MobEffect, MobEffect> ADRENALINE_RUSH = MOB_EFFECT_DEFERRED_REGISTER.register("adrenaline_rush",
+            () -> new AdrenalineRushEffect(MobEffectCategory.BENEFICIAL, 10268329));
+
+    public static final DeferredHolder<MobEffect, MobEffect> ADRENAL_FATIGUE = MOB_EFFECT_DEFERRED_REGISTER.register("adrenal_fatigue",
+            () -> new AdrenalFatigueEffect(MobEffectCategory.HARMFUL, 2695969));
 
     //MISC EFFECTS
     public static final DeferredHolder<MobEffect, MobEffect> ABILITY_COOLDOWN = MOB_EFFECT_DEFERRED_REGISTER.register("ability_cooldown",
