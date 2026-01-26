@@ -34,6 +34,8 @@
  "effect.ess_requiem.skillful_wound": "Skillful Wound",
  "effect.ess_requiem.shattered_will": "Shattered Will",
  "effect.ess_requiem.overwhelming_dread": "Overwhelming Dread",
+ "effect.ess_requiem.adrenaline_rush": "Adrenaline Rush",
+ "effect.ess_requiem.adrenal_fatigue": "Adrenal Fatigue",
 
  "entity.ess_requiem.hopping_skull": "Cursed Skull",
  "entity.ess_requiem.skull_mass": "Skull Mass",
@@ -137,6 +139,14 @@
  "spell.ess_requiem.place_standard": "Malevolent Standard",
  "spell.ess_requiem.place_standard.guide": "Place a sentient battle standard. The standard will fight, either by unleashing a wave, slashing all caught by it, summoning golden swords to fight for it. Summoning the standard grants a shield which blocks one counterspell, as well as granting one extra damage.",
 
+
+ "spell.ess_requiem.disappearing_act": "Disappearing Act",
+ "spell.ess_requiem.disappearing_act.guide": "Send out a poof of smoke, causing you and everything nearby you to be turned invisible.",
+ "spell.ess_requiem.adrenaline_rush": "Adrenaline Rush",
+ "spell.ess_requiem.adrenaline_rush.guide": "Fuel your body with mana, boosting your adrenal response rapidly for a few moments, then become exhausted upon it wearing off.",
+ "spell.ess_requiem.switcharoo": "Switcharoo",
+ "spell.ess_requiem.switcharoo.guide": "Switch health with a target, you can only switch if the ",
+
  "ui.enders_spells.not_empty_hand": "You try and flex your claws, yet something's in the way.",
  "ui.ess_requiem.desperate_damage": "%d Desperation Damage",
  "ui.ess_requiem.rampage_damage": "%d Rampage Damage",
@@ -147,6 +157,7 @@
  "ui.ess_requiem.on_cooldown": "Ability is on Cooldown",
  "ui.ess_requiem.not_night": "It is not night time.",
  "ui.ess_requiem.not_day": "It is not day time",
+ "ui.ess_requiem.health_limit": "%d Max Switch Limit",
 
  "creativetab.ess_requiem.rotten_sickle": "ESS Requiem",
 
@@ -212,7 +223,7 @@
  "spell.ess_requiem.forever_dreaming": "Forever Dreaming",
  "spell.ess_requiem.forever_dreaming.guide": "If an entity is below 25% HP, rip open the invisible bubble of exhaustion, lulling them into a blissful slumber. While sleeping, the dreams and nightmares of entities are vulnerable, but their mortal bodies cannot be harmed.",
  "entity.ess_requiem.nightmare": "Nightmare",
-
+ "spell.ess_requiem.nightmare_scream": "Nightmare Scream (CREATIVE ONLY)",
 
  "death.attack.ess_requiem.boiling_blood": "%1$s was boiled alive by %2$s",
  "death.attack.ess_requiem.necrotic_burst": "%1$s was withered into ash by %2$s",

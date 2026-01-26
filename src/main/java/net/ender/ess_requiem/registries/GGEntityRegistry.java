@@ -21,6 +21,7 @@ import net.ender.ess_requiem.entity.spells.overwhelming_force.OverwhelmingForce;
 import net.ender.ess_requiem.entity.spells.pale_flame.PaleFlame;
 import net.ender.ess_requiem.entity.mobs.summoned_weapon.SoulmasterSwordEntity;
 import net.ender.ess_requiem.entity.spells.spellblade_cut.SpellbladeCutProjectile;
+
 import net.ender.ess_requiem.entity.spells.wretch_breath.WretchBreath;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
@@ -173,6 +174,7 @@ public class GGEntityRegistry {
                     .clientTrackingRange(64)
                     .build(ResourceLocation.fromNamespaceAndPath(EndersSpellsAndStuffRequiem.MOD_ID, "spellblade_cut").toString())
             );
+
 
 }
 

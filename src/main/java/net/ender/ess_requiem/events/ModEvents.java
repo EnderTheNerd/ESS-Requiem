@@ -24,6 +24,7 @@ import io.redspace.ironsspellbooks.registries.SoundRegistry;
 import io.redspace.ironsspellbooks.spells.eldritch.SculkTentaclesSpell;
 import io.redspace.ironsspellbooks.util.ParticleHelper;
 import net.ender.ess_requiem.compat.dte.dte_registry.DTE_EffectRegistry;
+import net.ender.ess_requiem.effects.AdrenalineRushEffect;
 import net.ender.ess_requiem.entity.mobs.nightmare.NightmareEntity;
 import net.ender.ess_requiem.item.sword_tier.BloodWeapons.ArmOfDecay;
 import net.ender.ess_requiem.item.sword_tier.BloodWeapons.ScytheOfRottenDreams;
@@ -49,6 +50,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 
+import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -189,7 +191,6 @@ public class ModEvents {
         }
 
 }
-
 
 
     @SubscribeEvent
@@ -408,8 +409,34 @@ public class ModEvents {
 
         }
 
+    }
+
+    @SubscribeEvent
+    public static void AdrenalFatigueStacking(MobEffectEvent.Added event) {
+
 
     }
+
+    @SubscribeEvent
+    public static void AdrenalineRush(MobEffectEvent.Expired event) {
+        assert event.getEffectInstance() != null;
+        if (event.getEffectInstance().is(GGEffectRegistry.ADRENALINE_RUSH) && event.getEntity() instanceof LivingEntity entity) {
+
+
+            if (entity.hasEffect(GGEffectRegistry.ADRENAL_FATIGUE)) {
+                    MobEffectInstance fatigue = entity.getEffect(GGEffectRegistry.ADRENAL_FATIGUE);
+                    MobEffectInstance mobEffect;
+
+                    if (fatigue != null) {
+                        mobEffect = new MobEffectInstance(GGEffectRegistry.ADRENAL_FATIGUE, 4800, fatigue.getAmplifier() + 1, fatigue.isAmbient(), fatigue.isVisible(), fatigue.showIcon());
+                    }
+            }
+
+            entity.addEffect(new MobEffectInstance(GGEffectRegistry.ADRENAL_FATIGUE, 1200));
+        }
+
+    }
+
 
 
     @SubscribeEvent

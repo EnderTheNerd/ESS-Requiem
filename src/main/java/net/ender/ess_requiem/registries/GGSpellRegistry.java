@@ -15,6 +15,9 @@ import net.ender.ess_requiem.spells.eldrtich.cataphract_abilities.CataphractTack
 import net.ender.ess_requiem.spells.eldrtich.uncraftable.DamnationSpell;
 import net.ender.ess_requiem.spells.eldrtich.uncraftable.EbonyCataphractSpell;
 import net.ender.ess_requiem.spells.eldrtich.uncraftable.UnderTheCoverOfNightSpell;
+import net.ender.ess_requiem.spells.evocation.AdrenalineRushSpell;
+import net.ender.ess_requiem.spells.evocation.DisappearingActSpell;
+import net.ender.ess_requiem.spells.evocation.SwitcharooSpell;
 import net.ender.ess_requiem.spells.holy.uncraftable.BastionOfLightSpell;
 import net.ender.ess_requiem.spells.holy.uncraftable.OverwhelmingLightSpell;
 import net.ender.ess_requiem.spells.ice.uncraftable.GlacialStatueSpell;
@@ -28,6 +31,7 @@ import net.ender.ess_requiem.spells.spellblade.uncraftable.MalevolentSlashingSpe
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import org.checkerframework.checker.units.qual.A;
 
 import java.util.function.Supplier;
 
@@ -70,8 +74,6 @@ public class GGSpellRegistry {
     public static final Supplier <AbstractSpell> ETERNAL_BATTLEFIELD = registerSpell(new EternalBattlefieldSpell());
     public static final Supplier <AbstractSpell> TWILIGHT_ASSAULT = registerSpell(new TwilightAssaultSpell());
 
-    //COMPAT
-
     //UNCRAFTABLE ELDRITCH
     public static final Supplier <AbstractSpell> EBONY_CATAPHRACT = registerSpell(new EbonyCataphractSpell());
     public static final Supplier <AbstractSpell> NIGHT_VEIL = registerSpell(new UnderTheCoverOfNightSpell());
@@ -100,6 +102,11 @@ public class GGSpellRegistry {
     //UNCRAFTABLE ICE
     public static final Supplier <AbstractSpell> GLACIAL_SCULPTING = registerSpell(new GlacialStatueSpell());
     public static final Supplier <AbstractSpell> LORD_OF_FROST = registerSpell(new LordOfTheFinalFrostSpell());
+
+    //EVOCATION
+    public static final Supplier <AbstractSpell> DISAPPEARING_ACT = registerSpell(new DisappearingActSpell());
+    public static final Supplier <AbstractSpell> ADRENALINE_RUSH = registerSpell(new AdrenalineRushSpell());
+    public static final Supplier <AbstractSpell> SWITCHAROO = registerSpell(new SwitcharooSpell());
 
     //CREATIVE ONLY/ABILITIES
     public static final Supplier <AbstractSpell> CATAPHRACT_TACKLE = registerSpell(new CataphractTackle());

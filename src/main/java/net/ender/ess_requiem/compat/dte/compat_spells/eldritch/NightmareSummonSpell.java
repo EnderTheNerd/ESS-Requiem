@@ -163,6 +163,11 @@ public class NightmareSummonSpell extends AbstractSpell {
 
     }
 
+    @Override
+    public boolean requiresLearning() {
+        return false;
+    }
+
 
     @Override
     public AnimationHolder getCastStartAnimation() {
