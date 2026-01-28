@@ -2,6 +2,7 @@ package net.ender.ess_requiem.spells.evocation;
 
 import io.redspace.ironsspellbooks.api.config.DefaultConfig;
 import io.redspace.ironsspellbooks.api.magic.MagicData;
+import io.redspace.ironsspellbooks.api.registry.AttributeRegistry;
 import io.redspace.ironsspellbooks.api.registry.SchoolRegistry;
 import io.redspace.ironsspellbooks.api.spells.AbstractSpell;
 import io.redspace.ironsspellbooks.api.spells.CastSource;
@@ -10,16 +11,17 @@ import io.redspace.ironsspellbooks.api.spells.SpellRarity;
 import io.redspace.ironsspellbooks.api.util.Utils;
 import io.redspace.ironsspellbooks.capabilities.magic.TargetEntityCastData;
 import net.ender.ess_requiem.EndersSpellsAndStuffRequiem;
+import net.ender.ess_requiem.spells.blood.BoilingBloodSpell;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 import java.util.List;
 
@@ -31,7 +33,6 @@ public class SwitcharooSpell extends AbstractSpell {
         return List.of(
 
                 Component.translatable("ui.ess_requiem.health_limit", Utils.stringTruncation(getHealthLimit(spellLevel, caster), 1)));
-
 
 
     }
@@ -87,9 +88,8 @@ public class SwitcharooSpell extends AbstractSpell {
                     entity.setHealth(target_health);
                     targetEntity.setHealth(caster_health);
 
-                }
-                else if (entity instanceof ServerPlayer serverPlayer){
-                   serverPlayer.displayClientMessage(Component.literal(ChatFormatting.ITALIC + "The Switch failed.")
+                } else if (entity instanceof ServerPlayer serverPlayer) {
+                    serverPlayer.displayClientMessage(Component.literal(ChatFormatting.ITALIC + "The Switch failed.")
                             .withStyle(s -> s.withColor(ChatFormatting.RED)), true);
                 }
 
@@ -100,13 +100,14 @@ public class SwitcharooSpell extends AbstractSpell {
     }
 
 
-
-
     public int getHealthLimit(int spellLevel, LivingEntity caster) {
-        return (int) ((int) caster.getMaxHealth() + spellLevel + getSpellPower(spellLevel, caster));
+
+        return (int) ((int) 20 + spellLevel + getSpellPower(spellLevel, caster));
     }
-
-
-
-
 }
+
+
+
+
+
+
