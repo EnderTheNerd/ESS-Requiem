@@ -101,8 +101,10 @@ public class SwitcharooSpell extends AbstractSpell {
 
 
     public int getHealthLimit(int spellLevel, LivingEntity caster) {
-
-        return (int) ((int) 20 + spellLevel + getSpellPower(spellLevel, caster));
+        if(caster == null){
+            return (int) (20 + spellLevel + getSpellPower(spellLevel,caster));
+        }
+        return (int)(caster.getMaxHealth() + spellLevel + getSpellPower(spellLevel,caster));
     }
 }
 

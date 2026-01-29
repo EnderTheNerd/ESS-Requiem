@@ -8,16 +8,26 @@ import io.redspace.ironsspellbooks.util.ItemPropertiesHelper;
 import io.redspace.ironsspellbooks.util.MinecraftInstanceHelper;
 import net.acetheeldritchking.aces_spell_utils.utils.ASRarities;
 import net.ender.ess_requiem.item.GGSwordTier;
+import net.ender.ess_requiem.registries.GGItemRegistry;
+import net.ender.ess_requiem.registries.GGSoundRegistry;
 import net.ender.ess_requiem.registries.GGSpellRegistry;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextColor;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.Unbreakable;
+import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -70,5 +80,28 @@ public class IntertwinedPeak extends MagicSwordItem {
         }
     }
 
+
+    @Override
+    public @NotNull InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
+        var inventoryCheck = player.getInventory().getFreeSlot();
+        ItemStack mainhandItem = ((LivingEntity) player).getMainHandItem();
+
+        if (inventoryCheck == -1 && mainhandItem.getItem() instanceof IntertwinedPeak) {
+            player.displayClientMessage(Component.literal(ChatFormatting.ITALIC + "Your weapon refuses to move.")
+                    .withStyle(s -> s.withColor(TextColor.fromRgb(14522123))), true);
+
+        } else if (player.getMainHandItem().is(GGItemRegistry.INTERTWINED_PEAK)) {
+            if (!player.isCrouching()) {
+                player.displayClientMessage(Component.literal(ChatFormatting.ITALIC + "Your weapon refuses to move whilst standing.")
+                        .withStyle(s -> s.withColor(ChatFormatting.RED)), true);
+            } else if (player.isCrouching() && player.getMainHandItem().is(GGItemRegistry.INTERTWINED_PEAK)) {
+                player.setItemInHand(usedHand, new ItemStack(GGItemRegistry.SKYFALLS_CAUSE.get()));
+                player.addItem(new ItemStack(GGItemRegistry.SWIFT_DEMISE.get()));
+                player.level().playSound(null, player.getX(), player.getY(), player.getZ(), GGSoundRegistry.PARRY, SoundSource.NEUTRAL, .8F, 1.3F);
+            }
+
+        }
+        return super.use(level, player, usedHand);
+    }
 }
 

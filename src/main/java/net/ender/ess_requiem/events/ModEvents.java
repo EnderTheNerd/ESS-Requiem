@@ -51,6 +51,8 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 
 import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -193,64 +195,67 @@ public class ModEvents {
 }
 
 
-    @SubscribeEvent
-    public static void WeaponCombining(PlayerInteractEvent.RightClickItem event) {
-        var entity = event.getEntity();
-        if (entity instanceof ServerPlayer serverPlayer) {
-            ItemStack mainhandItem = ((LivingEntity) serverPlayer).getMainHandItem();
-            ItemStack offhandItem = ((LivingEntity) serverPlayer).getOffhandItem();
-            if (serverPlayer.isCrouching() && (mainhandItem.getItem() instanceof SkyfallsCause && offhandItem.getItem() instanceof SwiftDemise)) {
-                serverPlayer.displayClientMessage(Component.literal(ChatFormatting.ITALIC + "Your weapons refuse to move whilst crouched.")
-                        .withStyle(s -> s.withColor(TextColor.fromRgb(14522123))), true);
+
+   // @SubscribeEvent
+   // public static void WeaponCombining(PlayerInteractEvent.RightClickItem event) {
+      //  var entity = event.getEntity();
+       // if (entity instanceof ServerPlayer serverPlayer) {
+          //  ItemStack mainhandItem = serverPlayer.getMainHandItem();
+          //  ItemStack offhandItem = serverPlayer.getOffhandItem();
+          //  if (serverPlayer.isCrouching() && (mainhandItem.getItem() instanceof SkyfallsCause && offhandItem.getItem() instanceof SwiftDemise)) {
+            //    serverPlayer.displayClientMessage(Component.literal(ChatFormatting.ITALIC + "Your weapons refuse to move whilst crouched.")
+                //        .withStyle(s -> s.withColor(TextColor.fromRgb(14522123))), true);
 
 
-                if (serverPlayer.isCrouching() && (mainhandItem.getItem() instanceof SwiftDemise && offhandItem.getItem() instanceof SkyfallsCause)) {
-                    serverPlayer.displayClientMessage(Component.literal(ChatFormatting.ITALIC + "Your weapons refuse to move whilst crouched.")
-                            .withStyle(s -> s.withColor(TextColor.fromRgb(14522123))), true);
+         //   }
 
+          // var usedHand = InteractionHand usedHand;
+          //  if (serverPlayer.isCrouching() && (mainhandItem.getItem() instanceof SwiftDemise && offhandItem.getItem() instanceof SkyfallsCause)) {
+              //  serverPlayer.displayClientMessage(Component.literal(ChatFormatting.ITALIC + "Your weapons refuse to move whilst crouched.")
+                //        .withStyle(s -> s.withColor(TextColor.fromRgb(14522123))), true);
+              //  serverPlayer.setItemInHand(usedHand, new ItemStack(GGItemRegistry.INTERTWINED_PEAK.get()));
 
-                }
+         //   }
+          //  else if (mainhandItem.getItem() instanceof SwiftDemise && offhandItem.getItem() instanceof SkyfallsCause) {
 
-            } else if (mainhandItem.getItem() instanceof SwiftDemise && offhandItem.getItem() instanceof SkyfallsCause) {
-                serverPlayer.getInventory().setItem(serverPlayer.getInventory().selected, new ItemStack((ItemLike) GGItemRegistry.INTERTWINED_PEAK));
-                serverPlayer.level().playSound(null, serverPlayer.getX(), serverPlayer.getY(), serverPlayer.getZ(), GGSoundRegistry.PARRY, SoundSource.NEUTRAL, .8F, 1.3F);
-                serverPlayer.getInventory().offhand.clear();
+              //  serverPlayer.level().playSound(null, serverPlayer.getX(), serverPlayer.getY(), serverPlayer.getZ(), GGSoundRegistry.PARRY, SoundSource.NEUTRAL, .8F, 1.3F);
+              //  serverPlayer.getInventory().offhand.clear();
 
-            } else if (mainhandItem.getItem() instanceof SkyfallsCause && offhandItem.getItem() instanceof SwiftDemise) {
-                serverPlayer.getInventory().setItem(serverPlayer.getInventory().selected, new ItemStack((ItemLike) GGItemRegistry.INTERTWINED_PEAK));
-                serverPlayer.level().playSound(null, serverPlayer.getX(), serverPlayer.getY(), serverPlayer.getZ(), GGSoundRegistry.PARRY, SoundSource.NEUTRAL, .8F, 1.3F);
-                serverPlayer.getInventory().offhand.clear();
+           // }
+          //  else if (mainhandItem.getItem() instanceof SkyfallsCause && offhandItem.getItem() instanceof SwiftDemise) {
+             //   serverPlayer.setItemInHand(usedHand, new ItemStack(GGItemRegistry.INTERTWINED_PEAK.get()));
+              //  serverPlayer.level().playSound(null, serverPlayer.getX(), serverPlayer.getY(), serverPlayer.getZ(), GGSoundRegistry.PARRY, SoundSource.NEUTRAL, .8F, 1.3F);
+              //  serverPlayer.getInventory().offhand.clear();
 
-            }
+         //   }
+// serverPlayer.getInventory().setItem(serverPlayer.getInventory().selected, new ItemStack((ItemLike) GGItemRegistry.INTERTWINED_PEAK));
 
+       // }
+   // }
 
-        }
-    }
+  //  @SubscribeEvent
+   // public static void UncombiningWeapons(PlayerInteractEvent.RightClickItem event) {
+       // var entity = event.getEntity();
+       // if (entity instanceof ServerPlayer serverPlayer) {
+          //  var inventoryCheck = serverPlayer.getInventory().getFreeSlot();
+          //  ItemStack mainhandItem = ((LivingEntity) serverPlayer).getMainHandItem();
+          //  if (inventoryCheck == -1 && mainhandItem.getItem() instanceof IntertwinedPeak) {
+           //     serverPlayer.displayClientMessage(Component.literal(ChatFormatting.ITALIC + "Your weapon refuses to move.")
+                   //     .withStyle(s -> s.withColor(TextColor.fromRgb(14522123))), true);
 
-    @SubscribeEvent
-    public static void UncombiningWeapons(PlayerInteractEvent.RightClickItem event) {
-        var entity = event.getEntity();
-        if (entity instanceof ServerPlayer serverPlayer) {
-            var inventoryCheck = serverPlayer.getInventory().getFreeSlot();
-            ItemStack mainhandItem = ((LivingEntity) serverPlayer).getMainHandItem();
-            if (inventoryCheck == -1 && mainhandItem.getItem() instanceof IntertwinedPeak) {
-                serverPlayer.displayClientMessage(Component.literal(ChatFormatting.ITALIC + "Your weapon refuses to move.")
-                        .withStyle(s -> s.withColor(TextColor.fromRgb(14522123))), true);
+         //  } else if (serverPlayer.isCrouching() && mainhandItem.getItem() instanceof IntertwinedPeak) {
+            //    if (mainhandItem.getItem() instanceof IntertwinedPeak && serverPlayer.isCrouching()) {
+              //      serverPlayer.getInventory().setItem(serverPlayer.getInventory().selected, new ItemStack((ItemLike) GGItemRegistry.SWIFT_DEMISE));
+                //    serverPlayer.getInventory().setItem(serverPlayer.getInventory().getFreeSlot(), new ItemStack((ItemLike) GGItemRegistry.SKYFALLS_CAUSE));
+                //    serverPlayer.level().playSound(null, serverPlayer.getX(), serverPlayer.getY(), serverPlayer.getZ(), GGSoundRegistry.PARRY, SoundSource.NEUTRAL, .8F, 1.3F);
+//    }
+          //  } else if (mainhandItem.getItem() instanceof IntertwinedPeak) {
+         //       serverPlayer.displayClientMessage(Component.literal(ChatFormatting.ITALIC + "Your weapon refuses to move whilst standing")
+                //        .withStyle(s -> s.withColor(TextColor.fromRgb(14522123))), true);
+          //  }
+      //  }
 
-            } else if (serverPlayer.isCrouching() && mainhandItem.getItem() instanceof IntertwinedPeak) {
-                if (mainhandItem.getItem() instanceof IntertwinedPeak && serverPlayer.isCrouching()) {
-                    serverPlayer.getInventory().setItem(serverPlayer.getInventory().selected, new ItemStack((ItemLike) GGItemRegistry.SWIFT_DEMISE));
-                    serverPlayer.getInventory().setItem(serverPlayer.getInventory().getFreeSlot(), new ItemStack((ItemLike) GGItemRegistry.SKYFALLS_CAUSE));
-                    serverPlayer.level().playSound(null, serverPlayer.getX(), serverPlayer.getY(), serverPlayer.getZ(), GGSoundRegistry.PARRY, SoundSource.NEUTRAL, .8F, 1.3F);
-
-                }
-            } else if (mainhandItem.getItem() instanceof IntertwinedPeak) {
-                serverPlayer.displayClientMessage(Component.literal(ChatFormatting.ITALIC + "Your weapon refuses to move whilst standing")
-                        .withStyle(s -> s.withColor(TextColor.fromRgb(14522123))), true);
-            }
-        }
-
-    }
+   // }
 
     @SubscribeEvent
     public static void PactAttackDay(LivingDamageEvent.Post event) {
