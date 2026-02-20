@@ -1,4 +1,10 @@
 {
+  "neoforge:conditions": [
+    {"type": "neoforge:mod_loaded", "modid": "discerning_the_eldritch"},
+    {"type": "neoforge:item_exists", "item": "ess_requiem:dream_ripper"},
+    {"type": "neoforge:item_exists", "item": "discerning_the_eldritch:ymir"},
+    {"type": "neoforge:item_exists", "item": "discerning_the_eldritch:eldritch_soul_shard"}
+  ],
   "type": "minecraft:smithing_transform",
   "addition": {
     "item": "discerning_the_eldritch:ymir"
