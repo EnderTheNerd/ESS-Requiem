@@ -13,6 +13,6 @@
     "ess_requiem:inevitability",
     "ess_requiem:potential",
     "ess_requiem:practice",
-    "ess_requiem:dream_ripper"
+    { "id": "ess_requiem:dream_ripper", "required": false }
   ]
 }

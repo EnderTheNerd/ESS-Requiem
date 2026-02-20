@@ -17,7 +17,7 @@
     "ess_requiem:blademaster_chestplate",
     "ess_requiem:blademaster_leggings",
     "ess_requiem:blademaster_boots",
-    "ess_requiem:dream_ripper"
+    { "id": "ess_requiem:dream_ripper", "required": false }
       ]
     }
 

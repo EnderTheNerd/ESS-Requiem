@@ -1,5 +1,7 @@
 {
-
+  "neoforge:conditions": [
+    { "type": "neoforge:item_exists", "item": "ess_requiem:primal_flesh" }
+  ],
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
