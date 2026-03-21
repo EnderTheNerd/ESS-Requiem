@@ -47,8 +47,15 @@ public class GGSwordTier implements Tier, IronsWeaponTier {
             new AttributeContainer(AttributeRegistry.BLOOD_SPELL_POWER, 0.20, AttributeModifier.Operation.ADD_MULTIPLIED_BASE),
             new AttributeContainer(AttributeRegistry.SUMMON_DAMAGE, 0.20, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
 
+    public static ExtendedWeaponTier THE_LEECH = new ExtendedWeaponTier(2300, 5f, -2.9f, 40,
+            BlockTags.INCORRECT_FOR_NETHERITE_TOOL,
+            () -> Ingredient.of(GGItemRegistry.FRAGMENT_OF_CLARITY),
+            new AttributeContainer(AttributeRegistry.BLOOD_SPELL_POWER, 0.10, AttributeModifier.Operation.ADD_MULTIPLIED_BASE),
+            new AttributeContainer(ALObjects.Attributes.OVERHEAL, .15, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
 
-   //ICE
+
+
+    //ICE
    public static ExtendedWeaponTier SCYTHE_OF_FROZEN_DREAMS = new ExtendedWeaponTier(2500, 13f, -2.4f, 30,
        BlockTags.INCORRECT_FOR_DIAMOND_TOOL,
            () -> Ingredient.of(ItemRegistry.FROZEN_BONE_SHARD.get()),
