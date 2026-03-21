@@ -1,5 +1,6 @@
 package net.ender.ess_requiem.entity.mobs.hopping_skull;
 
+import io.redspace.ironsspellbooks.IronsSpellbooks;
 import io.redspace.ironsspellbooks.api.registry.AttributeRegistry;
 import io.redspace.ironsspellbooks.api.registry.SpellRegistry;
 import io.redspace.ironsspellbooks.capabilities.magic.MagicManager;
@@ -8,6 +9,8 @@ import io.redspace.ironsspellbooks.entity.mobs.IMagicSummon;
 import io.redspace.ironsspellbooks.entity.mobs.abstract_spell_casting_mob.AbstractSpellCastingMob;
 import io.redspace.ironsspellbooks.entity.mobs.goals.*;
 import io.redspace.ironsspellbooks.util.OwnerHelper;
+import net.acetheeldritchking.aces_spell_utils.entity.mobs.UniqueAbstractSpellCastingMob;
+import net.ender.ess_requiem.entity.mobs.nightmare.NightmareEntity;
 import net.ender.ess_requiem.registries.GGEffectRegistry;
 import net.ender.ess_requiem.registries.GGEntityRegistry;
 import net.minecraft.core.BlockPos;
@@ -37,6 +40,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import software.bernie.geckolib.animatable.GeoAnimatable;
+import software.bernie.geckolib.animatable.SingletonGeoAnimatable;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animation.*;
 import software.bernie.geckolib.util.GeckoLibUtil;
@@ -45,8 +49,8 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.UUID;
 
-public class HoppingSkullEntity extends AbstractSpellCastingMob implements IMagicSummon, GeoAnimatable, IAnimatedAttacker {
-
+public class HoppingSkullEntity extends UniqueAbstractSpellCastingMob implements IMagicSummon, GeoAnimatable, IAnimatedAttacker {
+    private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
 
     public HoppingSkullEntity(Level level, LivingEntity owner) {
@@ -58,8 +62,9 @@ public class HoppingSkullEntity extends AbstractSpellCastingMob implements IMagi
 
 
 
-    public HoppingSkullEntity(EntityType<? extends AbstractSpellCastingMob> entityType, Level world) {
+    public HoppingSkullEntity(EntityType<? extends UniqueAbstractSpellCastingMob> entityType, Level world) {
         super(entityType, world);
+        SingletonGeoAnimatable.registerSyncedAnimatable(this);
         xpReward = 0;
 
 
@@ -222,28 +227,61 @@ public class HoppingSkullEntity extends AbstractSpellCastingMob implements IMagi
     }
 
     //I HATE GECKOLIB
-private final AnimationController<HoppingSkullEntity> castingAnimationController = new AnimationController<>(this, "casting_controller", 0, this::castingPredicate);
+    private final AnimationController<HoppingSkullEntity> animationController = new AnimationController<>(this, "controller", 0, this::predicate);
+    private final AnimationController instantCastAnimationController = new AnimationController(this, "instant_cast_controller", 0, this::instantCastPredicate);
 
     RawAnimation animationToPlay = null;
 
-
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(castingAnimationController);
+        controllers.add(animationController);
+        controllers.add(instantCastAnimationController);
 
     }
 
-    private PlayState castingPredicate(AnimationState<HoppingSkullEntity> event)
+    private PlayState instantCastPredicate(AnimationState<HoppingSkullEntity> event)
     {
 
-            if (isCasting() && this.animationToPlay == null)
-            {
-                event.getController().setAnimation(RawAnimation.begin().thenPlay("skeleton_attack"));
-                return PlayState.CONTINUE;
-            }
-
+        if (getMagicData().isCasting())
+        {
+            event.getController().setAnimation(RawAnimation.begin().thenPlay("cast"));
+            return PlayState.CONTINUE;
+        }
 
         return PlayState.STOP;
+    }
+
+
+
+    private PlayState predicate(AnimationState<HoppingSkullEntity> event)
+    {
+        if (event.isMoving() && this.animationToPlay == null)
+        {
+            event.getController().setAnimation(RawAnimation.begin().then("idle", Animation.LoopType.LOOP));
+            return PlayState.CONTINUE;
+        }
+        else if (!event.isMoving() && this.animationToPlay == null)
+        {
+            event.getController().setAnimation(RawAnimation.begin().then("idle", Animation.LoopType.LOOP));
+            return PlayState.CONTINUE;
+        }
+
+        return PlayState.STOP;
+    }
+
+
+    @Override
+    public void playAnimation(String animationId) {
+        try {
+            animationToPlay = RawAnimation.begin().thenPlay(animationId);
+        } catch (Exception ignored) {
+            IronsSpellbooks.LOGGER.error("Entity {} Failed to play animation: {}", this, animationId);
+        }
+    }
+
+    @Override
+    public boolean isAnimating() {
+        return animationController.getAnimationState() != AnimationController.State.STOPPED || super.isAnimating();
     }
 
     @Override
@@ -251,17 +289,14 @@ private final AnimationController<HoppingSkullEntity> castingAnimationController
         return this.cache;
     }
 
-    private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
-
     @Override
     public double getTick(Object object) {
         return this.tickCount;
     }
 
-    @Override
-    public void playAnimation(String s) {
 
-    }
+
+
 }
 
     

@@ -72,7 +72,7 @@ public class GGEntityRegistry {
 
     public static final DeferredHolder<EntityType<?>, EntityType<HoppingSkullEntity>> HOPPING_SKULL =
             ENTITIES.register("hopping_skull", () -> EntityType.Builder.<HoppingSkullEntity>of(HoppingSkullEntity::new, MobCategory.CREATURE)
-                    .sized(1f, 1f)
+                    .sized(.5f, .5f)
                     .clientTrackingRange(64)
                     .build(ResourceLocation.fromNamespaceAndPath(EndersSpellsAndStuffRequiem.MOD_ID, "hopping_skull").toString())
             );

@@ -13,10 +13,7 @@ import net.ender.ess_requiem.EndersSpellsAndStuffRequiem;
 import net.ender.ess_requiem.item.armor.BlademasterArmorItem;
 import net.ender.ess_requiem.item.curio.CataphractRingCurio;
 import net.ender.ess_requiem.item.curio.NamelessRingCurio;
-import net.ender.ess_requiem.item.sword_tier.BloodWeapons.ArmOfDecay;
-import net.ender.ess_requiem.item.sword_tier.BloodWeapons.RottenSickle;
-import net.ender.ess_requiem.item.sword_tier.BloodWeapons.ScytheOfRottenDreams;
-import net.ender.ess_requiem.item.sword_tier.BloodWeapons.WhisperingHarvester;
+import net.ender.ess_requiem.item.sword_tier.BloodWeapons.*;
 import net.ender.ess_requiem.item.sword_tier.EldritchWeapons.BrokenPromise;
 import net.ender.ess_requiem.item.sword_tier.EldritchWeapons.DarkWhisper;
 import net.ender.ess_requiem.item.sword_tier.EldritchWeapons.Inevitability;
@@ -48,6 +45,8 @@ public class GGItemRegistry {
     public static final DeferredItem<Item> SCYTHE_OF_ROTTEN_DREAMS = ITEMS.register("scythe_of_rotten_dreams", ScytheOfRottenDreams::new);
 
     public static final DeferredItem<Item> ARM_OF_DECAY = ITEMS.register("arm_of_decay", ArmOfDecay::new);
+
+    //public static final DeferredItem<Item> THE_LEECH = ITEMS.register("the_leech", TheLeech::new);
 
     //ICE
     public static final DeferredItem<Item> SCYTHE_OF_FROZEN_DREAMS = ITEMS.register("scythe_of_frozen_dreams", ScytheOfFrozenDreams::new);
