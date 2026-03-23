@@ -4,6 +4,8 @@ import net.ender.ess_requiem.EndersSpellsAndStuffRequiem;
 
 import net.ender.ess_requiem.entity.mobs.battle_standard.BattleStandardModel;
 import net.ender.ess_requiem.entity.mobs.battle_standard.BattleStandardRenderer;
+import net.ender.ess_requiem.entity.mobs.bone_maggot.BoneMaggotModel;
+import net.ender.ess_requiem.entity.mobs.bone_maggot.BoneMaggotRenderer;
 import net.ender.ess_requiem.entity.mobs.gilded_weapon.GildedSwordRenderer;
 import net.ender.ess_requiem.entity.mobs.gilded_weapon.GildedWeaponModel;
 import net.ender.ess_requiem.entity.mobs.greg.GregModel;
@@ -63,6 +65,8 @@ public class ClientSetup {
         event.registerEntityRenderer(GGEntityRegistry.DISMANTLE.get(),DismantleProjectileRenderer::new);
         event.registerEntityRenderer(GGEntityRegistry.SPELLBLADE_CUT.get(), SpellbladeCutRenderer::new);
         event.registerEntityRenderer(GGEntityRegistry.GREG.get(), context -> {return new GregRenderer(context, new GregModel());});
+        event.registerEntityRenderer(GGEntityRegistry.BONE_MAGGOT.get(), context -> {return new BoneMaggotRenderer(context, new BoneMaggotModel());});
+
 
         }
 

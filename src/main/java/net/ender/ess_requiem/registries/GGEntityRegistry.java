@@ -3,6 +3,8 @@ package net.ender.ess_requiem.registries;
 import net.ender.ess_requiem.EndersSpellsAndStuffRequiem;
 
 import net.ender.ess_requiem.entity.mobs.battle_standard.BattleStandardEntity;
+import net.ender.ess_requiem.entity.mobs.bone_maggot.BoneMaggotEntity;
+import net.ender.ess_requiem.entity.mobs.bone_maggot.BoneMaggotModel;
 import net.ender.ess_requiem.entity.mobs.gilded_weapon.GildedWeaponEntity;
 import net.ender.ess_requiem.entity.mobs.greg.GregEntity;
 import net.ender.ess_requiem.entity.mobs.hopping_skull.HoppingSkullEntity;
@@ -114,6 +116,13 @@ public class GGEntityRegistry {
 
             );
 
+    public static final DeferredHolder<EntityType<?>, EntityType<BoneMaggotEntity>> BONE_MAGGOT =
+            ENTITIES.register("bone_maggot", () -> EntityType.Builder.<BoneMaggotEntity>of(BoneMaggotEntity::new, MobCategory.CREATURE)
+                    .sized(.4f, .4f)
+                    .clientTrackingRange(64)
+                    .build(ResourceLocation.fromNamespaceAndPath(EndersSpellsAndStuffRequiem.MOD_ID, "bone_maggot").toString())
+
+            );
 
     public static final DeferredHolder<EntityType<?>, EntityType<NightmareEntity>> NIGHTMARE =
             ENTITIES.register("nightmare", () -> EntityType.Builder.<NightmareEntity>of(NightmareEntity::new, MobCategory.CREATURE)
