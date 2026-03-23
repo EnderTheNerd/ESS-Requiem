@@ -4,6 +4,7 @@ package net.ender.ess_requiem.setup;
 import net.ender.ess_requiem.EndersSpellsAndStuffRequiem;
 
 import net.ender.ess_requiem.entity.mobs.battle_standard.BattleStandardEntity;
+import net.ender.ess_requiem.entity.mobs.bone_maggot.BoneMaggotEntity;
 import net.ender.ess_requiem.entity.mobs.gilded_weapon.GildedWeaponEntity;
 import net.ender.ess_requiem.entity.mobs.greg.GregEntity;
 import net.ender.ess_requiem.entity.mobs.hopping_skull.HoppingSkullEntity;
@@ -29,6 +30,7 @@ public class CommonSetup {
         event.put(GGEntityRegistry.GILDED_SWORD.get(), GildedWeaponEntity.createAttributes().build());
         event.put(GGEntityRegistry.GREG.get(), GregEntity.createAttributes().build());
         event.put(GGEntityRegistry.NIGHTMARE.get(), NightmareEntity.createAttributes().build());
+        event.put(GGEntityRegistry.BONE_MAGGOT.get(), BoneMaggotEntity.createAttributes().build());
 
     }
 
