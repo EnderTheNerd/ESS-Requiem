@@ -74,8 +74,8 @@ public class BoneMaggotEntity extends UniqueAbstractSpellCastingMob implements I
                 .add(Attributes.ATTACK_DAMAGE, 3)
                 .add(Attributes.MAX_HEALTH, 10)
                 .add(Attributes.FOLLOW_RANGE, 60.0)
-                .add(Attributes.ENTITY_INTERACTION_RANGE, 1.0)
-                .add(Attributes.MOVEMENT_SPEED, .5);
+                .add(Attributes.ENTITY_INTERACTION_RANGE, .8)
+                .add(Attributes.MOVEMENT_SPEED, .23);
 
 
     }
@@ -83,19 +83,6 @@ public class BoneMaggotEntity extends UniqueAbstractSpellCastingMob implements I
 
     @Override
     public void registerGoals() {
-        this.goalSelector.addGoal(1, new GenericAnimatedWarlockAttackGoal<>(this, 1.5F, 5, 10)
-                .setMoveset(List.of(
-                        new AttackAnimationData(13, "attack", 3)
-
-
-                ))
-
-                .setMeleeAttackInverval(3, 8)
-                .setMeleeBias(1.0f, 1.0f));
-
-
-
-
 
         this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(7, new GenericFollowOwnerGoal(this, this::getSummoner, 0.9f, 8, 2, false, 50));
