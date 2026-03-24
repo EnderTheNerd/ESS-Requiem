@@ -56,6 +56,7 @@ public class GGSpellRegistry {
     public static final Supplier <AbstractSpell> WRETCH =registerSpell(new WretchSpell());
     public static final Supplier <AbstractSpell> BOILING_BLOOD =registerSpell(new BoilingBloodSpell());
     public static final Supplier<AbstractSpell> NECROTIC_BURST =registerSpell(new NecroticBurstSpell());
+    public static final Supplier<AbstractSpell> MAGGOT_BURST =registerSpell(new MaggotBurstSpell());
 
     //UNCRAFTABLE BLOOD
     public static final Supplier <AbstractSpell> DECAYING_WILL = registerSpell(new DecayingWillSpell());
