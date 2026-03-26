@@ -121,7 +121,7 @@ public class MaggotBurstSpell extends AbstractSpell {
             var targetEntity = targetData.getTarget((ServerLevel) world);
             if (targetEntity instanceof IMagicSummon summon && summon.getSummoner().getUUID().equals(entity.getUUID())) {
                 {
-                    MagicManager.spawnParticles(world, ParticleHelper.BLOOD, targetEntity.getX(), targetEntity.getY() + .25f, targetEntity.getZ(), 100, .03, .4, .03, .4, true);
+                    MagicManager.spawnParticles(world, ParticleHelper.BLOOD, targetEntity.getX(), targetEntity.getY() + .25f, targetEntity.getZ(), 150, .06, .8, .03, .8, true);
                     MagicManager.spawnParticles(world, ParticleHelper.BLOOD, targetEntity.getX(), targetEntity.getY() + .25f, targetEntity.getZ(), 100, .03, .4, .03, .4, false);
                     MagicManager.spawnParticles(world, new BlastwaveParticleOptions(SchoolRegistry.BLOOD.get().getTargetingColor(), 3), targetEntity.getX(), targetEntity.getBoundingBox().getCenter().y, targetEntity.getZ(), 1, 0, 0, 0, 0, true);
 
@@ -130,14 +130,17 @@ public class MaggotBurstSpell extends AbstractSpell {
                     int count = (int) getSummonCount(spellLevel, entity);
                     for (int i = 0; i < count; i++) {
                         BoneMaggotEntity maggot = new BoneMaggotEntity(world, entity);
-                        maggot.moveTo(targetEntity.getEyePosition().add(new Vec3(Utils.getRandomScaled(2), 1, Utils.getRandomScaled(2))));
+                        maggot.setPos(targetEntity.getRandomX(targetEntity.getScale()), targetEntity.getRandomY(), targetEntity.getRandomZ(targetEntity.getScale()));
+                        //THANK YOU FIRE
+                        maggot.setDeltaMovement(maggot.position().subtract(targetEntity.position()).scale(.25));
+                        maggot.hurtMarked = true;
                         maggot.finalizeSpawn((ServerLevel) world, world.getCurrentDifficultyAt(maggot.getOnPos()), MobSpawnType.MOB_SUMMONED, null);
                         var creature = NeoForge.EVENT_BUS.post(new SpellSummonEvent<>(entity, maggot, this.spellId, spellLevel)).getCreature();
                         world.addFreshEntity(creature);
                         SummonManager.initSummon(entity, creature, summonTime, summonedEntitiesCastData);
                     }
                     targetEntity.remove(Entity.RemovalReason.KILLED);
-                    world.playSound(null, targetEntity.blockPosition(), GGSoundRegistry.MAGGOT_BURST_END.get(), SoundSource.PLAYERS, 3, Utils.random.nextIntBetweenInclusive(8, 12) * .1f);
+
                 }
                 super.onCast(world, spellLevel, entity, castSource, playerMagicData);
 
