@@ -11,7 +11,6 @@
       "ess_requiem:pact_cast"
     ]
   },
-
   "mind_generic_cast": {
     "subtitle": "sounds.ess_requiem:mind_generic_cast",
     "sounds": [
@@ -30,32 +29,24 @@
       "ess_requiem:bone_shatter"
     ]
   },
-
-  "pale_flame_start":
-  {
+  "pale_flame_start": {
     "subtitle": "sounds.ess_requiem.pale_flame_start",
-    "sounds":
-    [
+    "sounds": [
       "ess_requiem:pale_flame_start"
     ]
   },
-
-  "pale_flame_end":
-  {
+  "pale_flame_end": {
     "subtitle": "sounds.ess_requiem.pale_flame_end",
-    "sounds":
-    [
+    "sounds": [
       "ess_requiem:pale_flame_end"
     ]
   },
-
   "cursed_revive": {
     "subtitle": "sounds.ess_requiem.player_cursed_revive",
     "sounds": [
       "ess_requiem:cursed_revive"
     ]
   },
-
   "ebony_cataphract_impact": {
     "subtitle": "sounds.ess_requiem.cataphract_slam",
     "sounds": [
@@ -151,5 +142,18 @@
     "sounds": [
       "ess_requiem:eldritch_wail_end"
     ]
+  },
+  "maggot_burst_startup": {
+    "subtitle": "sounds.ess_requiem.maggot_burst_start",
+    "sounds": [
+      "ess_requiem:maggot_burst_startup"
+    ]
+  },
+  "maggot_burst_end": {
+    "subtitle": "sounds.ess_requiem.maggot_burst_end",
+    "sounds": [
+      "ess_requiem:maggot_burst_end"
+    ]
   }
 }
+

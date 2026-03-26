@@ -43,7 +43,7 @@
  "entity.ess_requiem.battle_standard": "Battle Standard",
  "entity.ess_requiem.gilded_sword": "Gilded Sword",
  "entity.ess_requiem.greg": "Greg.",
-
+ "entity.ess_requiem.bone_maggot": "Bone Maggot",
 
  "spell.ess_requiem.cataphract_tackle": "Cataphract Tackle (CREATIVE ONLY)",
  "spell.ess_requiem.cataphract_slam": "Cataphract Slam (CREATIVE ONLY)",
@@ -76,7 +76,8 @@
  "spell.ess_requiem.corpse_explosion.guide": "Violently explode the body of a summoned creature, obliterating it, and leaving a toxic puddle of blood behind. The Evolved form of Sacrifice",
  "spell.ess_requiem.finality_of_decay": "The Finality of Decay",
  "spell.ess_requiem.finality_of_decay.guide": "Unleash a countdown upon a target. Once the countdown reaches zero, the target takes heavy damage, and begins to rot and wither away rapidly.",
-
+ "spell.ess_requiem.maggot_burst": "Maggot Burst",
+ "spell.ess_requiem.maggot_burst.guide": "Cause one of your summons to burst from the inside out with bone maggots, the maggot amount scales with spell power",
 
 
  "spell.ess_requiem.ebony_armor": "Ebony Armor",
@@ -252,6 +253,7 @@
  "death.attack.ess_requiem.cleave": "%1$s turned into a pancake by %2$s",
  "death.attack.ess_requiem.slashing_ability": "%1$s was sliced and diced by %2$s",
  "death.attack.ess_requiem.battle_standard": "%1$s fell before %2$s's Battle Standard",
+ "death.attack.ess_requiem.bone_maggot": "%1$s had their marrow picked clean by %2$s's bone maggots",
 
  "attribute.irons_spellbooks.spellblade_spell_power": "Blade Spell Power",
  "attribute.irons_spellbooks.spellblade_magic_resist": "Blade Magic Resist",

@@ -55,6 +55,8 @@ public class EndersSpellsAndStuffRequiem
 
         GGItemRegistry.register(modEventBus);
 
+
+
         ModCreativeModTabs.register(modEventBus);
 
         if (GGCompatManager.isDTELoaded())

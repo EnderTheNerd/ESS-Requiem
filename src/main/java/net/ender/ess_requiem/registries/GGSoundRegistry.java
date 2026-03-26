@@ -18,6 +18,10 @@ public class GGSoundRegistry {
 
     public static DeferredHolder<SoundEvent, SoundEvent> PACT_SPELL_CAST = registerSoundEvent("pact_cast");
 
+    public static DeferredHolder<SoundEvent, SoundEvent> MAGGOT_BURST_STARTUP = registerSoundEvent("maggot_burst_startup");
+
+     public static DeferredHolder<SoundEvent, SoundEvent> MAGGOT_BURST_END = registerSoundEvent("maggot_burst_end");
+
     //MIND
     public static DeferredHolder<SoundEvent, SoundEvent> MIND_GENERIC_CAST = registerSoundEvent("mind_generic_cast");
 
