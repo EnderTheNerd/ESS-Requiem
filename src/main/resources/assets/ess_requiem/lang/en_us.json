@@ -63,7 +63,7 @@
  "spell.ess_requiem.reaper": "Reaper",
  "spell.ess_requiem.reaper.guide": "Temporarily become a reaper, when your summons perish, harvest their souls to regain mana.",
  "spell.ess_requiem.summon_skulls": "Conjure Cursed Skulls",
- "spell.ess_requiem.summon_skulls.guide": "Summon Cursed Skulls from nothingness that will cast spells at your foes. The skulls aren't the best at holding themselves up with magic, and will fall or drag themselves across the ground on occasion. While under a rampage, summon a singular, high flying, stronger skull.",
+ "spell.ess_requiem.summon_skulls.guide": "Summon Cursed Skulls from nothingness that will cast spells at your foes. The skulls aren't the best at holding themselves up with magic, and will fall or drag themselves across the ground on occasion.",
  "spell.ess_requiem.wretch": "Wretch",
  "spell.ess_requiem.wretch.guide": "Spew magical blood forth from your body, dealing damage. When low HP, switch damage to Desperation Damage, doing more damage.",
  "spell.ess_requiem.boiling_blood": "Boil Blood",
@@ -220,7 +220,7 @@
 
 
  "item.ess_requiem.dream_ripper": "Dream Ripper",
- "item.ess_requiem.dream_ripper.lore": "The Scythe bites with a new edge. Ripping open minds, devouring dreams with an endless hunger.",
+ "item.ess_requiem.dream_ripper.lore": "The Scythe bites with a new edge. Ripping open minds, devouring dreams with an endless hunger, its unstable creation halts enchants.",
  "spell.ess_requiem.nightmare": "Dream Eater",
  "spell.ess_requiem.nightmare.guide": "Once a target is wrapped in sleep, summon a nightmare to hunt them down. Nightmare's copy the stats of what's being targeted.",
  "spell.ess_requiem.forever_dreaming": "Forever Dreaming",

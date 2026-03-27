@@ -17,7 +17,7 @@ import java.util.function.Supplier;
 
 public class DTEWeaponTiers implements Tier, IronsWeaponTier {
 
-    public static ExtendedWeaponTier DREAM_RIPPER_SCYTHE = new ExtendedWeaponTier(2500, 14f, -2.4f, 35,
+    public static ExtendedWeaponTier DREAM_RIPPER_SCYTHE = new ExtendedWeaponTier(2500, 16f, -2.4f, 0,
             BlockTags.INCORRECT_FOR_NETHERITE_TOOL,
             () -> Ingredient.of(ItemRegistry.BLOODY_VELLUM.get()),
             new AttributeContainer(AttributeRegistry.BLOOD_SPELL_POWER, 0.2, AttributeModifier.Operation.ADD_MULTIPLIED_BASE),
