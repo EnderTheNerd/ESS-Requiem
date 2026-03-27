@@ -6,6 +6,8 @@ import io.redspace.ironsspellbooks.entity.mobs.IAnimatedAttacker;
 import io.redspace.ironsspellbooks.entity.mobs.IMagicSummon;
 import io.redspace.ironsspellbooks.entity.mobs.abstract_spell_casting_mob.AbstractSpellCastingMob;
 import io.redspace.ironsspellbooks.entity.mobs.goals.*;
+import io.redspace.ironsspellbooks.entity.mobs.goals.melee.AttackAnimationData;
+import io.redspace.ironsspellbooks.entity.mobs.wizards.GenericAnimatedWarlockAttackGoal;
 import io.redspace.ironsspellbooks.util.OwnerHelper;
 import net.acetheeldritchking.aces_spell_utils.entity.mobs.UniqueAbstractSpellCastingMob;
 import net.ender.ess_requiem.registries.GGEntityRegistry;
@@ -66,7 +68,7 @@ public class BoneMaggotEntity extends UniqueAbstractSpellCastingMob implements I
                 .add(Attributes.ATTACK_DAMAGE, 3)
                 .add(Attributes.MAX_HEALTH, 10)
                 .add(Attributes.FOLLOW_RANGE, 60.0)
-                .add(Attributes.ENTITY_INTERACTION_RANGE, .8)
+                .add(Attributes.ENTITY_INTERACTION_RANGE, 2.0)
                 .add(Attributes.MOVEMENT_SPEED, .23);
 
 
@@ -75,7 +77,14 @@ public class BoneMaggotEntity extends UniqueAbstractSpellCastingMob implements I
 
     @Override
     public void registerGoals() {
-
+        this.goalSelector.addGoal(1, new GenericAnimatedWarlockAttackGoal<>(this, 1.5F, 5, 10)
+                .setMoveset(List.of(
+                        new AttackAnimationData(13, "attack", 6)
+                ))
+                .setMeleeAttackInverval(5, 10)
+                .setMeleeBias(1.0f, 1.0f)
+                .setMeleeMovespeedModifier(1.0f)
+        );
         this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(7, new GenericFollowOwnerGoal(this, this::getSummoner, 0.9f, 8, 2, false, 50));
         this.goalSelector.addGoal(8, new WaterAvoidingRandomStrollGoal(this, 0.9D));
