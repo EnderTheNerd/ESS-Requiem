@@ -154,15 +154,15 @@ dependencies {
 
 
     //DTE
-    //implementation "curse.maven:discerning-the-eldritch-1143065:7469786"
+    implementation "curse.maven:discerning-the-eldritch-1143065:7469786"
     //AZURE
-    //implementation "curse.maven:azurelib-817423:7119590"
+    implementation "curse.maven:azurelib-817423:7119590"
     //TITAN
-    //implementation "curse.maven:prometheus-1365195:7364871"
+    implementation "curse.maven:prometheus-1365195:7364871"
     //SOUL FIRE
-    //implementation "curse.maven:soul-fire-d-662413:7364962"
+    implementation "curse.maven:soul-fire-d-662413:7364962"
     //Cobweb
-    //implementation "curse.maven:cobweb-968456:7186943"
+    implementation "curse.maven:cobweb-968456:7186943"
 
     //NEAT
     implementation "curse.maven:neat-238372:5838045"

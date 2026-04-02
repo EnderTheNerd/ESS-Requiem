@@ -36,6 +36,7 @@
  "effect.ess_requiem.overwhelming_dread": "Overwhelming Dread",
  "effect.ess_requiem.adrenaline_rush": "Adrenaline Rush",
  "effect.ess_requiem.adrenal_fatigue": "Adrenal Fatigue",
+ "effect.ess_requiem.blissful_sleep": "Blissful Sleep",
 
  "entity.ess_requiem.hopping_skull": "Cursed Skull",
  "entity.ess_requiem.skull_mass": "Skull Mass",
@@ -159,6 +160,7 @@
  "ui.ess_requiem.not_night": "It is not night time.",
  "ui.ess_requiem.not_day": "It is not day time",
  "ui.ess_requiem.health_limit": "%d Max Switch Limit",
+ "ui.ess_requiem.maggot_error": "You cannot target a maggot with maggot burst!",
 
  "creativetab.ess_requiem.rotten_sickle": "ESS Requiem",
 

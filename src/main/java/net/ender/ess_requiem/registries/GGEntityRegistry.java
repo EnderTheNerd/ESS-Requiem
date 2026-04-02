@@ -9,11 +9,9 @@ import net.ender.ess_requiem.entity.mobs.gilded_weapon.GildedWeaponEntity;
 import net.ender.ess_requiem.entity.mobs.greg.GregEntity;
 import net.ender.ess_requiem.entity.mobs.hopping_skull.HoppingSkullEntity;
 import net.ender.ess_requiem.entity.mobs.nightmare.NightmareEntity;
-import net.ender.ess_requiem.entity.mobs.skull_mass.SkullMassEntity;
 import net.ender.ess_requiem.entity.spells.black_flame.BlackFlameLarge;
 import net.ender.ess_requiem.entity.spells.black_flame.BlackFlameMedium;
 import net.ender.ess_requiem.entity.spells.black_flame.BlackFlameNormal;
-import net.ender.ess_requiem.entity.spells.bone_spear.BoneSpearEntity;
 import net.ender.ess_requiem.entity.spells.claw.ClawEntity;
 import net.ender.ess_requiem.entity.spells.bone_claw.BoneClawEntity;
 import net.ender.ess_requiem.entity.spells.corpse_puddle.CorpsePuddle;
@@ -58,12 +56,6 @@ public class GGEntityRegistry {
                     .clientTrackingRange(64)
                     .build( ResourceLocation.fromNamespaceAndPath(EndersSpellsAndStuffRequiem.MOD_ID, "corpse_puddle").toString()));
 
-    public static final DeferredHolder<EntityType<?>, EntityType<BoneSpearEntity>> BONE_SPEAR =
-            ENTITIES.register("bone_spear", () -> EntityType.Builder.<BoneSpearEntity>of(BoneSpearEntity::new, MobCategory.MISC)
-                    .sized(2f, 1f)
-                    .clientTrackingRange(64)
-                    .build( ResourceLocation.fromNamespaceAndPath(EndersSpellsAndStuffRequiem.MOD_ID, "bone_spear").toString()));
-
 
     public static final DeferredHolder<EntityType<?>, EntityType<BoneClawEntity>> BONE_CLAW_ENTITY =
             ENTITIES.register("bone_claw", () -> EntityType.Builder.<BoneClawEntity>of(BoneClawEntity::new, MobCategory.MISC)
@@ -93,12 +85,12 @@ public class GGEntityRegistry {
                     .build(ResourceLocation.fromNamespaceAndPath(EndersSpellsAndStuffRequiem.MOD_ID, "gilded_sword").toString())
             );
 
-    public static final DeferredHolder<EntityType<?>, EntityType<SkullMassEntity>> SKULL_MASS =
-            ENTITIES.register("skull_mass", () -> EntityType.Builder.<SkullMassEntity>of(SkullMassEntity::new, MobCategory.CREATURE)
-                    .sized(1f, 1f)
-                    .clientTrackingRange(64)
-                    .build(ResourceLocation.fromNamespaceAndPath(EndersSpellsAndStuffRequiem.MOD_ID, "skull_mass").toString())
-            );
+   // public static final DeferredHolder<EntityType<?>, EntityType<SkullMassEntity>> SKULL_MASS =
+           // ENTITIES.register("skull_mass", () -> EntityType.Builder.<SkullMassEntity>of(SkullMassEntity::new, MobCategory.CREATURE)
+               //     .sized(1f, 1f)
+               //     .clientTrackingRange(64)
+               //     .build(ResourceLocation.fromNamespaceAndPath(EndersSpellsAndStuffRequiem.MOD_ID, "skull_mass").toString())
+        //    );
 
     public static final DeferredHolder<EntityType<?>, EntityType<BattleStandardEntity>> BATTLE_STANDARD =
             ENTITIES.register("battle_standard", () -> EntityType.Builder.<BattleStandardEntity>of(BattleStandardEntity::new, MobCategory.CREATURE)
