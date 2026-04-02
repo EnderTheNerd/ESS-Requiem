@@ -10,7 +10,6 @@ import io.redspace.ironsspellbooks.entity.mobs.abstract_spell_casting_mob.Abstra
 import io.redspace.ironsspellbooks.entity.mobs.goals.*;
 import io.redspace.ironsspellbooks.util.OwnerHelper;
 import net.acetheeldritchking.aces_spell_utils.entity.mobs.UniqueAbstractSpellCastingMob;
-import net.ender.ess_requiem.entity.mobs.skull_mass.SkullMassEntity;
 import net.ender.ess_requiem.entity.mobs.summoned_weapon.SoulmasterSwordEntity;
 import net.ender.ess_requiem.registries.GGAttributeRegistry;
 import net.ender.ess_requiem.registries.GGEntityRegistry;
