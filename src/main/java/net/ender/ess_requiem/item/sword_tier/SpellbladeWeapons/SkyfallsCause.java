@@ -30,7 +30,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 public class SkyfallsCause extends MagicSwordItem {
-    public static final int COOLDOWN = 250;
+    public static final int COOLDOWN = 180;
 
     public SkyfallsCause() {
         super(GGSwordTier.SKYFALLS_CAUSE, ItemPropertiesHelper.equipment().component(DataComponents.UNBREAKABLE, new Unbreakable(true)).fireResistant().rarity(ASRarities.COSMIC_RARITY_PROXY.getValue()).attributes(ExtendedSwordItem.createAttributes(GGSwordTier.SKYFALLS_CAUSE)),

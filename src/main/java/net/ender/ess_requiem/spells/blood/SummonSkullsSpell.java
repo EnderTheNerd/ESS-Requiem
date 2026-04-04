@@ -120,7 +120,31 @@ public class SummonSkullsSpell extends AbstractSpell {
 
     @Override
     public void onCast(Level world, int spellLevel, LivingEntity entity, CastSource castSource, MagicData playerMagicData) {
- {
+        if (entity.hasEffect(GGEffectRegistry.UNDEAD_RAMPAGE)) {
+
+            var recasts = playerMagicData.getPlayerRecasts();
+            if (!recasts.hasRecastForSpell(this)) {
+                SummonedEntitiesCastData summonedEntitiesCastData = new SummonedEntitiesCastData();
+                int summonTime = 20 * 60 * 10;
+                int count = 1;
+                for (int i = 0; i < count; i++) {
+                    SkullMassEntity skull = new SkullMassEntity(world, entity);
+                    skull.moveTo(entity.getEyePosition().add(new Vec3(Utils.getRandomScaled(2), 1, Utils.getRandomScaled(2))));
+                    skull.finalizeSpawn((ServerLevel) world, world.getCurrentDifficultyAt(skull.getOnPos()), MobSpawnType.MOB_SUMMONED, null);
+                    var creature = NeoForge.EVENT_BUS.post(new SpellSummonEvent<>(entity, skull, this.spellId, spellLevel)).getCreature();
+                    world.addFreshEntity(creature);
+                    SummonManager.initSummon(entity, creature, summonTime, summonedEntitiesCastData);
+                }
+                RecastInstance recastInstance = new RecastInstance(this.getSpellId(), spellLevel, getRecastCount(spellLevel, entity), summonTime, castSource, summonedEntitiesCastData);
+                recasts.addRecast(recastInstance, playerMagicData);
+            }
+            super.onCast(world, spellLevel, entity, castSource, playerMagicData);
+
+
+
+        }
+
+        else {
             var recasts = playerMagicData.getPlayerRecasts();
             if (!recasts.hasRecastForSpell(this)) {
                 SummonedEntitiesCastData summonedEntitiesCastData = new SummonedEntitiesCastData();
@@ -143,6 +167,7 @@ public class SummonSkullsSpell extends AbstractSpell {
         }
 
     }
+
 
 }
 
