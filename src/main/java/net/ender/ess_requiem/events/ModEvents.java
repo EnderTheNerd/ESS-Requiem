@@ -477,9 +477,9 @@ public class ModEvents {
         if (event.getEffectInstance().is(GGEffectRegistry.FINALITY_OF_DECAY) && event.getEntity() instanceof LivingEntity livingEntity) {
 
 
-            livingEntity.hurt(livingEntity.damageSources().magic(), 15);
-            livingEntity.addEffect(new MobEffectInstance(MobEffects.WITHER, 300, 5));
-            livingEntity.addEffect(new MobEffectInstance(GGEffectRegistry.MARK_OF_DECAY, 300, 0));
+            livingEntity.hurt(livingEntity.damageSources().magic(), 25);
+            livingEntity.addEffect(new MobEffectInstance(MobEffects.WITHER, 300, 3));
+            livingEntity.addEffect(new MobEffectInstance(GGEffectRegistry.MARK_OF_DECAY, 300, 1));
 
             livingEntity.playSound(GGSoundRegistry.CLOCK_TICKING.get(), 0.8f, 1.3F);
 

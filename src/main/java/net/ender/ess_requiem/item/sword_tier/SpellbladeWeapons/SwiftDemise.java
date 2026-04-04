@@ -30,7 +30,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 public class SwiftDemise extends MagicSwordItem {
-    public static final int COOLDOWN = 250;
+    public static final int COOLDOWN = 180;
 
     public SwiftDemise() {
         super(GGSwordTier.SWIFT_DEMISE, ItemPropertiesHelper.equipment().component(DataComponents.UNBREAKABLE, new Unbreakable(true)).fireResistant().rarity(ASRarities.COSMIC_RARITY_PROXY.getValue()).attributes(ExtendedSwordItem.createAttributes(GGSwordTier.SWIFT_DEMISE)),

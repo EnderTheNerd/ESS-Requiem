@@ -10,6 +10,7 @@ import net.ender.ess_requiem.entity.mobs.greg.GregEntity;
 import net.ender.ess_requiem.entity.mobs.hopping_skull.HoppingSkullEntity;
 
 import net.ender.ess_requiem.entity.mobs.nightmare.NightmareEntity;
+import net.ender.ess_requiem.entity.mobs.skull_mass.SkullMassEntity;
 import net.ender.ess_requiem.entity.mobs.summoned_weapon.SoulmasterSwordEntity;
 import net.ender.ess_requiem.registries.GGEntityRegistry;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -23,7 +24,7 @@ public class CommonSetup {
 
         // You can technically do KeeperEntity.prepareAttributes().build() to get the attributes of the OG entity as an option
         event.put(GGEntityRegistry.HOPPING_SKULL.get(), HoppingSkullEntity.createAttributes().build());
-       // event.put(GGEntityRegistry.SKULL_MASS.get(), SkullMassEntity.createAttributes().build());
+        event.put(GGEntityRegistry.SKULL_MASS.get(), SkullMassEntity.createAttributes().build());
         event.put(GGEntityRegistry.SOULMASTER_SWORD.get(), SoulmasterSwordEntity.createAttributes().build());
         event.put(GGEntityRegistry.BATTLE_STANDARD.get(), BattleStandardEntity.createAttributes().build());
         event.put(GGEntityRegistry.GILDED_SWORD.get(), GildedWeaponEntity.createAttributes().build());

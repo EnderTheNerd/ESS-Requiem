@@ -15,6 +15,8 @@ import net.ender.ess_requiem.entity.mobs.hopping_skull.HoppingSkullRenderer;
 
 import net.ender.ess_requiem.entity.mobs.nightmare.NightmareModel;
 import net.ender.ess_requiem.entity.mobs.nightmare.NightmareRenderer;
+import net.ender.ess_requiem.entity.mobs.skull_mass.SkullMassModel;
+import net.ender.ess_requiem.entity.mobs.skull_mass.SkullMassRenderer;
 import net.ender.ess_requiem.entity.spells.black_flame.BlackFlameRenderer;
 import net.ender.ess_requiem.entity.spells.claw.ClawEntityRenderer;
 import net.ender.ess_requiem.entity.spells.bone_claw.BoneClawEntityRenderer;
@@ -55,7 +57,7 @@ public class ClientSetup {
         event.registerEntityRenderer(GGEntityRegistry.SOULMASTER_SWORD.get(), context -> {return new SoulmasterSwordRenderer(context, new SoulmasterSwordModel());});
         event.registerEntityRenderer(GGEntityRegistry.HOPPING_SKULL.get(), context -> {return new HoppingSkullRenderer(context, new HoppingSkullModel());});
         event.registerEntityRenderer(GGEntityRegistry.BATTLE_STANDARD.get(), context -> {return new BattleStandardRenderer(context, new BattleStandardModel());});
-        //event.registerEntityRenderer(GGEntityRegistry.SKULL_MASS.get(), context -> {return new SkullMassRenderer(context, new SkullMassModel());});
+        event.registerEntityRenderer(GGEntityRegistry.SKULL_MASS.get(), context -> {return new SkullMassRenderer(context, new SkullMassModel());});
         event.registerEntityRenderer(GGEntityRegistry.NIGHTMARE.get(), context -> {return new NightmareRenderer(context, new NightmareModel());});
         event.registerEntityRenderer(GGEntityRegistry.DISMANTLE.get(),DismantleProjectileRenderer::new);
         event.registerEntityRenderer(GGEntityRegistry.SPELLBLADE_CUT.get(), SpellbladeCutRenderer::new);
