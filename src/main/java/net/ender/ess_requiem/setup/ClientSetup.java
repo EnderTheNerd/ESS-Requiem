@@ -17,6 +17,8 @@ import net.ender.ess_requiem.entity.mobs.nightmare.NightmareModel;
 import net.ender.ess_requiem.entity.mobs.nightmare.NightmareRenderer;
 import net.ender.ess_requiem.entity.mobs.skull_mass.SkullMassModel;
 import net.ender.ess_requiem.entity.mobs.skull_mass.SkullMassRenderer;
+import net.ender.ess_requiem.entity.mobs.tombstone.TombstoneModel;
+import net.ender.ess_requiem.entity.mobs.tombstone.TombstoneRenderer;
 import net.ender.ess_requiem.entity.spells.black_flame.BlackFlameRenderer;
 import net.ender.ess_requiem.entity.spells.claw.ClawEntityRenderer;
 import net.ender.ess_requiem.entity.spells.bone_claw.BoneClawEntityRenderer;
@@ -63,6 +65,7 @@ public class ClientSetup {
         event.registerEntityRenderer(GGEntityRegistry.SPELLBLADE_CUT.get(), SpellbladeCutRenderer::new);
         event.registerEntityRenderer(GGEntityRegistry.GREG.get(), context -> {return new GregRenderer(context, new GregModel());});
         event.registerEntityRenderer(GGEntityRegistry.BONE_MAGGOT.get(), context -> {return new BoneMaggotRenderer(context, new BoneMaggotModel());});
+        event.registerEntityRenderer(GGEntityRegistry.TOMBSTONE.get(), context -> {return new TombstoneRenderer(context, new TombstoneModel());});
 
 
         }

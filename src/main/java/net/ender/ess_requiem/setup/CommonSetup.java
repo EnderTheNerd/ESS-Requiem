@@ -12,6 +12,8 @@ import net.ender.ess_requiem.entity.mobs.hopping_skull.HoppingSkullEntity;
 import net.ender.ess_requiem.entity.mobs.nightmare.NightmareEntity;
 import net.ender.ess_requiem.entity.mobs.skull_mass.SkullMassEntity;
 import net.ender.ess_requiem.entity.mobs.summoned_weapon.SoulmasterSwordEntity;
+import net.ender.ess_requiem.entity.mobs.tombstone.TombstoneEntity;
+import net.ender.ess_requiem.registries.GGAttributeRegistry;
 import net.ender.ess_requiem.registries.GGEntityRegistry;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -31,6 +33,7 @@ public class CommonSetup {
         event.put(GGEntityRegistry.GREG.get(), GregEntity.createAttributes().build());
         event.put(GGEntityRegistry.NIGHTMARE.get(), NightmareEntity.createAttributes().build());
         event.put(GGEntityRegistry.BONE_MAGGOT.get(), BoneMaggotEntity.createAttributes().build());
+        event.put(GGEntityRegistry.TOMBSTONE.get(), TombstoneEntity.createAttributes().build());
 
     }
 

@@ -10,6 +10,7 @@ import net.ender.ess_requiem.entity.mobs.greg.GregEntity;
 import net.ender.ess_requiem.entity.mobs.hopping_skull.HoppingSkullEntity;
 import net.ender.ess_requiem.entity.mobs.nightmare.NightmareEntity;
 import net.ender.ess_requiem.entity.mobs.skull_mass.SkullMassEntity;
+import net.ender.ess_requiem.entity.mobs.tombstone.TombstoneEntity;
 import net.ender.ess_requiem.entity.spells.black_flame.BlackFlameLarge;
 import net.ender.ess_requiem.entity.spells.black_flame.BlackFlameMedium;
 import net.ender.ess_requiem.entity.spells.black_flame.BlackFlameNormal;
@@ -99,6 +100,15 @@ public class GGEntityRegistry {
                     .build(ResourceLocation.fromNamespaceAndPath(EndersSpellsAndStuffRequiem.MOD_ID, "battle_standard").toString())
 
             );
+
+    public static final DeferredHolder<EntityType<?>, EntityType<TombstoneEntity>> TOMBSTONE =
+            ENTITIES.register("tombstone", () -> EntityType.Builder.<TombstoneEntity>of(TombstoneEntity::new, MobCategory.CREATURE)
+                    .sized(1f, 1f)
+                    .clientTrackingRange(64)
+                    .build(ResourceLocation.fromNamespaceAndPath(EndersSpellsAndStuffRequiem.MOD_ID, "tombstone").toString())
+
+            );
+
 
     public static final DeferredHolder<EntityType<?>, EntityType<GregEntity>> GREG =
             ENTITIES.register("greg", () -> EntityType.Builder.<GregEntity>of(GregEntity::new, MobCategory.CREATURE)
