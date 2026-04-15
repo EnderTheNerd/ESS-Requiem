@@ -10,10 +10,7 @@ import io.redspace.ironsspellbooks.entity.mobs.abstract_spell_casting_mob.Abstra
 import io.redspace.ironsspellbooks.entity.mobs.goals.*;
 import io.redspace.ironsspellbooks.util.OwnerHelper;
 import net.acetheeldritchking.aces_spell_utils.entity.mobs.UniqueAbstractSpellCastingMob;
-import net.ender.ess_requiem.entity.mobs.battle_standard.BattleStandardEntity;
-import net.ender.ess_requiem.registries.GGAttributeRegistry;
 import net.ender.ess_requiem.registries.GGEntityRegistry;
-import net.ender.ess_requiem.registries.GGSpellRegistry;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvent;
@@ -77,17 +74,18 @@ public class TombstoneEntity extends UniqueAbstractSpellCastingMob implements IM
                 .add(Attributes.ENTITY_INTERACTION_RANGE, 2.0)
                 .add(Attributes.MOVEMENT_SPEED, 0)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 100)
-                .add(AttributeRegistry.BLOOD_SPELL_POWER, .65);
+                .add(Attributes.SCALE, 1.5)
+                .add(AttributeRegistry.BLOOD_SPELL_POWER, 5.8);
 
     }
 
     @Override
     public void registerGoals() {
-        this.goalSelector.addGoal(2, new WizardAttackGoal(this, 0, 30, 55)
+        this.goalSelector.addGoal(2, new WizardAttackGoal(this, 0, 40, 55)
                 .setSpells(
+                        List.of(),
                         List.of(SpellRegistry.RAISE_DEAD_SPELL.get()),
-                        List.of(),
-                        List.of(),
+                        List.of(SpellRegistry.RAISE_DEAD_SPELL.get()),
                         List.of()
                 ));
 

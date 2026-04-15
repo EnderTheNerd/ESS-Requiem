@@ -21,13 +21,13 @@ import net.minecraft.world.item.TooltipFlag;
 import java.util.List;
 
 public class ArmOfDecay extends MagicSwordItem implements UniqueItem {
-    public static final int COOLDOWN = 600;
+    public static final int COOLDOWN = 650;
 
 
     public ArmOfDecay() {
         super(GGSwordTier.ARM_OF_DECAY, ItemPropertiesHelper.equipment().rarity(ASRarities.COSMIC_RARITY_PROXY.getValue()).attributes(ExtendedSwordItem.createAttributes(GGSwordTier.ARM_OF_DECAY)),
                 SpellDataRegistryHolder.of(
-                        new SpellDataRegistryHolder(GGSpellRegistry.FINALITY_OF_DECAY, 1),
+                        new SpellDataRegistryHolder(GGSpellRegistry.FIELD_OF_MOURNING, 1),
                         new SpellDataRegistryHolder(GGSpellRegistry.CORPSE_EXPLOSION, 1),
                         new SpellDataRegistryHolder(GGSpellRegistry.DECAYING_WILL, 1)));
 

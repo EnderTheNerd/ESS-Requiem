@@ -708,13 +708,9 @@ public class ModEvents {
 
             //ARM OF DECAY (YES ACE IM COPYING YOUR ORGANIZATION STYLE)
             if (mainhandItem.getItem() instanceof ArmOfDecay && (!(livingEntity instanceof Player player) || !player.getCooldowns().isOnCooldown(GGItemRegistry.ARM_OF_DECAY.get()))) {
-                final float MAX_HEALTH = livingEntity.getMaxHealth();
-                float baseHealth = livingEntity.getHealth();
-                double percent = (baseHealth / MAX_HEALTH) * 100;
 
-                if (percent < 50) {
 
-                    assert livingEntity instanceof ServerPlayer;
+                assert livingEntity instanceof ServerPlayer;
                     GGSpellRegistry.ARM_OF_DECAY_PASSIVE.get().castSpell(event.getEntity().level(), 1, (ServerPlayer) livingEntity, CastSource.SWORD, true);
 
                     if (livingEntity instanceof Player player) {
@@ -722,7 +718,7 @@ public class ModEvents {
                     }
 
 
-                }
+
 
 
             }

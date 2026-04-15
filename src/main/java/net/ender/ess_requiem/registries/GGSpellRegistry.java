@@ -4,10 +4,7 @@ import io.redspace.ironsspellbooks.api.spells.AbstractSpell;
 import net.ender.ess_requiem.EndersSpellsAndStuffRequiem;
 
 import net.ender.ess_requiem.spells.blood.*;
-import net.ender.ess_requiem.spells.blood.uncraftable.ArmOfDecayUndeadRaise;
-import net.ender.ess_requiem.spells.blood.uncraftable.CorpseExplosionSpell;
-import net.ender.ess_requiem.spells.blood.uncraftable.DecayingWillSpell;
-import net.ender.ess_requiem.spells.blood.uncraftable.TheFinalityOfDecaySpell;
+import net.ender.ess_requiem.spells.blood.uncraftable.*;
 import net.ender.ess_requiem.spells.eldrtich.cataphract_abilities.CataphractHeal;
 import net.ender.ess_requiem.spells.eldrtich.cataphract_abilities.CataphractSlam;
 import net.ender.ess_requiem.spells.eldrtich.*;
@@ -63,6 +60,7 @@ public class GGSpellRegistry {
     public static final Supplier <AbstractSpell> CORPSE_EXPLOSION = registerSpell(new CorpseExplosionSpell());
     public static final Supplier <AbstractSpell> FINALITY_OF_DECAY = registerSpell(new TheFinalityOfDecaySpell());
     public static final Supplier <AbstractSpell> ARM_OF_DECAY_PASSIVE = registerSpell(new ArmOfDecayUndeadRaise());
+    public static final Supplier <AbstractSpell> FIELD_OF_MOURNING = registerSpell(new FieldOfMourningSpell());
 
 
     //CRAFTABLE ELDRITCH

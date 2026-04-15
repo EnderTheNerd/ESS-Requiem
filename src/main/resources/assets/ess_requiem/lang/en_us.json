@@ -45,6 +45,7 @@
  "entity.ess_requiem.gilded_sword": "Gilded Sword",
  "entity.ess_requiem.greg": "Greg.",
  "entity.ess_requiem.bone_maggot": "Bone Maggot",
+ "entity.ess_requiem.tombstone": "Tombstone",
 
  "spell.ess_requiem.cataphract_tackle": "Cataphract Tackle (CREATIVE ONLY)",
  "spell.ess_requiem.cataphract_slam": "Cataphract Slam (CREATIVE ONLY)",
@@ -79,7 +80,8 @@
  "spell.ess_requiem.finality_of_decay.guide": "Unleash a countdown upon a target. Once the countdown reaches zero, the target takes heavy damage, and begins to rot and wither away rapidly.",
  "spell.ess_requiem.maggot_burst": "Maggot Burst",
  "spell.ess_requiem.maggot_burst.guide": "Cause one of your summons to burst from the inside out with bone maggots, the maggot amount scales with spell power",
-
+ "spell.ess_requiem.field_of_mourning": "Field of Mourning",
+ "spell.ess_requiem.field_of_mourning.desc": "Call forth graves, each grave summoning a horde of undead.",
 
  "spell.ess_requiem.ebony_armor": "Ebony Armor",
  "spell.ess_requiem.ebony_armor.guide": "Take on cursed Ebony Plating upon your body, enhancing all your physical aspects to the supreme. However, the plates shackle your spell casting, preventing it in full.",
@@ -169,10 +171,10 @@
  "item.ess_requiem.scythe_of_rotten_dreams": "Scythe of Rotten Dreams",
  "item.ess_requiem.scythe_of_frozen_dreams": "Scythe of Frozen Dreams",
  "item.ess_requiem.arm_of_decay": "Arm of Decay",
- "item.ess_requiem.arm_of_decay.desc": "When below 50% HP, strikes with the scythe call forth a massive army of undead.",
- "item.ess_requiem.arm_of_decay.lore": "Granted Divinity, The weapon pulses with its own heartbeat.",
+ "item.ess_requiem.arm_of_decay.desc": "Strikes with the scythe call forth a massive army of undead.",
+ "item.ess_requiem.arm_of_decay.lore": "Granted Divinity, The weapon promises you an eternal army.",
  "item.ess_requiem.nameless_ring": "Nameless Ring",
- "item.ess_requiem.nameless_ring.desc": "The ring of an unnamed king. You feel the power of decay within.",
+ "item.ess_requiem.nameless_ring.desc": "A recreation of the ring of an unnamed king. You feel a power of decay within.",
  "item.ess_requiem.cataphract_ring": "Cataphract Ring",
  "item.ess_requiem.cataphract_ring.desc": "A thorny red ring imbued with hate. They say the strength you receive from it would allow you to shatter blades even as thick as the Midnight Embrace.",
  "item.ess_requiem.dark_whisper": "Dark Whisper",

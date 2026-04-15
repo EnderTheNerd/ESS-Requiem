@@ -82,7 +82,7 @@ public class ArmOfDecayUndeadRaise extends AbstractSpell {
     }
 
     public int getSummonCount(int spellLevel, LivingEntity caster) {
-        return 10;
+        return 15;
     }
 
     @Override
@@ -103,7 +103,7 @@ public class ArmOfDecayUndeadRaise extends AbstractSpell {
     public void onCast(Level world, int spellLevel, LivingEntity entity, CastSource castSource, MagicData playerMagicData) {
 
             SummonedEntitiesCastData summonedEntitiesCastData = new SummonedEntitiesCastData();
-            int summonTime = 20 * 60 * 10;
+            int summonTime = 20 * 60;
             int count = getSummonCount(spellLevel, entity);
             float radius = 1.5f + .185f * count;
             for (int i = 0; i < count; i++) {
@@ -142,18 +142,26 @@ public class ArmOfDecayUndeadRaise extends AbstractSpell {
     private ItemStack[] getEquipment(float power, RandomSource random) {
         Item[] leather = {Items.LEATHER_BOOTS, Items.LEATHER_LEGGINGS, Items.LEATHER_CHESTPLATE, Items.LEATHER_HELMET};
         Item[] chain = {Items.CHAINMAIL_BOOTS, Items.CHAINMAIL_LEGGINGS, Items.CHAINMAIL_CHESTPLATE, Items.CHAINMAIL_HELMET};
-        Item[] iron = {Items.CHAINMAIL_BOOTS, Items.IRON_LEGGINGS, Items.CHAINMAIL_CHESTPLATE, Items.IRON_HELMET};
-
-        int minQuality = 12;
-        int maxQuality = getMaxLevel() * spellPowerPerLevel + 15;
+        Item[] iron = {Items.CHAINMAIL_BOOTS, Items.IRON_LEGGINGS, Items.IRON_CHESTPLATE, Items.IRON_HELMET};
+        Item[] diamond = {Items.DIAMOND_BOOTS, Items.DIAMOND_LEGGINGS, Items.DIAMOND_CHESTPLATE, Items.DIAMOND_HELMET};
+        Item[] netherite = {Items.NETHERITE_BOOTS, Items.NETHERITE_LEGGINGS, Items.NETHERITE_CHESTPLATE, Items.NETHERITE_HELMET};
+        int minQuality = 10;
+        int maxQuality = getMaxLevel() * spellPowerPerLevel + 25;
 
         ItemStack[] result = new ItemStack[4];
         for (int i = 0; i < 4; i++) {
             float quality = Mth.clamp((power + (random.nextIntBetweenInclusive(-3, 8)) - minQuality) / (maxQuality - minQuality), 0, .95f);
             if (random.nextDouble() < quality * quality) {
-                if (quality > .85) {
+
+                if (quality > .95) {
+                    result[i] = new ItemStack(netherite[i]);
+                }
+                else if (quality > .8) {
+                    result[i] = new ItemStack(diamond[i]);
+                }
+                else if (quality > .75) {
                     result[i] = new ItemStack(iron[i]);
-                } else if (quality > .15) {
+                } else if (quality > .10) {
                     result[i] = new ItemStack(chain[i]);
                 } else if (quality > .05) {
                     result[i] = new ItemStack(leather[i]);
