@@ -71,6 +71,9 @@ public class GGSoundRegistry {
 
     public static DeferredHolder<SoundEvent, SoundEvent> BANNER_SUMMON = registerSoundEvent("banner_summon");
 
+    //EVOCATION
+    public static DeferredHolder<SoundEvent, SoundEvent> GONG_CAST = registerSoundEvent("gong_cast");
+
 
     private static DeferredHolder<SoundEvent, SoundEvent> registerSoundEvent(String name)
     {

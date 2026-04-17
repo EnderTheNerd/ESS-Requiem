@@ -14,6 +14,7 @@ import net.ender.ess_requiem.spells.eldrtich.uncraftable.EbonyCataphractSpell;
 import net.ender.ess_requiem.spells.eldrtich.uncraftable.UnderTheCoverOfNightSpell;
 import net.ender.ess_requiem.spells.evocation.AdrenalineRushSpell;
 import net.ender.ess_requiem.spells.evocation.DisappearingActSpell;
+import net.ender.ess_requiem.spells.evocation.GongOfWeakeningSpell;
 import net.ender.ess_requiem.spells.evocation.SwitcharooSpell;
 import net.ender.ess_requiem.spells.holy.uncraftable.BastionOfLightSpell;
 import net.ender.ess_requiem.spells.holy.uncraftable.OverwhelmingLightSpell;
@@ -106,6 +107,7 @@ public class GGSpellRegistry {
     public static final Supplier <AbstractSpell> DISAPPEARING_ACT = registerSpell(new DisappearingActSpell());
     public static final Supplier <AbstractSpell> ADRENALINE_RUSH = registerSpell(new AdrenalineRushSpell());
     public static final Supplier <AbstractSpell> SWITCHAROO = registerSpell(new SwitcharooSpell());
+    public static final Supplier <AbstractSpell> WEAKENING_GONG =registerSpell(new GongOfWeakeningSpell());
 
     //CREATIVE ONLY/ABILITIES
     public static final Supplier <AbstractSpell> CATAPHRACT_TACKLE = registerSpell(new CataphractTackle());
