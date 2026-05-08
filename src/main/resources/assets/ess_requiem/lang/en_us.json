@@ -150,6 +150,8 @@
  "spell.ess_requiem.adrenaline_rush.guide": "Fuel your body with mana, boosting your adrenal response rapidly for a few moments, then become exhausted upon it wearing off.",
  "spell.ess_requiem.switcharoo": "Switcharoo",
  "spell.ess_requiem.switcharoo.guide": "Switch health with a target, you can only switch with anything with less max hp than the health limit.",
+ "spell.ess_requiem.gong": "Gong of Weakening",
+ "spell.ess_requie.gong.guide": "Set forth a resounding wave of energy, knocking back, doing low damage, and weakening targets.",
 
  "ui.enders_spells.not_empty_hand": "You try and flex your claws, yet something's in the way.",
  "ui.ess_requiem.desperate_damage": "%d Desperation Damage",

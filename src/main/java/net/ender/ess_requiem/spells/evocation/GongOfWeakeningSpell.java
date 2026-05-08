@@ -77,8 +77,14 @@ public class GongOfWeakeningSpell extends AbstractSpell {
         return CastType.LONG;
     }
 
+
     @Override
     public Optional<SoundEvent> getCastStartSound() {
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<SoundEvent> getCastFinishSound() {
         return Optional.of(GGSoundRegistry.GONG_CAST.get());
     }
 
@@ -96,13 +102,13 @@ public class GongOfWeakeningSpell extends AbstractSpell {
         float radius = getRadius(spellLevel, entity);
 
 
-        MagicManager.spawnParticles(level, new BlastwaveParticleOptions(GGSchoolRegistry.EVOCATION.get().getTargetingColor(), radius), entity.getX(), entity.getY() + .165f, entity.getZ(), 1, 0, 0, 0, 0, true);
+        MagicManager.spawnParticles(level, new BlastwaveParticleOptions(GGSchoolRegistry.ENDER.get().getTargetingColor(), radius), entity.getX(), entity.getY() + .165f, entity.getZ(), 1, 0, 0, 0, 0, true);
         PacketDistributor.sendToPlayersTrackingEntityAndSelf(entity, new ShockwaveParticlesPacket(new Vec3(entity.getX(), entity.getY() + .165f, entity.getZ()), radius, ParticleTypes.END_ROD));
         level.getEntities(entity, entity.getBoundingBox().inflate(radius, 4, radius), (target) -> !DamageSources.isFriendlyFireBetween(target, entity) && Utils.hasLineOfSight(level, entity, target, false)).forEach(target -> {
             if (target instanceof LivingEntity livingEntity && livingEntity.distanceToSqr(entity) < radius * radius) {
                 DamageSources.applyDamage(target, getDamage(spellLevel, entity), getDamageSource(entity));
 
-                target.setDeltaMovement(target.getDeltaMovement().subtract(entity.getLookAngle().scale(3)));
+                target.setDeltaMovement(target.getDeltaMovement().subtract(entity.getLookAngle().reverse().scale(1.2)));
             }
 
         });

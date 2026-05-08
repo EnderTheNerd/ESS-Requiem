@@ -12,23 +12,23 @@ public class EbonyCataphractEffect extends MobEffect {
 
     public EbonyCataphractEffect(MobEffectCategory category, int color) {
         super(MobEffectCategory.NEUTRAL, 13111603);
-        this.addAttributeModifier(Attributes.MOVEMENT_SPEED, ResourceLocation.fromNamespaceAndPath(EndersSpellsAndStuffRequiem.MOD_ID, "ebony_armor"),
+        this.addAttributeModifier(Attributes.MOVEMENT_SPEED, ResourceLocation.fromNamespaceAndPath(EndersSpellsAndStuffRequiem.MOD_ID, "ebony_cataphract"),
+                .40, AttributeModifier.Operation.ADD_MULTIPLIED_BASE);
+        this.addAttributeModifier(Attributes.ATTACK_DAMAGE, ResourceLocation.fromNamespaceAndPath(EndersSpellsAndStuffRequiem.MOD_ID, "ebony_cataphract"),
                 .30, AttributeModifier.Operation.ADD_MULTIPLIED_BASE);
-        this.addAttributeModifier(Attributes.ATTACK_DAMAGE, ResourceLocation.fromNamespaceAndPath(EndersSpellsAndStuffRequiem.MOD_ID, "ebony_armor"),
-                .30, AttributeModifier.Operation.ADD_MULTIPLIED_BASE);
-        this.addAttributeModifier(Attributes.ARMOR, ResourceLocation.fromNamespaceAndPath(EndersSpellsAndStuffRequiem.MOD_ID, "ebony_armor"),
+        this.addAttributeModifier(Attributes.ARMOR, ResourceLocation.fromNamespaceAndPath(EndersSpellsAndStuffRequiem.MOD_ID, "ebony_cataphract"),
                 .25, AttributeModifier.Operation.ADD_MULTIPLIED_BASE);
-        this.addAttributeModifier(Attributes.MAX_HEALTH,ResourceLocation.fromNamespaceAndPath(EndersSpellsAndStuffRequiem.MOD_ID, "ebony_armor"),
-                8, AttributeModifier.Operation.ADD_VALUE);
-        this.addAttributeModifier(Attributes.ATTACK_SPEED, ResourceLocation.fromNamespaceAndPath(EndersSpellsAndStuffRequiem.MOD_ID, "ebony_armor"),
+        this.addAttributeModifier(Attributes.MAX_HEALTH,ResourceLocation.fromNamespaceAndPath(EndersSpellsAndStuffRequiem.MOD_ID, "ebony_cataphract"),
+                12, AttributeModifier.Operation.ADD_VALUE);
+        this.addAttributeModifier(Attributes.ATTACK_SPEED, ResourceLocation.fromNamespaceAndPath(EndersSpellsAndStuffRequiem.MOD_ID, "ebony_cataphract"),
                 .2, AttributeModifier.Operation.ADD_MULTIPLIED_BASE);
-        this.addAttributeModifier(Attributes.ARMOR_TOUGHNESS, ResourceLocation.fromNamespaceAndPath(EndersSpellsAndStuffRequiem.MOD_ID, "ebony_armor"), .1,
+        this.addAttributeModifier(Attributes.ARMOR_TOUGHNESS, ResourceLocation.fromNamespaceAndPath(EndersSpellsAndStuffRequiem.MOD_ID, "ebony_cataphract"), .1,
                 AttributeModifier.Operation.ADD_MULTIPLIED_BASE);
-        this.addAttributeModifier(AttributeRegistry.MANA_REGEN, ResourceLocation.fromNamespaceAndPath(EndersSpellsAndStuffRequiem.MOD_ID, "ebony_armor"), -1,
+        this.addAttributeModifier(AttributeRegistry.MANA_REGEN, ResourceLocation.fromNamespaceAndPath(EndersSpellsAndStuffRequiem.MOD_ID, "ebony_cataphract"), -1,
                 AttributeModifier.Operation.ADD_MULTIPLIED_BASE);
-        this.addAttributeModifier(Attributes.KNOCKBACK_RESISTANCE, ResourceLocation.fromNamespaceAndPath(EndersSpellsAndStuffRequiem.MOD_ID, "ebony_armor"), .2,
+        this.addAttributeModifier(Attributes.KNOCKBACK_RESISTANCE, ResourceLocation.fromNamespaceAndPath(EndersSpellsAndStuffRequiem.MOD_ID, "ebony_cataphract"), .2,
                 AttributeModifier.Operation.ADD_MULTIPLIED_BASE);
-        this.addAttributeModifier(AttributeRegistry.SPELL_RESIST, ResourceLocation.fromNamespaceAndPath(EndersSpellsAndStuffRequiem.MOD_ID, "ebony_armor"), .20,
+        this.addAttributeModifier(AttributeRegistry.SPELL_RESIST, ResourceLocation.fromNamespaceAndPath(EndersSpellsAndStuffRequiem.MOD_ID, "ebony_cataphract"), .20,
                 AttributeModifier.Operation.ADD_MULTIPLIED_BASE);
     }
 }

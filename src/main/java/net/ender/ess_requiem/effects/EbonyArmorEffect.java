@@ -9,14 +9,14 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 
 
-public class EbonyArmorEffect extends MobEffect {
+public class  EbonyArmorEffect extends MobEffect {
 
     public EbonyArmorEffect(MobEffectCategory category, int color) {
         super(MobEffectCategory.NEUTRAL, 2367002);
         this.addAttributeModifier(Attributes.MOVEMENT_SPEED, ResourceLocation.fromNamespaceAndPath(EndersSpellsAndStuffRequiem.MOD_ID, "ebony_armor"),
                 .08, AttributeModifier.Operation.ADD_MULTIPLIED_BASE);
         this.addAttributeModifier(Attributes.ATTACK_DAMAGE, ResourceLocation.fromNamespaceAndPath(EndersSpellsAndStuffRequiem.MOD_ID, "ebony_armor"),
-                .5, AttributeModifier.Operation.ADD_MULTIPLIED_BASE);
+                .05, AttributeModifier.Operation.ADD_MULTIPLIED_BASE);
         this.addAttributeModifier(Attributes.ARMOR, ResourceLocation.fromNamespaceAndPath(EndersSpellsAndStuffRequiem.MOD_ID, "ebony_armor"),
                 .08, AttributeModifier.Operation.ADD_MULTIPLIED_BASE);
         this.addAttributeModifier(Attributes.MAX_HEALTH,ResourceLocation.fromNamespaceAndPath(EndersSpellsAndStuffRequiem.MOD_ID, "ebony_armor"),
