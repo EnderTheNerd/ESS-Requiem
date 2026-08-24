@@ -42,7 +42,7 @@ public class BastionOfLightSpell extends AbstractSpell {
         this.baseSpellPower = 20;
         this.spellPowerPerLevel = 0;
         this.castTime = 0;
-        this.baseManaCost = 320;
+        this.baseManaCost = 350;
     }
 
     @Override
@@ -63,7 +63,7 @@ public class BastionOfLightSpell extends AbstractSpell {
     @Override
     public void onCast(Level level, int spellLevel, LivingEntity entity, CastSource castSource, MagicData playerMagicData) {
         int i = getDuration(baseSpellPower, entity);
-        entity.addEffect(new MobEffectInstance(GGEffectRegistry.BASTION_OF_LIGHT, i, spellLevel -1, false, false, true));
+        entity.addEffect(new MobEffectInstance(GGEffectRegistry.BASTION_OF_LIGHT, i, 0, false, false, true));
 
         super.onCast(level, spellLevel, entity, castSource, playerMagicData);
     }

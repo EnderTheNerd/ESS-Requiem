@@ -160,6 +160,14 @@
     "sounds": [
       "ess_requiem:gong_cast"
     ]
+  },
+  "avant_garde": {
+    "sounds": [
+      {
+        "name": "ess_requiem:jjpakdg_song",
+        "stream": true
+      }
+    ]
   }
 }
 

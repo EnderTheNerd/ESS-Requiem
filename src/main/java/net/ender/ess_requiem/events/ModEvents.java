@@ -1,10 +1,7 @@
 package net.ender.ess_requiem.events;
 
 import dev.shadowsoffire.apothic_attributes.api.ALObjects;
-import io.redspace.ironsspellbooks.api.events.CounterSpellEvent;
-import io.redspace.ironsspellbooks.api.events.SpellOnCastEvent;
-import io.redspace.ironsspellbooks.api.events.SpellPreCastEvent;
-import io.redspace.ironsspellbooks.api.events.SpellSummonEvent;
+import io.redspace.ironsspellbooks.api.events.*;
 import io.redspace.ironsspellbooks.api.magic.MagicData;
 
 import io.redspace.ironsspellbooks.api.registry.SchoolRegistry;
@@ -15,16 +12,24 @@ import io.redspace.ironsspellbooks.capabilities.magic.MagicManager;
 import io.redspace.ironsspellbooks.entity.mobs.IMagicSummon;
 
 import io.redspace.ironsspellbooks.entity.mobs.SummonedZombie;
+import io.redspace.ironsspellbooks.entity.mobs.dead_king_boss.DeadKingBoss;
 import io.redspace.ironsspellbooks.entity.mobs.frozen_humanoid.FrozenHumanoid;
+import io.redspace.ironsspellbooks.item.weapons.StaffItem;
+import io.redspace.ironsspellbooks.item.weapons.StaffTier;
+import io.redspace.ironsspellbooks.item.weapons.pyrium_staff.PyriumStaffItem;
 import io.redspace.ironsspellbooks.particle.BlastwaveParticleOptions;
 import io.redspace.ironsspellbooks.player.SpinAttackType;
+import io.redspace.ironsspellbooks.registries.ItemRegistry;
 import io.redspace.ironsspellbooks.registries.MobEffectRegistry;
 import io.redspace.ironsspellbooks.registries.ParticleRegistry;
 import io.redspace.ironsspellbooks.registries.SoundRegistry;
 import io.redspace.ironsspellbooks.spells.eldritch.SculkTentaclesSpell;
 import io.redspace.ironsspellbooks.util.ParticleHelper;
+import net.acetheeldritchking.aces_spell_utils.network.RemoveShaderEffectPacket;
+import net.ender.ess_requiem.EndersSpellsAndStuffRequiem;
 import net.ender.ess_requiem.compat.dte.dte_registry.DTE_EffectRegistry;
 import net.ender.ess_requiem.effects.AdrenalineRushEffect;
+import net.ender.ess_requiem.entity.mobs.death_knight.DeathKnightEntity;
 import net.ender.ess_requiem.entity.mobs.nightmare.NightmareEntity;
 import net.ender.ess_requiem.item.sword_tier.BloodWeapons.ArmOfDecay;
 import net.ender.ess_requiem.item.sword_tier.BloodWeapons.ScytheOfRottenDreams;
@@ -81,6 +86,7 @@ import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.MobEffectEvent;
 import net.neoforged.neoforge.event.entity.player.AttackEntityEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
+import net.neoforged.neoforge.network.PacketDistributor;
 import org.checkerframework.checker.units.qual.A;
 
 import java.util.Objects;
@@ -88,6 +94,13 @@ import java.util.Objects;
 @EventBusSubscriber
 public class ModEvents {
 
+
+    @SubscribeEvent
+    public static void modifyModNameDisplay(CustomizeScrollModNameEvent event){
+        if(event.getModId().equals(EndersSpellsAndStuffRequiem.MOD_ID)){
+            event.setModName(event.getModName().copy().withStyle(ChatFormatting.DARK_RED,ChatFormatting.ITALIC));
+        }
+    }
 
     @SubscribeEvent
     public static void CataphractWeaponTransformation(LivingDamageEvent.Pre event) {
@@ -110,6 +123,29 @@ public class ModEvents {
     }
 
     @SubscribeEvent
+    public static void BloodStaffEvolution(LivingDeathEvent event) {
+        var sourceEntity = event.getSource().getEntity();
+        var dead_thing = event.getEntity();
+        if (sourceEntity instanceof ServerPlayer serverPlayer) {
+            if (serverPlayer.hasEffect(GGEffectRegistry.LORD_OF_DECAY)) {
+                if (serverPlayer.getMainHandItem().is(ItemRegistry.BLOOD_STAFF) && dead_thing instanceof DeadKingBoss deadKingBoss) {
+                    if (deadKingBoss.isOminous()) {
+                        serverPlayer.getInventory().setItem(serverPlayer.getInventory().selected, new ItemStack(GGItemRegistry.REQUIEM_STAFF.get()));
+                    }
+
+                }
+
+            }
+        }
+
+    }
+
+
+
+
+
+
+    @SubscribeEvent
     public static void SleepingProtection(LivingIncomingDamageEvent event) {
         var targetEntity = event.getEntity();
         var damager = event.getSource().getDirectEntity();
@@ -123,6 +159,30 @@ public class ModEvents {
         }
 
     }
+
+    @SubscribeEvent
+    public static void DeathKnightRage(LivingDeathEvent event){
+        var killer = event.getSource();
+
+        if (killer != null && killer.getEntity() instanceof DeathKnightEntity attacker
+        ) {
+
+            var effect = attacker.getEffect(GGEffectRegistry.DEATH_KNIGHT_KILL_RAGE);
+
+
+            if (attacker.hasEffect(GGEffectRegistry.DEATH_KNIGHT_KILL_RAGE)) {
+                var amp = effect.getAmplifier();
+                attacker.addEffect(new MobEffectInstance(GGEffectRegistry.DEATH_KNIGHT_KILL_RAGE, 10000, amp + 1 ));
+                attacker.heal(5F + amp);
+
+            }
+            else {
+                attacker.addEffect(new MobEffectInstance(GGEffectRegistry.DEATH_KNIGHT_KILL_RAGE, 10000, 0));
+                attacker.heal(5F);
+            }
+        }
+    }
+
 
 
     @SubscribeEvent
@@ -194,69 +254,6 @@ public class ModEvents {
 
 }
 
-
-
-   // @SubscribeEvent
-   // public static void WeaponCombining(PlayerInteractEvent.RightClickItem event) {
-      //  var entity = event.getEntity();
-       // if (entity instanceof ServerPlayer serverPlayer) {
-          //  ItemStack mainhandItem = serverPlayer.getMainHandItem();
-          //  ItemStack offhandItem = serverPlayer.getOffhandItem();
-          //  if (serverPlayer.isCrouching() && (mainhandItem.getItem() instanceof SkyfallsCause && offhandItem.getItem() instanceof SwiftDemise)) {
-            //    serverPlayer.displayClientMessage(Component.literal(ChatFormatting.ITALIC + "Your weapons refuse to move whilst crouched.")
-                //        .withStyle(s -> s.withColor(TextColor.fromRgb(14522123))), true);
-
-
-         //   }
-
-          // var usedHand = InteractionHand usedHand;
-          //  if (serverPlayer.isCrouching() && (mainhandItem.getItem() instanceof SwiftDemise && offhandItem.getItem() instanceof SkyfallsCause)) {
-              //  serverPlayer.displayClientMessage(Component.literal(ChatFormatting.ITALIC + "Your weapons refuse to move whilst crouched.")
-                //        .withStyle(s -> s.withColor(TextColor.fromRgb(14522123))), true);
-              //  serverPlayer.setItemInHand(usedHand, new ItemStack(GGItemRegistry.INTERTWINED_PEAK.get()));
-
-         //   }
-          //  else if (mainhandItem.getItem() instanceof SwiftDemise && offhandItem.getItem() instanceof SkyfallsCause) {
-
-              //  serverPlayer.level().playSound(null, serverPlayer.getX(), serverPlayer.getY(), serverPlayer.getZ(), GGSoundRegistry.PARRY, SoundSource.NEUTRAL, .8F, 1.3F);
-              //  serverPlayer.getInventory().offhand.clear();
-
-           // }
-          //  else if (mainhandItem.getItem() instanceof SkyfallsCause && offhandItem.getItem() instanceof SwiftDemise) {
-             //   serverPlayer.setItemInHand(usedHand, new ItemStack(GGItemRegistry.INTERTWINED_PEAK.get()));
-              //  serverPlayer.level().playSound(null, serverPlayer.getX(), serverPlayer.getY(), serverPlayer.getZ(), GGSoundRegistry.PARRY, SoundSource.NEUTRAL, .8F, 1.3F);
-              //  serverPlayer.getInventory().offhand.clear();
-
-         //   }
-// serverPlayer.getInventory().setItem(serverPlayer.getInventory().selected, new ItemStack((ItemLike) GGItemRegistry.INTERTWINED_PEAK));
-
-       // }
-   // }
-
-  //  @SubscribeEvent
-   // public static void UncombiningWeapons(PlayerInteractEvent.RightClickItem event) {
-       // var entity = event.getEntity();
-       // if (entity instanceof ServerPlayer serverPlayer) {
-          //  var inventoryCheck = serverPlayer.getInventory().getFreeSlot();
-          //  ItemStack mainhandItem = ((LivingEntity) serverPlayer).getMainHandItem();
-          //  if (inventoryCheck == -1 && mainhandItem.getItem() instanceof IntertwinedPeak) {
-           //     serverPlayer.displayClientMessage(Component.literal(ChatFormatting.ITALIC + "Your weapon refuses to move.")
-                   //     .withStyle(s -> s.withColor(TextColor.fromRgb(14522123))), true);
-
-         //  } else if (serverPlayer.isCrouching() && mainhandItem.getItem() instanceof IntertwinedPeak) {
-            //    if (mainhandItem.getItem() instanceof IntertwinedPeak && serverPlayer.isCrouching()) {
-              //      serverPlayer.getInventory().setItem(serverPlayer.getInventory().selected, new ItemStack((ItemLike) GGItemRegistry.SWIFT_DEMISE));
-                //    serverPlayer.getInventory().setItem(serverPlayer.getInventory().getFreeSlot(), new ItemStack((ItemLike) GGItemRegistry.SKYFALLS_CAUSE));
-                //    serverPlayer.level().playSound(null, serverPlayer.getX(), serverPlayer.getY(), serverPlayer.getZ(), GGSoundRegistry.PARRY, SoundSource.NEUTRAL, .8F, 1.3F);
-//    }
-          //  } else if (mainhandItem.getItem() instanceof IntertwinedPeak) {
-         //       serverPlayer.displayClientMessage(Component.literal(ChatFormatting.ITALIC + "Your weapon refuses to move whilst standing")
-                //        .withStyle(s -> s.withColor(TextColor.fromRgb(14522123))), true);
-          //  }
-      //  }
-
-   // }
-
     @SubscribeEvent
     public static void PactAttackDay(LivingDamageEvent.Post event) {
         var attacker = event.getSource().getDirectEntity();
@@ -305,15 +302,27 @@ public class ModEvents {
         var livingEntity = event.getEntity();
         if (livingEntity instanceof ServerPlayer player && player.hasEffect(GGEffectRegistry.BASTION_OF_LIGHT)) {
             MagicData magicData = MagicData.getPlayerMagicData(livingEntity);
-            if (magicData.getMana() > 250) {
+            if (magicData.getMana() > 350) {
                 event.setCanceled(true);
                 livingEntity.level().playSound(null, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), SoundRegistry.CLEANSE_CAST, SoundSource.NEUTRAL, .8F, 1.3F);
-                magicData.setMana(magicData.getMana() - 100);
+                magicData.setMana(magicData.getMana() - (event.getAmount() * 10));
             } else {
                 event.setCanceled(false);
+                livingEntity.removeEffect(GGEffectRegistry.BASTION_OF_LIGHT);
             }
 
         }
+    }
+
+    @SubscribeEvent
+    public static void HordeWeakness(LivingDamageEvent.Pre event) {
+        var livingEntity = event.getEntity();
+        var attacker = event.getSource().getDirectEntity();
+        if (livingEntity.hasEffect(GGEffectRegistry.HORDE_WEAKNESS) && attacker instanceof IMagicSummon) {
+            event.setNewDamage(event.getOriginalDamage() * 1.5F);
+
+        }
+
     }
 
     @SubscribeEvent
@@ -416,11 +425,7 @@ public class ModEvents {
 
     }
 
-    @SubscribeEvent
-    public static void AdrenalFatigueStacking(MobEffectEvent.Added event) {
 
-
-    }
 
     @SubscribeEvent
     public static void AdrenalineRush(MobEffectEvent.Expired event) {
@@ -428,19 +433,17 @@ public class ModEvents {
         if (event.getEffectInstance().is(GGEffectRegistry.ADRENALINE_RUSH) && event.getEntity() instanceof LivingEntity entity) {
 
 
-            if (entity.hasEffect(GGEffectRegistry.ADRENAL_FATIGUE)) {
-                    MobEffectInstance fatigue = entity.getEffect(GGEffectRegistry.ADRENAL_FATIGUE);
-                    MobEffectInstance mobEffect;
 
-                    if (fatigue != null) {
-                        mobEffect = new MobEffectInstance(GGEffectRegistry.ADRENAL_FATIGUE, 4800, fatigue.getAmplifier() + 1, fatigue.isAmbient(), fatigue.isVisible(), fatigue.showIcon());
-                    }
-            }
+            var amplifier = event.getEffectInstance().getAmplifier();
 
-            entity.addEffect(new MobEffectInstance(GGEffectRegistry.ADRENAL_FATIGUE, 1200));
+
+            entity.addEffect(new MobEffectInstance(GGEffectRegistry.ADRENAL_FATIGUE, 4800, amplifier + 1));
         }
 
+
     }
+
+
 
 
 
@@ -491,6 +494,9 @@ public class ModEvents {
         }
     }
 
+
+
+
     private static boolean isUnderSunTick(Level level, LivingEntity entity) {
         if (level.isDay() && !level.isClientSide) {
             float f = entity.getLightLevelDependentMagicValue();
@@ -519,16 +525,25 @@ public class ModEvents {
         if (event.getEntity() instanceof IMagicSummon summon) {
             if (summon.getSummoner() != null && summon.getSummoner() instanceof ServerPlayer player) {
                 MagicData magicData = MagicData.getPlayerMagicData(player);
-
-                if (player.hasEffect(GGEffectRegistry.REAPER) && magicData.getMana() > 100) {
-                    magicData.setMana(magicData.getMana() + 150);
+                var mana_return = event.getEntity().getMaxHealth();
+              if (player.hasEffect(GGEffectRegistry.LORD_OF_DECAY)) {
+                  player.addEffect(new MobEffectInstance(MobEffects.HEAL, 5));
+              }
+              else if (player.hasEffect(GGEffectRegistry.DECAYING_MIGHT)) {
+                  player.addEffect(new MobEffectInstance(MobEffects.HEAL, 5));
+              }
+               else if (player.hasEffect(GGEffectRegistry.REAPER)) {
+                    magicData.setMana(magicData.getMana() + mana_return);
+                    player.addEffect(new MobEffectInstance(MobEffects.HEAL, 5));
                 }
-                player.addEffect(new MobEffectInstance(MobEffects.HEAL, 1));
+
 
 
             }
         }
     }
+
+
 
 
     @SubscribeEvent
@@ -569,13 +584,55 @@ public class ModEvents {
                             .withStyle(s -> s.withColor(TextColor.fromRgb(3289650))), true);
                     event.setCanceled(true);
                     event.getEntity().setHealth(event.getEntity().getMaxHealth());
-                    if (event.getSource().getEntity() instanceof LivingEntity) {
 
-                    }
                 }
             }
         }
     }
+
+    @SubscribeEvent
+    public static void BloodDomainRevive(LivingDeathEvent event) {
+        if (event.getEntity() instanceof IMagicSummon) {
+            IMagicSummon summon = (IMagicSummon) event.getEntity();
+            if (summon.getSummoner() != null && summon.getSummoner() instanceof ServerPlayer) {
+                ServerPlayer summoner = (ServerPlayer) summon.getSummoner();
+                if (summoner.hasEffect(GGEffectRegistry.BLOOD_DOMAIN)) {
+                    event.setCanceled(true);
+                    event.getEntity().setHealth(event.getEntity().getMaxHealth());
+                    event.getEntity().addEffect(new MobEffectInstance(MobEffectRegistry.ABYSSAL_SHROUD, 10));
+
+                }
+            }
+        }
+    }
+
+
+
+    @SubscribeEvent
+    public static void ShaderRemove(LivingDeathEvent event) {
+        if (event.getEntity() instanceof IMagicSummon) {
+            IMagicSummon summon = (IMagicSummon) event.getEntity();
+            if (summon.getSummoner() != null && summon.getSummoner() instanceof ServerPlayer) {
+                ServerPlayer summoner = (ServerPlayer) summon.getSummoner();
+                MagicData magicData = MagicData.getPlayerMagicData(summoner);
+                if (summoner.hasEffect(GGEffectRegistry.LORD_OF_FROST) && magicData.getMana() > 10) {
+                    magicData.setMana(magicData.getMana() - 10);
+                    summoner.displayClientMessage(Component.literal(ChatFormatting.ITALIC + "Summon condemned to frost")
+                            .withStyle(s -> s.withColor(TextColor.fromRgb(11131887))), true);
+
+                    FrozenHumanoid iceClone = new FrozenHumanoid(summoner.level(), (LivingEntity) summon);
+                    iceClone.setSummoner(summoner);
+                    iceClone.setShatterDamage(25);
+                    iceClone.setDeathTimer(5);
+                    summoner.level().addFreshEntity(iceClone);
+                    iceClone.deathTime = 1000;
+                    iceClone.playSound(SoundRegistry.FROSTBITE_FREEZE.get(), 2, Utils.random.nextInt(9, 11) * .1f);
+                }
+            }
+        }
+    }
+
+
 
     @SubscribeEvent
     public static void FreezeStatueExplode(LivingDeathEvent event) {
@@ -666,30 +723,24 @@ public class ModEvents {
         var attacker = event.getSource().getDirectEntity();
 
         MagicData magicData = MagicData.getPlayerMagicData(attacked);
-        if ((attacked.hasEffect(GGEffectRegistry.PROTECTION_OF_ASHES) && magicData.getMana() > 75)) {
+        if ((attacked.hasEffect(GGEffectRegistry.PROTECTION_OF_ASHES) && magicData.getMana() > 35)) {
 
             if (attacker instanceof Projectile projectile) {
                 var attacker2 = projectile.getOwner();
                 assert attacker2 != null;
 
-                magicData.setMana(magicData.getMana() - 75);
-                attacker2.hurt(attacker2.damageSources().magic(), 3);
+                magicData.setMana(magicData.getMana() - 35);
+                attacker2.hurt(attacker2.damageSources().magic(), 10);
                 attacked.level().playSound(null, attacked.getX(), attacked.getY(), attacked.getZ(),
                         SoundRegistry.KEEPER_SWORD_IMPACT, SoundSource.PLAYERS, 0.3f, 1f);
-                event.setNewDamage(event.getOriginalDamage() * .5F);
-
-
                 MagicManager.spawnParticles(attacked.level(), ParticleTypes.FALLING_OBSIDIAN_TEAR, attacker2.getX(), attacker2.getY() + .25f, attacker2.getZ(), 100, .03, .4, .03, .4, false);
 
             } else {
-                magicData.setMana(magicData.getMana() - 75);
+                magicData.setMana(magicData.getMana() - 35);
                 assert attacker != null;
-                attacker.hurt(attacker.damageSources().magic(), 3);
+                attacker.hurt(attacker.damageSources().magic(), 10);
                 attacked.level().playSound(null, attacked.getX(), attacked.getY(), attacked.getZ(),
                         SoundRegistry.KEEPER_SWORD_IMPACT, SoundSource.PLAYERS, 0.3f, 1f);
-                event.setNewDamage(event.getOriginalDamage() * .5F);
-
-
                 MagicManager.spawnParticles(attacked.level(), ParticleTypes.FALLING_OBSIDIAN_TEAR, attacker.getX(), attacker.getY() + .25f, attacker.getZ(), 100, .03, .4, .03, .4, false);
             }
 
@@ -707,18 +758,19 @@ public class ModEvents {
             ItemStack mainhandItem = livingEntity.getMainHandItem();
 
             //ARM OF DECAY (YES ACE IM COPYING YOUR ORGANIZATION STYLE)
-            if (mainhandItem.getItem() instanceof ArmOfDecay && (!(livingEntity instanceof Player player) || !player.getCooldowns().isOnCooldown(GGItemRegistry.ARM_OF_DECAY.get()))) {
+            if (mainhandItem.getItem() instanceof ArmOfDecay  && (!(livingEntity instanceof Player player) || !player.getCooldowns().isOnCooldown(GGItemRegistry.ARM_OF_DECAY.get()))) {
 
 
                 assert livingEntity instanceof ServerPlayer;
+                if (livingEntity.hasEffect(GGEffectRegistry.LORD_OF_DECAY)) {
                     GGSpellRegistry.ARM_OF_DECAY_PASSIVE.get().castSpell(event.getEntity().level(), 1, (ServerPlayer) livingEntity, CastSource.SWORD, true);
+                }
+                else {
+                    GGSpellRegistry.ARM_OF_DECAY_WEAK_PASSIVE.get().castSpell(event.getEntity().level(), 1, (ServerPlayer) livingEntity, CastSource.SWORD, true);
+                }
 
-                    if (livingEntity instanceof Player player) {
-                        player.getCooldowns().addCooldown(GGItemRegistry.ARM_OF_DECAY.get(), ArmOfDecay.COOLDOWN);
-                    }
-
-
-
+                Player player = (Player) livingEntity;
+                player.getCooldowns().addCooldown(GGItemRegistry.ARM_OF_DECAY.get(), ArmOfDecay.COOLDOWN);
 
 
             }
@@ -826,6 +878,25 @@ public class ModEvents {
 
     }
 
+
+    @SubscribeEvent
+    public static void SummonHealth(SpellSummonEvent event) {
+        var summon = event.getCreature();
+
+        if (summon instanceof IMagicSummon spawned) {
+            var summoner = spawned.getSummoner();
+            if (summoner instanceof LivingEntity entity) {
+
+                var health = summon.getAttributeValue(Attributes.MAX_HEALTH);
+                var health_new = (health * entity.getAttributeValue(GGAttributeRegistry.SUMMON_HEALTH));
+
+                    summon.getAttribute(Attributes.MAX_HEALTH).setBaseValue(health_new);
+                    summon.setHealth(summon.getMaxHealth());
+
+
+            }
+        }
+    }
 }
 
 

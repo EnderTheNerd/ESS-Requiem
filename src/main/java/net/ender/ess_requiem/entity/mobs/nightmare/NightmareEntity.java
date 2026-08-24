@@ -6,6 +6,7 @@ import io.redspace.ironsspellbooks.api.util.Utils;
 import io.redspace.ironsspellbooks.capabilities.magic.MagicManager;
 import io.redspace.ironsspellbooks.entity.mobs.IAnimatedAttacker;
 import io.redspace.ironsspellbooks.entity.mobs.IMagicSummon;
+import io.redspace.ironsspellbooks.entity.mobs.abstract_spell_casting_mob.AbstractSpellCastingMob;
 import io.redspace.ironsspellbooks.entity.mobs.goals.*;
 import io.redspace.ironsspellbooks.entity.mobs.goals.melee.AttackAnimationData;
 import io.redspace.ironsspellbooks.registries.MobEffectRegistry;
@@ -43,7 +44,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.UUID;
 
-public class NightmareEntity  extends UniqueAbstractSpellCastingMob implements IMagicSummon, IAnimatedAttacker {
+public class NightmareEntity  extends AbstractSpellCastingMob implements IMagicSummon, IAnimatedAttacker {
 
     protected LivingEntity cachedSummoner;
     protected UUID summonerUUID;
@@ -58,7 +59,7 @@ public class NightmareEntity  extends UniqueAbstractSpellCastingMob implements I
 
     }
 
-    public NightmareEntity(EntityType<? extends UniqueAbstractSpellCastingMob> entityType, Level world) {
+    public NightmareEntity(EntityType<? extends AbstractSpellCastingMob> entityType, Level world) {
         super(entityType, world);
         SingletonGeoAnimatable.registerSyncedAnimatable(this);
         xpReward = 0;

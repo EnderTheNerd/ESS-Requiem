@@ -1,8 +1,12 @@
 package net.ender.ess_requiem.registries;
 
+import io.redspace.ironsspellbooks.api.registry.AttributeRegistry;
 import io.redspace.ironsspellbooks.api.registry.SchoolRegistry;
 import io.redspace.ironsspellbooks.api.spells.SchoolType;
+import io.redspace.ironsspellbooks.damage.DamageSources;
+import io.redspace.ironsspellbooks.damage.ISSDamageTypes;
 import io.redspace.ironsspellbooks.registries.SoundRegistry;
+import io.redspace.ironsspellbooks.util.ModTags;
 import net.ender.ess_requiem.EndersSpellsAndStuffRequiem;
 import net.ender.ess_requiem.Util.GGTags;
 import net.ender.ess_requiem.damage.GGDamageTypes;
@@ -53,6 +57,18 @@ public class GGSchoolRegistry extends SchoolRegistry {
             GGAttributeRegistry.BLADE_MAGIC_RESIST,
             SoundRegistry.DEAD_KING_SWING,
             GGDamageTypes.BLADE_MAGIC
+    ));
+
+    public static final ResourceLocation VOODOO_RESOURCE = ResourceLocation.fromNamespaceAndPath(EndersSpellsAndStuffRequiem.MOD_ID, "voodoo");
+
+    public static final Supplier<SchoolType> VOODOO = (Supplier<SchoolType>) registerSchool(new SchoolType(
+            VOODOO_RESOURCE,
+            ModTags.BLOOD_FOCUS,
+            Component.translatable("school.ess_requiem.voodoo").withColor(5376800),
+            AttributeRegistry.BLOOD_SPELL_POWER,
+            AttributeRegistry.BLOOD_MAGIC_RESIST,
+            SoundRegistry.BLOOD_CAST,
+            ISSDamageTypes.BLOOD_MAGIC
     ));
 
 

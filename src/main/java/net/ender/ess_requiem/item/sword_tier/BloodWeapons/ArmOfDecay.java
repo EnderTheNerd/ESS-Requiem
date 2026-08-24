@@ -5,7 +5,6 @@ import io.redspace.ironsspellbooks.api.item.weapons.MagicSwordItem;
 import io.redspace.ironsspellbooks.api.registry.SpellDataRegistryHolder;
 import io.redspace.ironsspellbooks.api.util.Utils;
 import io.redspace.ironsspellbooks.item.UniqueItem;
-import io.redspace.ironsspellbooks.util.ItemPropertiesHelper;
 import io.redspace.ironsspellbooks.util.MinecraftInstanceHelper;
 import net.acetheeldritchking.aces_spell_utils.utils.ASRarities;
 import net.ender.ess_requiem.item.GGSwordTier;
@@ -14,18 +13,18 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 
 import java.util.List;
 
 public class ArmOfDecay extends MagicSwordItem implements UniqueItem {
-    public static final int COOLDOWN = 650;
+    public static final int COOLDOWN = 640;
 
 
     public ArmOfDecay() {
-        super(GGSwordTier.ARM_OF_DECAY, ItemPropertiesHelper.equipment().rarity(ASRarities.COSMIC_RARITY_PROXY.getValue()).attributes(ExtendedSwordItem.createAttributes(GGSwordTier.ARM_OF_DECAY)),
+        super(GGSwordTier.ARM_OF_DECAY,  new Item.Properties().rarity(ASRarities.COSMIC_RARITY_PROXY.getValue()).attributes(ExtendedSwordItem.createAttributes(GGSwordTier.ARM_OF_DECAY)),
                 SpellDataRegistryHolder.of(
                         new SpellDataRegistryHolder(GGSpellRegistry.FIELD_OF_MOURNING, 1),
                         new SpellDataRegistryHolder(GGSpellRegistry.CORPSE_EXPLOSION, 1),

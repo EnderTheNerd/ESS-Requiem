@@ -4,7 +4,6 @@ import io.redspace.ironsspellbooks.api.item.weapons.ExtendedSwordItem;
 import io.redspace.ironsspellbooks.api.item.weapons.MagicSwordItem;
 import io.redspace.ironsspellbooks.api.registry.SpellDataRegistryHolder;
 import io.redspace.ironsspellbooks.api.util.Utils;
-import io.redspace.ironsspellbooks.util.ItemPropertiesHelper;
 import io.redspace.ironsspellbooks.util.MinecraftInstanceHelper;
 import net.acetheeldritchking.aces_spell_utils.utils.ASRarities;
 import net.ender.ess_requiem.item.GGSwordTier;
@@ -20,11 +19,11 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.Unbreakable;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.registries.DeferredRegister;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -33,7 +32,7 @@ public class SwiftDemise extends MagicSwordItem {
     public static final int COOLDOWN = 180;
 
     public SwiftDemise() {
-        super(GGSwordTier.SWIFT_DEMISE, ItemPropertiesHelper.equipment().component(DataComponents.UNBREAKABLE, new Unbreakable(true)).fireResistant().rarity(ASRarities.COSMIC_RARITY_PROXY.getValue()).attributes(ExtendedSwordItem.createAttributes(GGSwordTier.SWIFT_DEMISE)),
+        super(GGSwordTier.SWIFT_DEMISE,  new Item.Properties().component(DataComponents.UNBREAKABLE, new Unbreakable(true)).fireResistant().rarity(ASRarities.COSMIC_RARITY_PROXY.getValue()).attributes(ExtendedSwordItem.createAttributes(GGSwordTier.SWIFT_DEMISE)),
                 SpellDataRegistryHolder.of
                         (new SpellDataRegistryHolder(GGSpellRegistry.DISMANTLE, 1),
                                 new SpellDataRegistryHolder(GGSpellRegistry.QUICK_SLICE, 6)

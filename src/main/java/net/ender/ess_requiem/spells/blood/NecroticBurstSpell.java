@@ -57,7 +57,7 @@ public class NecroticBurstSpell extends AbstractSpell {
 
     public NecroticBurstSpell() {
         this.manaCostPerLevel = 22;
-        this.baseSpellPower = 6;
+        this.baseSpellPower = 5;
         this.spellPowerPerLevel = 3;
         this.castTime = 24;
         this.baseManaCost = 90;
@@ -120,11 +120,11 @@ public class NecroticBurstSpell extends AbstractSpell {
 
 
     public int getDuration(int spellLevel, LivingEntity caster) {
-        return (int) (getSpellPower(spellLevel, caster) * 20);
+        return (int) (getSpellPower(spellLevel, caster) * 10);
     }
 
     public int getWitherAmplifier(int spellLevel, LivingEntity caster) {
-        return 1 + spellLevel;
+        return spellLevel - 1;
     }
 
 

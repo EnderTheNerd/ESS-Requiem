@@ -45,7 +45,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.UUID;
 
-public class BattleStandardEntity extends UniqueAbstractSpellCastingMob implements IMagicSummon, IAnimatedAttacker{
+public class BattleStandardEntity extends AbstractSpellCastingMob implements IMagicSummon, IAnimatedAttacker{
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
     public BattleStandardEntity(Level level, LivingEntity owner) {

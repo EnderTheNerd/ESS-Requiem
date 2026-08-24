@@ -34,7 +34,7 @@ public class EternalBattlefieldSpell extends AbstractSpell {
     public List<MutableComponent> getUniqueInfo(int spellLevel, LivingEntity caster) {
         return List.of(
                 Component.translatable("ui.irons_spellbooks.radius", getRadius(spellLevel, caster)),
-                Component.translatable("ui.irons_spellbooks.effect_length", Utils.timeFromTicks(getDuration(spellLevel, caster) * 40, 1)));
+                Component.translatable("ui.irons_spellbooks.effect_length", Utils.timeFromTicks(200 * (spellLevel/2F), 1)));
     }
 
     private final DefaultConfig defaultConfig = new DefaultConfig()
@@ -102,7 +102,7 @@ public class EternalBattlefieldSpell extends AbstractSpell {
 
 
             EternalBattlefield eternal = new EternalBattlefield(level);
-            eternal.setDuration(getDuration(spellLevel, entity));
+            eternal.setDuration(200 * (spellLevel/2));
             eternal.setRadius(getRadius(spellLevel, entity));
             eternal.setCircular();
             assert targetEntity != null;
@@ -119,12 +119,10 @@ public class EternalBattlefieldSpell extends AbstractSpell {
 
 
     private float getRadius(int spellLevel, LivingEntity entity) {
-        return getSpellPower(spellLevel, entity);
+        return getSpellPower(spellLevel, entity) * 1.5F;
     }
 
-    public int getDuration(int spellLevel, LivingEntity caster) {
-        return (int) (getSpellPower(spellLevel, caster) * 40);
-    }
+
 
     @Override
     public AnimationHolder getCastStartAnimation() {

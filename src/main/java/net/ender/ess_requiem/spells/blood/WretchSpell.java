@@ -42,7 +42,7 @@ public class WretchSpell extends AbstractSpell {
             .setMinRarity(SpellRarity.EPIC)
             .setSchoolResource(SchoolRegistry.BLOOD_RESOURCE)
             .setMaxLevel(6)
-            .setCooldownSeconds(15)
+            .setCooldownSeconds(25)
             .build();
 
     public WretchSpell() {
@@ -118,7 +118,7 @@ else {
 
     public float getDamage(int spellLevel, LivingEntity caster) {
 
-        return  (1 + getSpellPower(spellLevel, caster));
+        return  (1 + getSpellPower(spellLevel, caster)/1.5F);
     }
 
 

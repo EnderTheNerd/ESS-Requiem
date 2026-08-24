@@ -37,7 +37,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.UUID;
 
-public class BoneMaggotEntity extends UniqueAbstractSpellCastingMob implements IMagicSummon, IAnimatedAttacker {
+public class BoneMaggotEntity extends AbstractSpellCastingMob implements IMagicSummon, IAnimatedAttacker {
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
     public BoneMaggotEntity(Level level, LivingEntity owner) {
@@ -65,7 +65,7 @@ public class BoneMaggotEntity extends UniqueAbstractSpellCastingMob implements I
     //MOB AI and Attributes
     public static AttributeSupplier.Builder createAttributes() {
         return LivingEntity.createLivingAttributes()
-                .add(Attributes.ATTACK_DAMAGE, 3)
+                .add(Attributes.ATTACK_DAMAGE, 1.5)
                 .add(Attributes.MAX_HEALTH, 10)
                 .add(Attributes.FOLLOW_RANGE, 60.0)
                 .add(Attributes.ENTITY_INTERACTION_RANGE, 2.0)

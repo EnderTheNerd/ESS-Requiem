@@ -6,6 +6,8 @@ import net.ender.ess_requiem.entity.mobs.battle_standard.BattleStandardModel;
 import net.ender.ess_requiem.entity.mobs.battle_standard.BattleStandardRenderer;
 import net.ender.ess_requiem.entity.mobs.bone_maggot.BoneMaggotModel;
 import net.ender.ess_requiem.entity.mobs.bone_maggot.BoneMaggotRenderer;
+import net.ender.ess_requiem.entity.mobs.death_knight.DeathKnightModel;
+import net.ender.ess_requiem.entity.mobs.death_knight.DeathKnightRenderer;
 import net.ender.ess_requiem.entity.mobs.gilded_weapon.GildedSwordRenderer;
 import net.ender.ess_requiem.entity.mobs.gilded_weapon.GildedWeaponModel;
 import net.ender.ess_requiem.entity.mobs.greg.GregModel;
@@ -20,6 +22,7 @@ import net.ender.ess_requiem.entity.mobs.skull_mass.SkullMassRenderer;
 import net.ender.ess_requiem.entity.mobs.tombstone.TombstoneModel;
 import net.ender.ess_requiem.entity.mobs.tombstone.TombstoneRenderer;
 import net.ender.ess_requiem.entity.spells.black_flame.BlackFlameRenderer;
+import net.ender.ess_requiem.entity.spells.blood_domain.DecayDomainRenderer;
 import net.ender.ess_requiem.entity.spells.claw.ClawEntityRenderer;
 import net.ender.ess_requiem.entity.spells.bone_claw.BoneClawEntityRenderer;
 import net.ender.ess_requiem.entity.spells.dismantle.DismantleProjectileRenderer;
@@ -66,7 +69,8 @@ public class ClientSetup {
         event.registerEntityRenderer(GGEntityRegistry.GREG.get(), context -> {return new GregRenderer(context, new GregModel());});
         event.registerEntityRenderer(GGEntityRegistry.BONE_MAGGOT.get(), context -> {return new BoneMaggotRenderer(context, new BoneMaggotModel());});
         event.registerEntityRenderer(GGEntityRegistry.TOMBSTONE.get(), context -> {return new TombstoneRenderer(context, new TombstoneModel());});
-
+        event.registerEntityRenderer(GGEntityRegistry.DEATH_KNIGHT.get(), context -> {return new DeathKnightRenderer(context,new DeathKnightModel());});
+        event.registerEntityRenderer(GGEntityRegistry.DECAY_DOMAIN.get(), DecayDomainRenderer::new);
 
         }
 

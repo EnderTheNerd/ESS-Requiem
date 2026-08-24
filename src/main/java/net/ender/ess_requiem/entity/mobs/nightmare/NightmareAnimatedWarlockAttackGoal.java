@@ -14,7 +14,7 @@ public class NightmareAnimatedWarlockAttackGoal  extends GenericAnimatedWarlockA
 
     @Override
     public void playSwingSound() {
-        nightmare.playSound(GGSoundRegistry.NIGHTMARE_ATTACK.get(), 10.0F, 2);
+        nightmare.playSound(GGSoundRegistry.NIGHTMARE_ATTACK.get(), 6.0F, 2);
     }
 
 }

@@ -38,7 +38,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.UUID;
 
-public class TombstoneEntity extends UniqueAbstractSpellCastingMob implements IMagicSummon, IAnimatedAttacker {
+public class TombstoneEntity extends AbstractSpellCastingMob implements IMagicSummon, IAnimatedAttacker {
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
     public TombstoneEntity(Level level, LivingEntity owner) {

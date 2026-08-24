@@ -7,11 +7,13 @@ import io.redspace.ironsspellbooks.item.UpgradeOrbItem;
 import io.redspace.ironsspellbooks.item.curios.CurioBaseItem;
 import io.redspace.ironsspellbooks.item.weapons.AttributeContainer;
 import io.redspace.ironsspellbooks.registries.ComponentRegistry;
-import io.redspace.ironsspellbooks.util.ItemPropertiesHelper;
+
 import net.acetheeldritchking.aces_spell_utils.utils.ASRarities;
 import net.ender.ess_requiem.EndersSpellsAndStuffRequiem;
 import net.ender.ess_requiem.item.armor.BlademasterArmorItem;
+import net.ender.ess_requiem.item.armor.CrimsonKingArmorItem;
 import net.ender.ess_requiem.item.curio.CataphractRingCurio;
+import net.ender.ess_requiem.item.curio.GlassSummonNecklaceCurio;
 import net.ender.ess_requiem.item.curio.NamelessRingCurio;
 import net.ender.ess_requiem.item.sword_tier.BloodWeapons.*;
 import net.ender.ess_requiem.item.sword_tier.EldritchWeapons.BrokenPromise;
@@ -21,6 +23,8 @@ import net.ender.ess_requiem.item.sword_tier.EldritchWeapons.MidnightEmbrace;
 import net.ender.ess_requiem.item.sword_tier.HolyWeapons.Hope;
 import net.ender.ess_requiem.item.sword_tier.IceWeapons.ScytheOfFrozenDreams;
 import net.ender.ess_requiem.item.sword_tier.SpellbladeWeapons.*;
+import net.ender.ess_requiem.item.sword_tier.Staves.RequiemStaff.RequiemStaff;
+
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
@@ -30,8 +34,9 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
-import java.time.OffsetTime;
+
 import java.util.Collection;
+import java.util.function.Function;
 
 public class GGItemRegistry {
 
@@ -45,6 +50,8 @@ public class GGItemRegistry {
     public static final DeferredItem<Item> SCYTHE_OF_ROTTEN_DREAMS = ITEMS.register("scythe_of_rotten_dreams", ScytheOfRottenDreams::new);
 
     public static final DeferredItem<Item> ARM_OF_DECAY = ITEMS.register("arm_of_decay", ArmOfDecay::new);
+
+    public static final DeferredItem<Item> REQUIEM_STAFF = ITEMS.register("requiem_staff", RequiemStaff::new);
 
     //public static final DeferredItem<Item> THE_LEECH = ITEMS.register("the_leech", TheLeech::new);
 
@@ -68,20 +75,44 @@ public class GGItemRegistry {
 
     public static final DeferredItem<CurioBaseItem> CATAPHRACT_RING_CURIO = ITEMS.register("cataphract_ring", CataphractRingCurio::new);
 
+    public static final DeferredItem<CurioBaseItem> GLASS_SUMMON_AMULET = ITEMS.register("glass_summon_amulet", GlassSummonNecklaceCurio::new);
+
     //SPELLBLADE
-    public static final DeferredHolder<Item, Item> BLADEMASTER_HELMET = ITEMS.register("blademaster_helmet", () -> new BlademasterArmorItem(ArmorItem.Type.HELMET, ItemPropertiesHelper.equipment(1).durability(ArmorItem.Type.HELMET.getDurability(37))));
-    public static final DeferredHolder<Item, Item> BLADEMASTER_CHESTPLATE = ITEMS.register("blademaster_chestplate", () -> new BlademasterArmorItem(ArmorItem.Type.CHESTPLATE, ItemPropertiesHelper.equipment(1).durability(ArmorItem.Type.CHESTPLATE.getDurability(37))));
-    public static final DeferredHolder<Item, Item> BLADEMASTER_LEGGINGS = ITEMS.register("blademaster_leggings", () -> new BlademasterArmorItem(ArmorItem.Type.LEGGINGS, ItemPropertiesHelper.equipment(1).durability(ArmorItem.Type.LEGGINGS.getDurability(37))));
-    public static final DeferredHolder<Item, Item> BLADEMASTER_BOOTS = ITEMS.register("blademaster_boots", () -> new BlademasterArmorItem(ArmorItem.Type.BOOTS, ItemPropertiesHelper.equipment(1).durability(ArmorItem.Type.BOOTS.getDurability(37))));
+    public static final DeferredHolder<Item, Item> BLADEMASTER_HELMET = registerItem("blademaster_helmet",
+            (properties) -> new BlademasterArmorItem(ArmorItem.Type.HELMET, properties.stacksTo(1).durability(ArmorItem.Type.HELMET.getDurability(37))));
+    public static final DeferredHolder<Item, Item> BLADEMASTER_CHESTPLATE = registerItem("blademaster_chestplate",
+            (properties) -> new BlademasterArmorItem(ArmorItem.Type.CHESTPLATE, properties.stacksTo(1).durability(ArmorItem.Type.CHESTPLATE.getDurability(37))));
+    public static final DeferredHolder<Item, Item> BLADEMASTER_LEGGINGS = registerItem("blademaster_leggings",
+            (properties) -> new BlademasterArmorItem(ArmorItem.Type.LEGGINGS, properties.stacksTo(1).durability(ArmorItem.Type.LEGGINGS.getDurability(37))));
+    public static final DeferredHolder<Item, Item> BLADEMASTER_BOOTS = registerItem("blademaster_boots",
+            (properties) -> new BlademasterArmorItem(ArmorItem.Type.BOOTS, properties.stacksTo(1).durability(ArmorItem.Type.BOOTS.getDurability(37))));
 
-    public static final DeferredHolder<Item, Item> SPELLBLADE_UPGRADE_ORB = ITEMS.register("spellblade_upgrade_orb",
-         () -> new UpgradeOrbItem(ItemPropertiesHelper.material().rarity(Rarity.UNCOMMON).component(ComponentRegistry.UPGRADE_ORB_TYPE, GGUpgradeOrbRegistry.SPELLBLADE_SPELL_POWER)));
 
 
-    //public static final DeferredHolder<Item, Item> SUMMON_UPGRADE_ORB = ITEMS.register("summon_upgrade_orb",
-            //() -> new UpgradeOrbItem(ItemPropertiesHelper.material().rarity(Rarity.EPIC).component(ComponentRegistry.UPGRADE_ORB_TYPE, GGUpgradeOrbRegistry.SUMMON_DAMAGE)));
+    //SUMMON
+    public static final DeferredHolder<Item, Item> CRIMSON_HELMET = registerItem("summoner_helmet",
+            (properties) -> new CrimsonKingArmorItem(ArmorItem.Type.HELMET, properties.stacksTo(1).durability(ArmorItem.Type.HELMET.getDurability(37))));
+    public static final DeferredHolder<Item, Item> CRIMSON_CHESTPLATE = registerItem("summoner_chestplate",
+            (properties) -> new CrimsonKingArmorItem(ArmorItem.Type.CHESTPLATE, properties.stacksTo(1).durability(ArmorItem.Type.CHESTPLATE.getDurability(37))));
+    public static final DeferredHolder<Item, Item> CRIMSON_LEGGINGS = registerItem("summoner_leggings",
+            (properties) -> new CrimsonKingArmorItem(ArmorItem.Type.LEGGINGS, properties.stacksTo(1).durability(ArmorItem.Type.LEGGINGS.getDurability(37))));
+    public static final DeferredHolder<Item, Item> CRIMSON_BOOTS = registerItem("summoner_boots",
+            (properties) -> new CrimsonKingArmorItem(ArmorItem.Type.BOOTS, properties.stacksTo(1).durability(ArmorItem.Type.BOOTS.getDurability(37))));
 
- public static final DeferredHolder<Item, Item> SPELLBLADE_SPELLBOOK = ITEMS.register("spellblade_spellbook", () -> new SpellBook(10)
+
+    public static final DeferredHolder<Item, Item> SPELLBLADE_UPGRADE_ORB = registerItem("spellblade_upgrade_orb",
+            (properties) -> new UpgradeOrbItem(properties.rarity(Rarity.UNCOMMON).fireResistant().component(ComponentRegistry.UPGRADE_ORB_TYPE, GGUpgradeOrbRegistry.SPELLBLADE_SPELL_POWER)));
+
+
+    public static final DeferredHolder<Item, Item> SUMMON_UPGRADE_ORB_HEALTH = registerItem("summon_upgrade_orb_health",
+            (properties) -> new UpgradeOrbItem(properties.rarity(Rarity.UNCOMMON).fireResistant().component(ComponentRegistry.UPGRADE_ORB_TYPE, GGUpgradeOrbRegistry.SUMMON_HEALTH)));
+
+
+    public static final DeferredHolder<Item, Item> SUMMON_UPGRADE_ORB_DAMAGE= registerItem("summon_upgrade_orb_damage",
+            (properties) -> new UpgradeOrbItem(properties.rarity(Rarity.UNCOMMON).fireResistant().component(ComponentRegistry.UPGRADE_ORB_TYPE, GGUpgradeOrbRegistry.SUMMON_DAMAGE)));
+
+
+    public static final DeferredHolder<Item, Item> SPELLBLADE_SPELLBOOK = ITEMS.register("spellblade_spellbook", () -> new SpellBook(10)
          .withSpellbookAttributes(new AttributeContainer(GGAttributeRegistry.BLADE_SPELL_POWER, .15, AttributeModifier.Operation.ADD_MULTIPLIED_BASE), new AttributeContainer(ALObjects.Attributes.ARMOR_PIERCE, 4, AttributeModifier.Operation.ADD_VALUE), new AttributeContainer(AttributeRegistry.MAX_MANA, 300, AttributeModifier.Operation.ADD_VALUE)));
 
     public static final DeferredItem<Item> POTENTIAL = ITEMS.register("potential", Potential::new);
@@ -103,12 +134,21 @@ public class GGItemRegistry {
     public static final DeferredItem<Item> SPELLBLADE_RUNE = ITEMS.register("spellblade_rune",
             () -> new Item(new Item.Properties()));
 
+    public static final DeferredItem<Item> BONE_RUNE = ITEMS.register("bone_rune",
+            () -> new Item(new Item.Properties()));
+
     public static final DeferredItem<Item> COMPLETED_CLARITY = ITEMS.register("completed_clarity",
             () -> new Item(new Item.Properties().rarity(ASRarities.COSMIC_RARITY_PROXY.getValue())));
 
     public static final DeferredItem<Item> EMBOLDENED_INGOT = ITEMS.register("emboldened_ingot",
             () -> new Item(new Item.Properties()));
 
+   //DISCS
+   public static final DeferredItem<Item> AVANT_GARDE_MUSIC_DISC = ITEMS.register("avant_garde_music_disc",
+           () -> new Item(new Item.Properties().rarity(ASRarities.COSMIC_RARITY_PROXY.getValue()).jukeboxPlayable(GGSoundRegistry.AVANT_GARDE_KEY).stacksTo(1)));
+
+ public static final DeferredItem<Item> AVANT_FRAGMENT = ITEMS.register("avant_fragment",
+         () -> new Item(new Item.Properties().rarity(ASRarities.COSMIC_RARITY_PROXY.getValue())));
 
 
 
@@ -118,6 +158,10 @@ public class GGItemRegistry {
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
+    }
+
+    private static <T extends Item> DeferredHolder<Item, T> registerItem(String name, Function<Item.Properties, T> itemFactory) {
+        return ITEMS.register(name, () -> itemFactory.apply(new Item.Properties()));
     }
 
 }

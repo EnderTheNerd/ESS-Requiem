@@ -49,7 +49,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.UUID;
 
-public class HoppingSkullEntity extends UniqueAbstractSpellCastingMob implements IMagicSummon, GeoAnimatable, IAnimatedAttacker {
+public class HoppingSkullEntity extends AbstractSpellCastingMob implements IMagicSummon, GeoAnimatable, IAnimatedAttacker {
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
 
@@ -62,7 +62,7 @@ public class HoppingSkullEntity extends UniqueAbstractSpellCastingMob implements
 
 
 
-    public HoppingSkullEntity(EntityType<? extends UniqueAbstractSpellCastingMob> entityType, Level world) {
+    public HoppingSkullEntity(EntityType<? extends AbstractSpellCastingMob> entityType, Level world) {
         super(entityType, world);
         SingletonGeoAnimatable.registerSyncedAnimatable(this);
         xpReward = 0;
@@ -96,7 +96,7 @@ public class HoppingSkullEntity extends UniqueAbstractSpellCastingMob implements
     public static AttributeSupplier.Builder createAttributes() {
         return LivingEntity.createLivingAttributes()
                 .add(Attributes.ATTACK_DAMAGE, 2)
-                .add(Attributes.MAX_HEALTH, 15.0)
+                .add(Attributes.MAX_HEALTH, 25.0)
                 .add(Attributes.FOLLOW_RANGE, 45.0)
                 .add(Attributes.ENTITY_INTERACTION_RANGE, 2.0)
                 .add(Attributes.MOVEMENT_SPEED, .2)
@@ -111,7 +111,7 @@ public class HoppingSkullEntity extends UniqueAbstractSpellCastingMob implements
                 .setSpells(
                         List.of(SpellRegistry.ACUPUNCTURE_SPELL.get(), SpellRegistry.BLOOD_NEEDLES_SPELL.get(), SpellRegistry.BLOOD_SLASH_SPELL.get()),
                         List.of(),
-                        List.of(SpellRegistry.HEARTSTOP_SPELL.get()),
+                        List.of(),
                         List.of()
                 ));
 

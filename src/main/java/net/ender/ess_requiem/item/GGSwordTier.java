@@ -45,14 +45,16 @@ public class GGSwordTier implements Tier, IronsWeaponTier {
             BlockTags.INCORRECT_FOR_NETHERITE_TOOL,
             () -> Ingredient.of(GGItemRegistry.FRAGMENT_OF_CLARITY),
             new AttributeContainer(AttributeRegistry.BLOOD_SPELL_POWER, 0.20, AttributeModifier.Operation.ADD_MULTIPLIED_BASE),
-            new AttributeContainer(AttributeRegistry.SUMMON_DAMAGE, 0.20, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
+            new AttributeContainer(GGAttributeRegistry.SUMMON_HEALTH, 0.15, AttributeModifier.Operation.ADD_MULTIPLIED_BASE),
+            new AttributeContainer(AttributeRegistry.SUMMON_DAMAGE, 0.2, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
 
-    public static ExtendedWeaponTier THE_LEECH = new ExtendedWeaponTier(2300, 5f, -2.9f, 40,
+
+    public static ExtendedWeaponTier REQUIEM_STAFF = new ExtendedWeaponTier(4000, 13f, -2.6f, 35,
             BlockTags.INCORRECT_FOR_NETHERITE_TOOL,
-            () -> Ingredient.of(GGItemRegistry.FRAGMENT_OF_CLARITY),
-            new AttributeContainer(AttributeRegistry.BLOOD_SPELL_POWER, 0.10, AttributeModifier.Operation.ADD_MULTIPLIED_BASE),
-            new AttributeContainer(ALObjects.Attributes.OVERHEAL, .15, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
-
+            () -> Ingredient.of(ItemRegistry.DEAD_KING_PHYLACTERY_SHARD.get()),
+            new AttributeContainer(AttributeRegistry.BLOOD_SPELL_POWER, 0.15, AttributeModifier.Operation.ADD_MULTIPLIED_BASE),
+            new AttributeContainer(GGAttributeRegistry.SUMMON_HEALTH, 0.45, AttributeModifier.Operation.ADD_MULTIPLIED_BASE),
+            new AttributeContainer(AttributeRegistry.SUMMON_DAMAGE, 0.35, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
 
 
     //ICE

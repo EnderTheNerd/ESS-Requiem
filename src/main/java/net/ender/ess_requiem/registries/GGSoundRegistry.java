@@ -3,15 +3,26 @@ package net.ender.ess_requiem.registries;
 import net.ender.ess_requiem.EndersSpellsAndStuffRequiem;
 
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.item.JukeboxSong;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
+import java.util.function.Supplier;
+
 public class GGSoundRegistry {
     private static final DeferredRegister<SoundEvent> SOUND_EVENT = DeferredRegister.create(Registries.SOUND_EVENT, EndersSpellsAndStuffRequiem.MOD_ID);
 
+    //DISCS
+    public static final Supplier<SoundEvent> AVANT_GARDE = registerSoundEvent("avant_garde");
+    public static final ResourceKey<JukeboxSong> AVANT_GARDE_KEY = createSong("avant_garde");
+
+    public static ResourceKey<JukeboxSong> createSong(String name) {
+        return ResourceKey.create(Registries.JUKEBOX_SONG, ResourceLocation.fromNamespaceAndPath(EndersSpellsAndStuffRequiem.MOD_ID, name));
+    }
 
     //BLOOD
     public static DeferredHolder<SoundEvent, SoundEvent> CLAW_SPELL_CAST = registerSoundEvent("claw_attack");

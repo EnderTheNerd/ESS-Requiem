@@ -5,6 +5,7 @@ import net.ender.ess_requiem.EndersSpellsAndStuffRequiem;
 import net.ender.ess_requiem.entity.mobs.battle_standard.BattleStandardEntity;
 import net.ender.ess_requiem.entity.mobs.bone_maggot.BoneMaggotEntity;
 import net.ender.ess_requiem.entity.mobs.bone_maggot.BoneMaggotModel;
+import net.ender.ess_requiem.entity.mobs.death_knight.DeathKnightEntity;
 import net.ender.ess_requiem.entity.mobs.gilded_weapon.GildedWeaponEntity;
 import net.ender.ess_requiem.entity.mobs.greg.GregEntity;
 import net.ender.ess_requiem.entity.mobs.hopping_skull.HoppingSkullEntity;
@@ -14,6 +15,7 @@ import net.ender.ess_requiem.entity.mobs.tombstone.TombstoneEntity;
 import net.ender.ess_requiem.entity.spells.black_flame.BlackFlameLarge;
 import net.ender.ess_requiem.entity.spells.black_flame.BlackFlameMedium;
 import net.ender.ess_requiem.entity.spells.black_flame.BlackFlameNormal;
+import net.ender.ess_requiem.entity.spells.blood_domain.DecayDomain;
 import net.ender.ess_requiem.entity.spells.claw.ClawEntity;
 import net.ender.ess_requiem.entity.spells.bone_claw.BoneClawEntity;
 import net.ender.ess_requiem.entity.spells.corpse_puddle.CorpsePuddle;
@@ -118,6 +120,15 @@ public class GGEntityRegistry {
 
             );
 
+
+    public static final DeferredHolder<EntityType<?>, EntityType<DecayDomain>> DECAY_DOMAIN =
+            ENTITIES.register("decay_domain", () -> EntityType.Builder.<DecayDomain>of(DecayDomain::new, MobCategory.MISC)
+                    .sized(1f, 1f)
+                    .clientTrackingRange(64)
+                    .build(ResourceLocation.fromNamespaceAndPath(EndersSpellsAndStuffRequiem.MOD_ID, "decay_domain").toString())
+
+            );
+
     public static final DeferredHolder<EntityType<?>, EntityType<BoneMaggotEntity>> BONE_MAGGOT =
             ENTITIES.register("bone_maggot", () -> EntityType.Builder.<BoneMaggotEntity>of(BoneMaggotEntity::new, MobCategory.CREATURE)
                     .sized(.4f, .4f)
@@ -131,6 +142,14 @@ public class GGEntityRegistry {
                     .sized(1f, 2f)
                     .clientTrackingRange(64)
                     .build(ResourceLocation.fromNamespaceAndPath(EndersSpellsAndStuffRequiem.MOD_ID, "nightmare").toString())
+
+            );
+
+    public static final DeferredHolder<EntityType<?>, EntityType<DeathKnightEntity>> DEATH_KNIGHT =
+            ENTITIES.register("death_knight", () -> EntityType.Builder.<DeathKnightEntity>of(DeathKnightEntity::new, MobCategory.CREATURE)
+                    .sized(1f, 3f)
+                    .clientTrackingRange(64)
+                    .build(ResourceLocation.fromNamespaceAndPath(EndersSpellsAndStuffRequiem.MOD_ID, "death_knight").toString())
 
             );
 

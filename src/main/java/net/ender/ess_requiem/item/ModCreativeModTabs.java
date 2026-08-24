@@ -55,7 +55,18 @@ public class ModCreativeModTabs {
                         output.accept(GGItemRegistry.PRACTICE);
                         output.accept(GGItemRegistry.EXPERTISE);
                         output.accept(GGItemRegistry.INTERTWINED_PEAK);
-                        //output.accept((ItemLike) GGItemRegistry.SUMMON_UPGRADE_ORB);
+                        output.accept(GGItemRegistry.BONE_RUNE);
+                        output.accept((ItemLike) GGItemRegistry.SUMMON_UPGRADE_ORB_HEALTH);
+                        output.accept((ItemLike) GGItemRegistry.SUMMON_UPGRADE_ORB_DAMAGE);
+                        output.accept(GGItemRegistry.REQUIEM_STAFF);
+                        output.accept(GGItemRegistry.GLASS_SUMMON_AMULET);
+                        output.accept(GGItemRegistry.AVANT_GARDE_MUSIC_DISC);
+                        output.accept(GGItemRegistry.AVANT_FRAGMENT);
+                        output.accept((ItemLike) GGItemRegistry.CRIMSON_HELMET);
+                        output.accept((ItemLike) GGItemRegistry.CRIMSON_CHESTPLATE);
+                        output.accept((ItemLike) GGItemRegistry.CRIMSON_LEGGINGS);
+                        output.accept((ItemLike) GGItemRegistry.CRIMSON_BOOTS);
+
                         //output.accept(GGItemRegistry.PRIMAL_FLESH);
 
                         if (GGCompatManager.isDTELoaded())

@@ -112,7 +112,7 @@ public class MalevolentSlashingSpell extends AbstractSpell {
     public void onCast(Level world, int spellLevel, LivingEntity entity, CastSource castSource, MagicData playerMagicData) {
         AttributeModifier healthModifier = new AttributeModifier(IronsSpellbooks.id("spell_power_health_bonus"), getHealthBonus(spellLevel, entity), AttributeModifier.Operation.ADD_VALUE);
 
-        int summonTime = 20 * 60 * 10;
+        int summonTime = 30 * 65;
         entity.addEffect(new MobEffectInstance(GGEffectRegistry.BANNER_PROTECTION, 2400));
 
         SummonedEntitiesCastData summonedEntitiesCastData = new SummonedEntitiesCastData();

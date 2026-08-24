@@ -72,7 +72,7 @@ public class DamnationSpell extends AbstractSpell {
 
     public DamnationSpell() {
         this.manaCostPerLevel = 0;
-        this.baseSpellPower = 40;
+        this.baseSpellPower = 35;
         this.spellPowerPerLevel = 0;
         this.castTime = 65;
         this.baseManaCost = 460;

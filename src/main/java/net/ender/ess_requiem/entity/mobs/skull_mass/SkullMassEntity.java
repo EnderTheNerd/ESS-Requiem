@@ -115,7 +115,7 @@ public class SkullMassEntity  extends AbstractSpellCastingMob implements IMagicS
                 .setSpells(
                         List.of(SpellRegistry.ACUPUNCTURE_SPELL.get(), SpellRegistry.BLOOD_NEEDLES_SPELL.get(), SpellRegistry.BLOOD_SLASH_SPELL.get(), SpellRegistry.WITHER_SKULL_SPELL.get(), SpellRegistry.FROSTWAVE_SPELL.get()),
                         List.of(),
-                        List.of(SpellRegistry.HEARTSTOP_SPELL.get()),
+                        List.of(),
                         List.of()
                 ));
 

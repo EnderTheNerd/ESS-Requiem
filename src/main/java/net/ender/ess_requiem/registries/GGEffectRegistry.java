@@ -49,6 +49,16 @@ public class GGEffectRegistry {
     public static final DeferredHolder<MobEffect, MobEffect> MARK_OF_DECAY = MOB_EFFECT_DEFERRED_REGISTER.register("mark_of_decay",
             ()-> new MarkOfDecayEffect(MobEffectCategory.HARMFUL,9833512));
 
+    public static final DeferredHolder<MobEffect, MobEffect> BLOOD_DOMAIN = MOB_EFFECT_DEFERRED_REGISTER.register("blood_domain_owner",
+            ()-> new BloodDomainEffect(MobEffectCategory.BENEFICIAL,3934497));
+
+    public static final DeferredHolder<MobEffect, MobEffect> HORDE_WEAKNESS = MOB_EFFECT_DEFERRED_REGISTER.register("blood_domain_enemy",
+            ()-> new HordeWeaknessEffect(MobEffectCategory.HARMFUL,3934497));
+
+    public static final DeferredHolder<MobEffect, MobEffect> DEATH_KNIGHT_KILL_RAGE = MOB_EFFECT_DEFERRED_REGISTER.register("death_knight_rage",
+            ()-> new DeathKnightEnrage(MobEffectCategory.BENEFICIAL,3934497));
+
+
 
 
     //Eldritch Effects

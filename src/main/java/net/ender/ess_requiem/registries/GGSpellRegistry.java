@@ -4,6 +4,9 @@ import io.redspace.ironsspellbooks.api.spells.AbstractSpell;
 import net.ender.ess_requiem.EndersSpellsAndStuffRequiem;
 
 import net.ender.ess_requiem.spells.blood.*;
+import net.ender.ess_requiem.spells.blood.summons.DeathKnightSummon;
+import net.ender.ess_requiem.spells.blood.summons.MaggotBurstSpell;
+import net.ender.ess_requiem.spells.blood.summons.SummonSkullsSpell;
 import net.ender.ess_requiem.spells.blood.uncraftable.*;
 import net.ender.ess_requiem.spells.eldrtich.cataphract_abilities.CataphractHeal;
 import net.ender.ess_requiem.spells.eldrtich.cataphract_abilities.CataphractSlam;
@@ -14,7 +17,6 @@ import net.ender.ess_requiem.spells.eldrtich.uncraftable.EbonyCataphractSpell;
 import net.ender.ess_requiem.spells.eldrtich.uncraftable.UnderTheCoverOfNightSpell;
 import net.ender.ess_requiem.spells.evocation.AdrenalineRushSpell;
 import net.ender.ess_requiem.spells.evocation.DisappearingActSpell;
-import net.ender.ess_requiem.spells.evocation.GongOfWeakeningSpell;
 import net.ender.ess_requiem.spells.evocation.SwitcharooSpell;
 import net.ender.ess_requiem.spells.holy.uncraftable.BastionOfLightSpell;
 import net.ender.ess_requiem.spells.holy.uncraftable.OverwhelmingLightSpell;
@@ -29,7 +31,6 @@ import net.ender.ess_requiem.spells.spellblade.uncraftable.MalevolentSlashingSpe
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import org.checkerframework.checker.units.qual.A;
 
 import java.util.function.Supplier;
 
@@ -55,12 +56,15 @@ public class GGSpellRegistry {
     public static final Supplier <AbstractSpell> BOILING_BLOOD =registerSpell(new BoilingBloodSpell());
     public static final Supplier<AbstractSpell> NECROTIC_BURST =registerSpell(new NecroticBurstSpell());
     public static final Supplier<AbstractSpell> MAGGOT_BURST =registerSpell(new MaggotBurstSpell());
+    public static final Supplier<AbstractSpell> BLOOD_DOMAIN = registerSpell(new DecayDomainSpell());
+    public static final Supplier<AbstractSpell> DEATH_KNIGHT = registerSpell(new DeathKnightSummon());
 
     //UNCRAFTABLE BLOOD
     public static final Supplier <AbstractSpell> DECAYING_WILL = registerSpell(new DecayingWillSpell());
     public static final Supplier <AbstractSpell> CORPSE_EXPLOSION = registerSpell(new CorpseExplosionSpell());
     public static final Supplier <AbstractSpell> FINALITY_OF_DECAY = registerSpell(new TheFinalityOfDecaySpell());
     public static final Supplier <AbstractSpell> ARM_OF_DECAY_PASSIVE = registerSpell(new ArmOfDecayUndeadRaise());
+    public static final Supplier <AbstractSpell> ARM_OF_DECAY_WEAK_PASSIVE = registerSpell(new ArmOfDecayWeakRaise());
     public static final Supplier <AbstractSpell> FIELD_OF_MOURNING = registerSpell(new FieldOfMourningSpell());
 
 
@@ -107,7 +111,7 @@ public class GGSpellRegistry {
     public static final Supplier <AbstractSpell> DISAPPEARING_ACT = registerSpell(new DisappearingActSpell());
     public static final Supplier <AbstractSpell> ADRENALINE_RUSH = registerSpell(new AdrenalineRushSpell());
     public static final Supplier <AbstractSpell> SWITCHAROO = registerSpell(new SwitcharooSpell());
-    public static final Supplier <AbstractSpell> WEAKENING_GONG =registerSpell(new GongOfWeakeningSpell());
+    //public static final Supplier <AbstractSpell> WEAKENING_GONG =registerSpell(new GongOfWeakeningSpell());
 
     //CREATIVE ONLY/ABILITIES
     public static final Supplier <AbstractSpell> CATAPHRACT_TACKLE = registerSpell(new CataphractTackle());

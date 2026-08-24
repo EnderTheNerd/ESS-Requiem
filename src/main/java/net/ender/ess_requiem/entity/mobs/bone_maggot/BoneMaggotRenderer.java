@@ -14,7 +14,7 @@ public class BoneMaggotRenderer extends GeoEntityRenderer<BoneMaggotEntity> {
 
     public BoneMaggotRenderer(EntityRendererProvider.Context renderManager, GeoModel<BoneMaggotEntity> model) {
         super(renderManager, model);
-        this.shadowRadius = 0.5f;
+        this.shadowRadius = 0.05f;
     }
 
     @Override

@@ -17,6 +17,7 @@ import net.ender.ess_requiem.entity.mobs.summoned_weapon.SoulmasterSwordEntity;
 import net.ender.ess_requiem.registries.GGEffectRegistry;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.game.ClientboundSetActionBarTextPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -29,6 +30,7 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.NeoForge;
 
 import javax.annotation.Nullable;
+import java.util.Objects;
 
 
 public class NightmareSummonSpell extends AbstractSpell {
@@ -132,35 +134,45 @@ public class NightmareSummonSpell extends AbstractSpell {
                     int count = 1;
                     for (int i = 0; i < count; i++) {
                         NightmareEntity nightmare = new NightmareEntity(world, entity);
+                        if (!targetEntity.getAttributes().hasAttribute(Attributes.ATTACK_DAMAGE)) {
+                            Objects.requireNonNull(nightmare.getAttribute(Attributes.ATTACK_DAMAGE)).setBaseValue(1);
+                            if (entity instanceof ServerPlayer serverPlayer) {
+                                serverPlayer.connection.send(new ClientboundSetActionBarTextPacket(Component.translatable("ui.ess_requiem_nightmare_odd_summon").withStyle(ChatFormatting.RED)));
+                            }
+                            nightmare.moveTo(entity.getEyePosition().add(new Vec3(Utils.getRandomScaled(2), 1, Utils.getRandomScaled(2))));
+                            nightmare.setHealth(nightmare.getMaxHealth());
+                            nightmare.finalizeSpawn((ServerLevel) world, world.getCurrentDifficultyAt(nightmare.getOnPos()), MobSpawnType.MOB_SUMMONED, null);
+                            var creature = NeoForge.EVENT_BUS.post(new SpellSummonEvent<>(entity, nightmare, this.spellId, spellLevel)).getCreature();
+                            world.addFreshEntity(creature);
+                            SummonManager.initSummon(entity, creature, summonTime, summonedEntitiesCastData);
+                        } else {
+                            nightmare.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(targetEntity.getAttributeBaseValue(Attributes.ATTACK_DAMAGE));
+                            nightmare.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(targetEntity.getAttributeBaseValue(Attributes.KNOCKBACK_RESISTANCE));
+                            nightmare.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(targetEntity.getAttributeBaseValue(Attributes.ARMOR_TOUGHNESS));
+                            nightmare.getAttribute(Attributes.MAX_HEALTH).setBaseValue(targetEntity.getAttributeBaseValue(Attributes.MAX_HEALTH));
+                            nightmare.getAttribute(Attributes.ARMOR).setBaseValue(targetEntity.getAttributeBaseValue(Attributes.ARMOR));
+                            nightmare.getAttribute(Attributes.SCALE).setBaseValue(targetEntity.getAttributeBaseValue(Attributes.SCALE));
+                            nightmare.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(targetEntity.getAttributeBaseValue(Attributes.MOVEMENT_SPEED));
+                            nightmare.getAttribute(AttributeRegistry.SPELL_POWER).setBaseValue(targetEntity.getAttributeBaseValue(AttributeRegistry.SPELL_POWER));
+                            nightmare.getAttribute(AttributeRegistry.ELDRITCH_SPELL_POWER).setBaseValue(targetEntity.getAttributeBaseValue(AttributeRegistry.ELDRITCH_SPELL_POWER));
+                            nightmare.setHealth((float) nightmare.getAttributeValue(Attributes.MAX_HEALTH));
 
 
-                        nightmare.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(targetEntity.getAttributeBaseValue(Attributes.ATTACK_DAMAGE));
-                        nightmare.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(targetEntity.getAttributeBaseValue(Attributes.KNOCKBACK_RESISTANCE));
-                        nightmare.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(targetEntity.getAttributeBaseValue(Attributes.ARMOR_TOUGHNESS));
-                        nightmare.getAttribute(Attributes.MAX_HEALTH).setBaseValue(targetEntity.getAttributeBaseValue(Attributes.MAX_HEALTH));
-                        nightmare.getAttribute(Attributes.ARMOR).setBaseValue(targetEntity.getAttributeBaseValue(Attributes.ARMOR));
-                        nightmare.getAttribute(Attributes.SCALE).setBaseValue(targetEntity.getAttributeBaseValue(Attributes.SCALE));
-                        nightmare.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(targetEntity.getAttributeBaseValue(Attributes.MOVEMENT_SPEED));
-                        nightmare.getAttribute(AttributeRegistry.SPELL_POWER).setBaseValue(targetEntity.getAttributeBaseValue(AttributeRegistry.SPELL_POWER));
-                        nightmare.getAttribute(AttributeRegistry.ELDRITCH_SPELL_POWER).setBaseValue(targetEntity.getAttributeBaseValue(AttributeRegistry.ELDRITCH_SPELL_POWER));
-                        nightmare.setHealth((float) nightmare.getAttributeValue(Attributes.MAX_HEALTH));
-
-
-                        nightmare.moveTo(entity.getEyePosition().add(new Vec3(Utils.getRandomScaled(2), 1, Utils.getRandomScaled(2))));
-                        nightmare.setHealth(nightmare.getMaxHealth());
-                        nightmare.finalizeSpawn((ServerLevel) world, world.getCurrentDifficultyAt(nightmare.getOnPos()), MobSpawnType.MOB_SUMMONED, null);
-                        var creature = NeoForge.EVENT_BUS.post(new SpellSummonEvent<>(entity, nightmare, this.spellId, spellLevel)).getCreature();
-                        world.addFreshEntity(creature);
-                        SummonManager.initSummon(entity, creature, summonTime, summonedEntitiesCastData);
+                            nightmare.moveTo(entity.getEyePosition().add(new Vec3(Utils.getRandomScaled(2), 1, Utils.getRandomScaled(2))));
+                            nightmare.setHealth(nightmare.getMaxHealth());
+                            nightmare.finalizeSpawn((ServerLevel) world, world.getCurrentDifficultyAt(nightmare.getOnPos()), MobSpawnType.MOB_SUMMONED, null);
+                            var creature = NeoForge.EVENT_BUS.post(new SpellSummonEvent<>(entity, nightmare, this.spellId, spellLevel)).getCreature();
+                            world.addFreshEntity(creature);
+                            SummonManager.initSummon(entity, creature, summonTime, summonedEntitiesCastData);
+                        }
+                        RecastInstance recastInstance = new RecastInstance(this.getSpellId(), spellLevel, getRecastCount(spellLevel, entity), summonTime, castSource, summonedEntitiesCastData);
+                        recasts.addRecast(recastInstance, playerMagicData);
                     }
-                    RecastInstance recastInstance = new RecastInstance(this.getSpellId(), spellLevel, getRecastCount(spellLevel, entity), summonTime, castSource, summonedEntitiesCastData);
-                    recasts.addRecast(recastInstance, playerMagicData);
+
                 }
 
             }
-
         }
-
     }
 
     @Override

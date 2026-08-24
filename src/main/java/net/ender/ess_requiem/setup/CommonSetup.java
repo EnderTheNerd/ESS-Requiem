@@ -5,6 +5,7 @@ import net.ender.ess_requiem.EndersSpellsAndStuffRequiem;
 
 import net.ender.ess_requiem.entity.mobs.battle_standard.BattleStandardEntity;
 import net.ender.ess_requiem.entity.mobs.bone_maggot.BoneMaggotEntity;
+import net.ender.ess_requiem.entity.mobs.death_knight.DeathKnightEntity;
 import net.ender.ess_requiem.entity.mobs.gilded_weapon.GildedWeaponEntity;
 import net.ender.ess_requiem.entity.mobs.greg.GregEntity;
 import net.ender.ess_requiem.entity.mobs.hopping_skull.HoppingSkullEntity;
@@ -24,7 +25,7 @@ public class CommonSetup {
     @SubscribeEvent
     public static void onAttributeCreate(EntityAttributeCreationEvent event) {
 
-        // You can technically do KeeperEntity.prepareAttributes().build() to get the attributes of the OG entity as an option
+        // You can technically do KeeperEntity.prepareAttributes().build() to get the attributes of the OG entity as an option - Ace Advice from ye old times
         event.put(GGEntityRegistry.HOPPING_SKULL.get(), HoppingSkullEntity.createAttributes().build());
         event.put(GGEntityRegistry.SKULL_MASS.get(), SkullMassEntity.createAttributes().build());
         event.put(GGEntityRegistry.SOULMASTER_SWORD.get(), SoulmasterSwordEntity.createAttributes().build());
@@ -34,6 +35,7 @@ public class CommonSetup {
         event.put(GGEntityRegistry.NIGHTMARE.get(), NightmareEntity.createAttributes().build());
         event.put(GGEntityRegistry.BONE_MAGGOT.get(), BoneMaggotEntity.createAttributes().build());
         event.put(GGEntityRegistry.TOMBSTONE.get(), TombstoneEntity.createAttributes().build());
+        event.put(GGEntityRegistry.DEATH_KNIGHT.get(), DeathKnightEntity.createAttributes().build());
 
     }
 

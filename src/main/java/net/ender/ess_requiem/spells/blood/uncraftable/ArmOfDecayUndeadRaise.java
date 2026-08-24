@@ -39,7 +39,7 @@ import java.util.Optional;
 
 
 public class ArmOfDecayUndeadRaise extends AbstractSpell {
-    private final ResourceLocation spellId = ResourceLocation.fromNamespaceAndPath(EndersSpellsAndStuffRequiem.MOD_ID, "arm_of_decay_insta_raise");
+    private final ResourceLocation spellId = ResourceLocation.fromNamespaceAndPath(EndersSpellsAndStuffRequiem.MOD_ID, "arm_of_decay_insta_raise_strong");
     private final DefaultConfig defaultConfig = new DefaultConfig()
             .setMinRarity(SpellRarity.LEGENDARY)
             .setSchoolResource(SchoolRegistry.BLOOD_RESOURCE)
@@ -57,11 +57,11 @@ public class ArmOfDecayUndeadRaise extends AbstractSpell {
         this.baseSpellPower = 10;
         this.spellPowerPerLevel = 3;
         this.castTime = 30;
-        this.baseManaCost = 50;
+        this.baseManaCost = 0;
 
     }
 
-    @Override
+       @Override
     public CastType getCastType() {
         return CastType.INSTANT;
     }
@@ -126,7 +126,11 @@ public class ArmOfDecayUndeadRaise extends AbstractSpell {
 
             world.playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundRegistry.RAISE_DEAD_FINISH.get(), entity.getSoundSource(), 2.0f, .9f + Utils.random.nextFloat() * .2f);
 
+
+
         super.onCast(world, spellLevel, entity, castSource, playerMagicData);
+
+
         }
     private void equip(Mob mob, ItemStack[] equipment) {
         mob.setItemSlot(EquipmentSlot.FEET, equipment[0]);
@@ -153,7 +157,7 @@ public class ArmOfDecayUndeadRaise extends AbstractSpell {
             float quality = Mth.clamp((power + (random.nextIntBetweenInclusive(-3, 8)) - minQuality) / (maxQuality - minQuality), 0, .95f);
             if (random.nextDouble() < quality * quality) {
 
-                if (quality > .95) {
+                if (quality > .85 ) {
                     result[i] = new ItemStack(netherite[i]);
                 }
                 else if (quality > .8) {

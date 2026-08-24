@@ -1,6 +1,6 @@
 {
-  "amount": 0.08,
+  "amount": 0.05,
   "attribute": "irons_spellbooks:summon_damage",
-  "containerItem": "ess_requiem:spellblade_upgrade_orb",
+  "containerItem": "ess_requiem:summon_upgrade_orb_damage",
   "operation": "add_multiplied_base"
 }

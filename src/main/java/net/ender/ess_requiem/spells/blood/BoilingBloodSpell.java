@@ -75,7 +75,7 @@ public class BoilingBloodSpell extends AbstractSpell {
 
     @Override
     public int getRecastCount(int spellLevel, @Nullable LivingEntity entity) {
-        return spellLevel - 1;
+        return spellLevel - 4;
     }
 
     @Override

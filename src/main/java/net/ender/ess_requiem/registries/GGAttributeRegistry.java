@@ -22,6 +22,12 @@ public class GGAttributeRegistry {
         ATTRIBUTES.register(eventBus);
     }
 
+
+   //Summoner Attributes
+   public static final DeferredHolder<Attribute, Attribute> SUMMON_HEALTH = ATTRIBUTES.register("summon_health", () -> (new MagicPercentAttribute("attribute.ess_requiem.summon_health", 1.0D, -100D, 100.0D).setSyncable(true)));
+
+
+   //School Attributes
     public static final DeferredHolder<Attribute, Attribute> BLADE_SPELL_POWER = newPowerAttribute("spellblade");
 
     public static final DeferredHolder<Attribute, Attribute> BLADE_MAGIC_RESIST = newResistanceAttribute("spellblade");
@@ -40,4 +46,7 @@ public class GGAttributeRegistry {
     private static DeferredHolder<Attribute, Attribute> newPowerAttribute(String id) {
         return ATTRIBUTES.register(id + "_spell_power", () -> (new MagicPercentAttribute("attribute.irons_spellbooks." + id + "_spell_power", 1.0D, -100, 100).setSyncable(true)));
     }
+
+
+
 }

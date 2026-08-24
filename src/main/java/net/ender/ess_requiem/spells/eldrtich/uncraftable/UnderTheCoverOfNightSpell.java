@@ -59,7 +59,7 @@ public class UnderTheCoverOfNightSpell  extends AbstractSpell {
 
     public UnderTheCoverOfNightSpell() {
         this.manaCostPerLevel = 0;
-        this.baseSpellPower = 30;
+        this.baseSpellPower = 20;
         this.spellPowerPerLevel = 0;
         this.castTime = 0;
         this.baseManaCost = 350;
