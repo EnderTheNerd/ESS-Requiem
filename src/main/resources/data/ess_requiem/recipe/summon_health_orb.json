@@ -1,0 +1,30 @@
+{
+
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+
+    "A": {
+      "item": "ess_requiem:bone_rune"
+    },
+
+    "B": {
+      "item": "irons_spellbooks:upgrade_orb"
+    },
+
+    "C": {
+      "item": "minecraft:bone_block"
+    }
+  },
+  "pattern": [
+
+    "ACA",
+    "ABA",
+    "AAA"
+
+  ],
+  "result": {
+    "count": 1,
+    "id": "ess_requiem:summon_upgrade_orb_health"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "amount": 0.05,
+  "attribute": "ess_requiem:summon_health",
+  "containerItem": "ess_requiem:summon_upgrade_orb_health",
+  "operation": "add_multiplied_base"
+}

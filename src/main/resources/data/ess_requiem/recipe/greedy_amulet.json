@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "ess_requiem:fragment_of_clarity"
+  },
+  "base": {
+    "item": "irons_spellbooks:conjurers_talisman"
+  },
+  "result": {
+    "count": 1,
+    "id": "ess_requiem:glass_summon_amulet"
+  },
+  "template": {
+    "item": "ess_requiem:bone_rune"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "comparator_output": 15,
+  "description": {
+    "translate": "item.ess_requiem.avant_garde_music_disc.desc"
+  },
+  "length_in_seconds": 80,
+  "sound_event": "ess_requiem:avant_garde"
+}
