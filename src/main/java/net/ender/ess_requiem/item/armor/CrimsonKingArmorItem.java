@@ -15,7 +15,7 @@ import software.bernie.geckolib.renderer.GeoArmorRenderer;
 public class CrimsonKingArmorItem extends ImbuableChestplateArmorItem {
 
     public CrimsonKingArmorItem(Type type, Properties settings) {
-        super(ArmorMaterialRegistry.INFERNAL_SORCERER, type, settings,
+        super(ArmorMaterialRegistry.SCHOOL, type, settings,
                 new AttributeContainer(AttributeRegistry.MAX_MANA, 150, AttributeModifier.Operation.ADD_VALUE),
                 new AttributeContainer(AttributeRegistry.SPELL_POWER, 0.05, AttributeModifier.Operation.ADD_MULTIPLIED_BASE),
                 new AttributeContainer(GGAttributeRegistry.SUMMON_HEALTH, 0.15, AttributeModifier.Operation.ADD_MULTIPLIED_BASE),

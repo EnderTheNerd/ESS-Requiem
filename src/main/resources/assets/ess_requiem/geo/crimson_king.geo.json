@@ -44,19 +44,12 @@
 						{"origin": [-4, 12, -2], "size": [8, 10, 4], "inflate": 0.75, "uv": [48, 40]},
 						{"origin": [-5, 16, -4], "size": [10, 9, 8], "inflate": 0.1, "uv": [0, 0]},
 						{"origin": [-2, 5, 3], "size": [4, 8, 0], "pivot": [0, 11, 4], "rotation": [7.5, 0, 0], "uv": [60, 0]},
-						{"origin": [-2, 5, -3], "size": [4, 8, 0], "pivot": [0, 11, -2], "rotation": [-7.5, 0, 0], "uv": [46, 77]},
-						{"origin": [-9, 19, -4], "size": [4, 7, 8], "inflate": 0.2, "uv": [36, 0]},
-						{"origin": [5, 19, -4], "size": [4, 7, 8], "inflate": 0.2, "uv": [24, 40]}
+						{"origin": [-2, 5, -3], "size": [4, 8, 0], "pivot": [0, 11, -2], "rotation": [-10, 0, 0], "uv": [46, 77]}
 					]
 				},
 				{
-					"name": "armorLeggingTorsoLayer",
-					"parent": "bipedBody",
-					"pivot": [0, 24, 0]
-				},
-				{
 					"name": "cloak thing",
-					"parent": "bipedBody",
+					"parent": "armorBody",
 					"pivot": [0, 25, 3],
 					"rotation": [12.5, 0, 0],
 					"cubes": [
@@ -64,6 +57,11 @@
 						{"origin": [-9, 3, 5], "size": [5, 23, 0], "pivot": [-4, 14.74258, 4.67041], "rotation": [0, -32.5, 0], "uv": [48, 54]},
 						{"origin": [3.9, 3, 5], "size": [5, 23, 0], "pivot": [4, 14.74258, 4.67041], "rotation": [0, 32.5, 0], "uv": [20, 55]}
 					]
+				},
+				{
+					"name": "armorLeggingTorsoLayer",
+					"parent": "bipedBody",
+					"pivot": [0, 24, 0]
 				},
 				{
 					"name": "bipedRightArm",
@@ -74,7 +72,8 @@
 					"parent": "bipedRightArm",
 					"pivot": [-5, 22, 0],
 					"cubes": [
-						{"origin": [-8, 11, -3], "size": [4, 3, 6], "inflate": 0.1, "uv": [52, 31]}
+						{"origin": [-9, 19, -4], "size": [4, 7, 8], "inflate": 0.2, "uv": [36, 0]},
+						{"origin": [-9, 11, -3], "size": [4, 3, 6], "inflate": 0.1, "uv": [52, 31]}
 					]
 				},
 				{
@@ -86,7 +85,8 @@
 					"parent": "bipedLeftArm",
 					"pivot": [5, 22, 0],
 					"cubes": [
-						{"origin": [4, 11, -3], "size": [4, 3, 6], "inflate": 0.1, "uv": [74, 74]}
+						{"origin": [5, 19, -4], "size": [4, 7, 8], "inflate": 0.2, "uv": [24, 40]},
+						{"origin": [5, 11, -3], "size": [4, 3, 6], "inflate": 0.1, "uv": [74, 74]}
 					]
 				},
 				{

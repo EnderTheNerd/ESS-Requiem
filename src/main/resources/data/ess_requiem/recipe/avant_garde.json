@@ -1,0 +1,22 @@
+{
+
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+
+    "A": {
+      "item": "ess_requiem:avant_fragment"
+    }
+  },
+  "pattern": [
+
+    "AAA",
+    "AAA",
+    "AAA"
+
+  ],
+  "result": {
+    "count": 1,
+    "id": "ess_requiem:avant_garde_music_disc"
+  }
+}

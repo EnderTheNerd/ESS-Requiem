@@ -1,0 +1,46 @@
+{
+
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+
+    "A": {
+      "item": "ess_requiem:spellblade_spellbook"
+    },
+
+    "B": {
+      "item": "ess_requiem:completed_clarity"
+    },
+
+    "C": {
+      "item": "ess_requiem:hope"
+    },
+
+    "D": {
+      "item": "ess_requiem:scythe_of_frozen_dreams"
+    },
+    "E": {
+      "item": "ess_requiem:intertwined_peak"
+    },
+    "F": {
+      "item": "ess_requiem:arm_of_decay"
+    },
+    "G": {
+      "item": "ess_requiem:inevitability"
+    },
+    "H": {
+      "item": "minecraft:netherite_block"
+    }
+  },
+  "pattern": [
+
+    "FED",
+    "GHC",
+    "BAB"
+
+  ],
+  "result": {
+    "count": 1,
+    "id": "ess_requiem:avant_fragment"
+  }
+}
