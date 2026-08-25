@@ -31,7 +31,11 @@ public class GGSoundRegistry {
 
     public static DeferredHolder<SoundEvent, SoundEvent> MAGGOT_BURST_STARTUP = registerSoundEvent("maggot_burst_startup");
 
-     public static DeferredHolder<SoundEvent, SoundEvent> MAGGOT_BURST_END = registerSoundEvent("maggot_burst_end");
+    public static DeferredHolder<SoundEvent, SoundEvent> MAGGOT_BURST_END = registerSoundEvent("maggot_burst_end");
+
+    public static DeferredHolder<SoundEvent, SoundEvent> HOMUNCULUS_START = registerSoundEvent("homunculus_start");
+
+    public static DeferredHolder<SoundEvent, SoundEvent> HOMUNCULUS_FINISH = registerSoundEvent("homunculus_finish");
 
     //MIND
     public static DeferredHolder<SoundEvent, SoundEvent> MIND_GENERIC_CAST = registerSoundEvent("mind_generic_cast");

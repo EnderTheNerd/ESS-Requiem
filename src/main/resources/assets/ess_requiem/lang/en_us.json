@@ -80,6 +80,7 @@
  "entity.ess_requiem.bone_maggot": "Bone Maggot",
  "entity.ess_requiem.tombstone": "Tombstone",
  "entity.ess_requiem.death_knight": "Death Knight",
+ "entity.ess_requiem.homunculus": "Homunculus",
 
  "spell.ess_requiem.cataphract_tackle": "Cataphract Tackle (CREATIVE ONLY)",
  "spell.ess_requiem.cataphract_slam": "Cataphract Slam (CREATIVE ONLY)",
@@ -99,7 +100,7 @@
  "spell.ess_requiem.strain.guide": "Strain your muscles, pushing your body to it's limit to enhance blood spell power. Power is not without cost, and you lose max HP casting this spell.",
  "spell.ess_requiem.reaper": "Reaper",
  "spell.ess_requiem.reaper.guide": "Temporarily become a reaper, when your summons perish, harvest their souls to regain mana, mana regained is based on max summon hp.",
- "spell.ess_requiem.summon_skulls": "Conjure Cursed Skulls",
+ "spell.ess_requiem.summon_skulls": "Conjure: Cursed Skulls",
  "spell.ess_requiem.summon_skulls.guide": "Summon Cursed Skulls from nothingness that will cast spells at your foes. The skulls aren't the best at holding themselves up with magic, and will fall or drag themselves across the ground on occasion, under rampage, become hasty and conjure up an abomination of flesh and skulls.",
  "spell.ess_requiem.wretch": "Wretch",
  "spell.ess_requiem.wretch.guide": "Spew magical blood forth from your body, dealing damage. When low HP, switch damage to Desperation Damage, doing more damage.",
@@ -119,9 +120,10 @@
  "spell.ess_requiem.field_of_mourning.guide": "Call forth graves, each grave summoning a horde of undead.",
  "spell.ess_requiem.blood_domain": "Manifest Domain: Endless Army",
  "spell.ess_requiem.blood_domain.guide": "Conjure a pillar of darkness, when the pillar is active, all summons become immortal, and gain periodic buffs, the pillar strikes nearby foes with blood, and makes them weaker to summons.",
- "spell.ess_requiem.summon_death_knight": "Conjure Death Knight",
+ "spell.ess_requiem.summon_death_knight": "Conjure: Death Knight",
  "spell.ess_requiem.summon_death_knight.guide": "Call forth an ancient knight of bone. The knight grows stronger with every kill, gaining armor, attack damage, and lifesteal.",
-
+ "spell.ess_requiem.homunculus_summon": "Conjure: Homunculus ",
+ "spell.ess_requiem.homunculus_summon.guide": "Conjure small primitive creatures made of blood to fight for you. They are easy to maintain and don't go on recast, albeit requiring health and mana on cast.",
 
  "spell.ess_requiem.ebony_armor": "Ebony Armor",
  "spell.ess_requiem.ebony_armor.guide": "Take on cursed Ebony Plating upon your body, enhancing all your physical aspects to the supreme. However, the plates shackle your spell casting, preventing it in full.",

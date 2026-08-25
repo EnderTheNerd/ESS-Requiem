@@ -115,7 +115,7 @@ public class DeathKnightSummon extends AbstractSpell {
             if (!recasts.hasRecastForSpell(this)) {
                 SummonedEntitiesCastData summonedEntitiesCastData = new SummonedEntitiesCastData();
                 int summonTime = 20 * 60 * 10;
-                int count = 1;
+                int count = 2;
                 for (int i = 0; i < count; i++) {
                     DeathKnightEntity knight = new DeathKnightEntity(world, entity);
                     knight.moveTo(entity.getEyePosition().add(new Vec3(Utils.getRandomScaled(2), 1, Utils.getRandomScaled(2))));

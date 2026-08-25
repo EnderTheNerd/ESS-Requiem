@@ -5,6 +5,7 @@ import net.ender.ess_requiem.EndersSpellsAndStuffRequiem;
 
 import net.ender.ess_requiem.spells.blood.*;
 import net.ender.ess_requiem.spells.blood.summons.DeathKnightSummon;
+import net.ender.ess_requiem.spells.blood.summons.HomunculusSummon;
 import net.ender.ess_requiem.spells.blood.summons.MaggotBurstSpell;
 import net.ender.ess_requiem.spells.blood.summons.SummonSkullsSpell;
 import net.ender.ess_requiem.spells.blood.uncraftable.*;
@@ -58,6 +59,7 @@ public class GGSpellRegistry {
     public static final Supplier<AbstractSpell> MAGGOT_BURST =registerSpell(new MaggotBurstSpell());
     public static final Supplier<AbstractSpell> BLOOD_DOMAIN = registerSpell(new DecayDomainSpell());
     public static final Supplier<AbstractSpell> DEATH_KNIGHT = registerSpell(new DeathKnightSummon());
+    public static final Supplier<AbstractSpell> HOMUNCULUS = registerSpell(new HomunculusSummon());
 
     //UNCRAFTABLE BLOOD
     public static final Supplier <AbstractSpell> DECAYING_WILL = registerSpell(new DecayingWillSpell());

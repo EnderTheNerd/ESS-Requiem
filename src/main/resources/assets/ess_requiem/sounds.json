@@ -161,6 +161,18 @@
       "ess_requiem:gong_cast"
     ]
   },
+  "homunculus_start": {
+    "subtitle": "sounds.ess_requiem.start_birth",
+    "sounds": [
+      "ess_requiem:homunculus_start"
+    ]
+  },
+  "homunculus_finish": {
+    "subtitle": "sounds.ess_requiem.birth",
+    "sounds": [
+      "ess_requiem:homunculus_finish"
+    ]
+  },
   "avant_garde": {
     "sounds": [
       {

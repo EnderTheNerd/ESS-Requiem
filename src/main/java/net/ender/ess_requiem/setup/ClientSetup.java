@@ -12,6 +12,8 @@ import net.ender.ess_requiem.entity.mobs.gilded_weapon.GildedSwordRenderer;
 import net.ender.ess_requiem.entity.mobs.gilded_weapon.GildedWeaponModel;
 import net.ender.ess_requiem.entity.mobs.greg.GregModel;
 import net.ender.ess_requiem.entity.mobs.greg.GregRenderer;
+import net.ender.ess_requiem.entity.mobs.homunculus.HomunculusModel;
+import net.ender.ess_requiem.entity.mobs.homunculus.HomunculusRenderer;
 import net.ender.ess_requiem.entity.mobs.hopping_skull.HoppingSkullModel;
 import net.ender.ess_requiem.entity.mobs.hopping_skull.HoppingSkullRenderer;
 
@@ -70,7 +72,9 @@ public class ClientSetup {
         event.registerEntityRenderer(GGEntityRegistry.BONE_MAGGOT.get(), context -> {return new BoneMaggotRenderer(context, new BoneMaggotModel());});
         event.registerEntityRenderer(GGEntityRegistry.TOMBSTONE.get(), context -> {return new TombstoneRenderer(context, new TombstoneModel());});
         event.registerEntityRenderer(GGEntityRegistry.DEATH_KNIGHT.get(), context -> {return new DeathKnightRenderer(context,new DeathKnightModel());});
+        event.registerEntityRenderer(GGEntityRegistry.HOMUNCULUS.get(), context -> {return new HomunculusRenderer(context,new HomunculusModel());});
         event.registerEntityRenderer(GGEntityRegistry.DECAY_DOMAIN.get(), DecayDomainRenderer::new);
+
 
         }
 

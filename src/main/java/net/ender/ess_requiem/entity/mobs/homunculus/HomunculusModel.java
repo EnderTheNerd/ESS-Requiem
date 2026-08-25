@@ -23,7 +23,7 @@ public class HomunculusModel extends GeoModel<HomunculusEntity> {
 
     @Override
     public ResourceLocation getAnimationResource(HomunculusEntity animatable) {
-        return ResourceLocation.fromNamespaceAndPath(EndersSpellsAndStuffRequiem.MOD_ID, "animations/entity/son_animation.json");
+        return ResourceLocation.fromNamespaceAndPath(EndersSpellsAndStuffRequiem.MOD_ID, "animations/entity/son.animation.json");
     }
 
 }

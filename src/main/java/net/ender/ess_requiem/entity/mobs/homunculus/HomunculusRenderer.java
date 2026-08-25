@@ -14,7 +14,7 @@ public class HomunculusRenderer extends GeoEntityRenderer<HomunculusEntity> {
 
     public HomunculusRenderer(EntityRendererProvider.Context renderManager, GeoModel<HomunculusEntity> model) {
         super(renderManager, model);
-        this.shadowRadius = 0.05f;
+        this.shadowRadius = 0.2f;
     }
 
     @Override

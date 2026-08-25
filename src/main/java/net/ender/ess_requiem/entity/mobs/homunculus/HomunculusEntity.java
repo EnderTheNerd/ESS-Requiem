@@ -63,7 +63,7 @@ public class HomunculusEntity extends AbstractSpellCastingMob implements IMagicS
     public static AttributeSupplier.Builder createAttributes() {
         return LivingEntity.createLivingAttributes()
                 .add(Attributes.ATTACK_DAMAGE, 3)
-                .add(Attributes.MAX_HEALTH, 8)
+                .add(Attributes.MAX_HEALTH, 5)
                 .add(Attributes.FOLLOW_RANGE, 60.0)
                 .add(Attributes.ENTITY_INTERACTION_RANGE, 2.0)
                 .add(Attributes.MOVEMENT_SPEED, .25);
@@ -149,12 +149,12 @@ public class HomunculusEntity extends AbstractSpellCastingMob implements IMagicS
 
     //Sounds and Stuff
     protected SoundEvent getHurtSound(DamageSource damageSource) {
-        return SoundEvents.SILVERFISH_HURT;
+        return SoundEvents.BAT_HURT;
     }
 
     @Override
     protected SoundEvent getDeathSound() {
-        return SoundEvents.BONE_BLOCK_BREAK;
+        return SoundEvents.BAT_DEATH;
     }
 
 

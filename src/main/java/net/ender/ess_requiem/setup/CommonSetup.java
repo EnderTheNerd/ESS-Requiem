@@ -8,6 +8,7 @@ import net.ender.ess_requiem.entity.mobs.bone_maggot.BoneMaggotEntity;
 import net.ender.ess_requiem.entity.mobs.death_knight.DeathKnightEntity;
 import net.ender.ess_requiem.entity.mobs.gilded_weapon.GildedWeaponEntity;
 import net.ender.ess_requiem.entity.mobs.greg.GregEntity;
+import net.ender.ess_requiem.entity.mobs.homunculus.HomunculusEntity;
 import net.ender.ess_requiem.entity.mobs.hopping_skull.HoppingSkullEntity;
 
 import net.ender.ess_requiem.entity.mobs.nightmare.NightmareEntity;
@@ -36,6 +37,7 @@ public class CommonSetup {
         event.put(GGEntityRegistry.BONE_MAGGOT.get(), BoneMaggotEntity.createAttributes().build());
         event.put(GGEntityRegistry.TOMBSTONE.get(), TombstoneEntity.createAttributes().build());
         event.put(GGEntityRegistry.DEATH_KNIGHT.get(), DeathKnightEntity.createAttributes().build());
+        event.put(GGEntityRegistry.HOMUNCULUS.get(), HomunculusEntity.createAttributes().build());
 
     }
 

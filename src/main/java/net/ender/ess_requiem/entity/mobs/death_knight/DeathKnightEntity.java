@@ -108,8 +108,8 @@ public class DeathKnightEntity extends AbstractSpellCastingMob implements IMagic
 
     public static AttributeSupplier.Builder createAttributes() {
         return LivingEntity.createLivingAttributes()
-                .add(Attributes.ATTACK_DAMAGE, 10)
-                .add(Attributes.MAX_HEALTH, 250)
+                .add(Attributes.ATTACK_DAMAGE, 8)
+                .add(Attributes.MAX_HEALTH, 180)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 0)
                 .add(Attributes.FOLLOW_RANGE, 45.0)
                 .add(Attributes.ARMOR, 20)
