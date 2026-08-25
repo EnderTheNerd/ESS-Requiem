@@ -1,4 +1,4 @@
-package net.ender.ess_requiem.entity.mobs.bone_maggot;
+package net.ender.ess_requiem.entity.mobs.homunculus;
 
 import io.redspace.ironsspellbooks.IronsSpellbooks;
 import io.redspace.ironsspellbooks.capabilities.magic.MagicManager;
@@ -7,9 +7,7 @@ import io.redspace.ironsspellbooks.entity.mobs.IMagicSummon;
 import io.redspace.ironsspellbooks.entity.mobs.abstract_spell_casting_mob.AbstractSpellCastingMob;
 import io.redspace.ironsspellbooks.entity.mobs.goals.*;
 import io.redspace.ironsspellbooks.entity.mobs.goals.melee.AttackAnimationData;
-import io.redspace.ironsspellbooks.entity.mobs.wizards.GenericAnimatedWarlockAttackGoal;
 import io.redspace.ironsspellbooks.util.OwnerHelper;
-import net.acetheeldritchking.aces_spell_utils.entity.mobs.UniqueAbstractSpellCastingMob;
 import net.ender.ess_requiem.registries.GGEntityRegistry;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -37,16 +35,15 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.UUID;
 
-public class BoneMaggotEntity extends AbstractSpellCastingMob implements IMagicSummon, IAnimatedAttacker {
+public class HomunculusEntity extends AbstractSpellCastingMob implements IMagicSummon, IAnimatedAttacker {
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
-    public BoneMaggotEntity(Level level, LivingEntity owner) {
-        this(GGEntityRegistry.BONE_MAGGOT.get(), level);
+    public HomunculusEntity(Level level, LivingEntity owner) {
+        this(GGEntityRegistry.HOMUNCULUS.get(), level);
         setSummoner(owner);
     }
 
-
-    public BoneMaggotEntity(EntityType<? extends AbstractSpellCastingMob> entityType, Level world) {
+    public HomunculusEntity(EntityType<? extends AbstractSpellCastingMob> entityType, Level world) {
         super(entityType, world);
         SingletonGeoAnimatable.registerSyncedAnimatable(this);
         xpReward = 0;
@@ -65,19 +62,18 @@ public class BoneMaggotEntity extends AbstractSpellCastingMob implements IMagicS
     //MOB AI and Attributes
     public static AttributeSupplier.Builder createAttributes() {
         return LivingEntity.createLivingAttributes()
-                .add(Attributes.ATTACK_DAMAGE, 1)
-                .add(Attributes.MAX_HEALTH, 6)
+                .add(Attributes.ATTACK_DAMAGE, 3)
+                .add(Attributes.MAX_HEALTH, 8)
                 .add(Attributes.FOLLOW_RANGE, 60.0)
                 .add(Attributes.ENTITY_INTERACTION_RANGE, 2.0)
-                .add(Attributes.MOVEMENT_SPEED, .23);
+                .add(Attributes.MOVEMENT_SPEED, .25);
 
 
     }
 
-
     @Override
     public void registerGoals() {
-        this.goalSelector.addGoal(1, new MaggotWarlockSounds(this, 1.5F, 5, 10)
+        this.goalSelector.addGoal(1, new HomunculusWarlockSounds(this, 1.5F, 5, 10)
                 .setMoveset(List.of(
                         new AttackAnimationData(13, "attack", 6)
                 ))
@@ -128,7 +124,6 @@ public class BoneMaggotEntity extends AbstractSpellCastingMob implements IMagicS
             this.cachedSummoner = owner;
         }
     }
-
     @Override
     public boolean isAlliedTo(Entity entityIn) {
         return super.isAlliedTo(entityIn) || this.isAlliedHelper(entityIn);
@@ -177,8 +172,8 @@ public class BoneMaggotEntity extends AbstractSpellCastingMob implements IMagicS
     }
 
     //I HATE GECKOLIB
-    private final AnimationController<BoneMaggotEntity> animationController = new AnimationController<>(this, "controller", 0, this::predicate);
-    private final AnimationController<BoneMaggotEntity> attackAnimationController = new AnimationController<>(this, "attack_controller", 0, this::attackPredicate);
+    private final AnimationController<HomunculusEntity> animationController = new AnimationController<>(this, "controller", 0, this::predicate);
+    private final AnimationController<HomunculusEntity> attackAnimationController = new AnimationController<>(this, "attack_controller", 0, this::attackPredicate);
     RawAnimation animationToPlay = null;
 
     @Override
@@ -187,7 +182,7 @@ public class BoneMaggotEntity extends AbstractSpellCastingMob implements IMagicS
         controllers.add(attackAnimationController);
     }
 
-    private PlayState attackPredicate(AnimationState<BoneMaggotEntity> event)
+    private PlayState attackPredicate(software.bernie.geckolib.animation.AnimationState<HomunculusEntity> event)
     {
         var controller = event.getController();
 
@@ -201,7 +196,7 @@ public class BoneMaggotEntity extends AbstractSpellCastingMob implements IMagicS
         return PlayState.CONTINUE;
     }
 
-    private PlayState predicate(AnimationState<BoneMaggotEntity> event)
+    private PlayState predicate(AnimationState<HomunculusEntity> event)
     {
         if (event.isMoving() && this.animationToPlay == null)
         {
@@ -242,7 +237,6 @@ public class BoneMaggotEntity extends AbstractSpellCastingMob implements IMagicS
     public double getTick(Object object) {
         return this.tickCount;
     }
-
 
 
 }

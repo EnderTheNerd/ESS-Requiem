@@ -8,6 +8,7 @@ import net.ender.ess_requiem.entity.mobs.bone_maggot.BoneMaggotModel;
 import net.ender.ess_requiem.entity.mobs.death_knight.DeathKnightEntity;
 import net.ender.ess_requiem.entity.mobs.gilded_weapon.GildedWeaponEntity;
 import net.ender.ess_requiem.entity.mobs.greg.GregEntity;
+import net.ender.ess_requiem.entity.mobs.homunculus.HomunculusEntity;
 import net.ender.ess_requiem.entity.mobs.hopping_skull.HoppingSkullEntity;
 import net.ender.ess_requiem.entity.mobs.nightmare.NightmareEntity;
 import net.ender.ess_requiem.entity.mobs.skull_mass.SkullMassEntity;
@@ -203,6 +204,14 @@ public class GGEntityRegistry {
                     .sized(1f, 1f)
                     .clientTrackingRange(64)
                     .build(ResourceLocation.fromNamespaceAndPath(EndersSpellsAndStuffRequiem.MOD_ID, "spellblade_cut").toString())
+            );
+
+    public static final DeferredHolder<EntityType<?>, EntityType<HomunculusEntity>> HOMUNCULUS =
+            ENTITIES.register("homunculus", () -> EntityType.Builder.<HomunculusEntity>of(HomunculusEntity::new, MobCategory.CREATURE)
+                    .sized(1f, 1f)
+                    .clientTrackingRange(64)
+                    .build(ResourceLocation.fromNamespaceAndPath(EndersSpellsAndStuffRequiem.MOD_ID, "homunculus").toString())
+
             );
 
 

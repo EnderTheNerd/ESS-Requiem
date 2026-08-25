@@ -54,7 +54,7 @@ public class MaggotBurstSpell extends AbstractSpell {
 
     public MaggotBurstSpell() {
         this.manaCostPerLevel = 10;
-        this.baseSpellPower = 5;
+        this.baseSpellPower = 2;
         this.spellPowerPerLevel = 1;
         this.castTime = 30;
         this.baseManaCost = 60;

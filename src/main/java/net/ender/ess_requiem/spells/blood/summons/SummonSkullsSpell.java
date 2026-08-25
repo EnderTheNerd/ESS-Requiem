@@ -130,7 +130,7 @@ public class SummonSkullsSpell extends AbstractSpell {
                     var creature = NeoForge.EVENT_BUS.post(new SpellSummonEvent<>(entity, skull, this.spellId, spellLevel)).getCreature();
                     world.addFreshEntity(creature);
                     SummonManager.initSummon(entity, creature, summonTime, summonedEntitiesCastData);
-                    skull.getAttribute(AttributeRegistry.ELDRITCH_SPELL_POWER).setBaseValue(skull.getAttributeBaseValue(AttributeRegistry.BLOOD_SPELL_POWER) * entity.getAttributeBaseValue(AttributeRegistry.SUMMON_DAMAGE));
+                    skull.getAttribute(AttributeRegistry.BLOOD_SPELL_POWER).setBaseValue(skull.getAttributeBaseValue(AttributeRegistry.BLOOD_SPELL_POWER) * entity.getAttributeBaseValue(AttributeRegistry.SUMMON_DAMAGE));
                 }
                 RecastInstance recastInstance = new RecastInstance(this.getSpellId(), spellLevel, getRecastCount(spellLevel, entity), summonTime, castSource, summonedEntitiesCastData);
                 recasts.addRecast(recastInstance, playerMagicData);
@@ -154,7 +154,7 @@ public class SummonSkullsSpell extends AbstractSpell {
                     var creature = NeoForge.EVENT_BUS.post(new SpellSummonEvent<>(entity, skull, this.spellId, spellLevel)).getCreature();
                     world.addFreshEntity(creature);
                     SummonManager.initSummon(entity, creature, summonTime, summonedEntitiesCastData);
-                    skull.getAttribute(AttributeRegistry.ELDRITCH_SPELL_POWER).setBaseValue(skull.getAttributeBaseValue(AttributeRegistry.BLOOD_SPELL_POWER) * entity.getAttributeBaseValue(AttributeRegistry.SUMMON_DAMAGE));
+                    skull.getAttribute(AttributeRegistry.BLOOD_SPELL_POWER).setBaseValue(skull.getAttributeBaseValue(AttributeRegistry.BLOOD_SPELL_POWER) * entity.getAttributeBaseValue(AttributeRegistry.SUMMON_DAMAGE));
                 }
                 RecastInstance recastInstance = new RecastInstance(this.getSpellId(), spellLevel, getRecastCount(spellLevel, entity), summonTime, castSource, summonedEntitiesCastData);
                 recasts.addRecast(recastInstance, playerMagicData);
