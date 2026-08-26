@@ -123,7 +123,7 @@
  "spell.ess_requiem.summon_death_knight": "Conjure: Death Knight",
  "spell.ess_requiem.summon_death_knight.guide": "Call forth an ancient knight of bone. The knight grows stronger with every kill, gaining armor, attack damage, and lifesteal.",
  "spell.ess_requiem.homunculus_summon": "Conjure: Homunculus ",
- "spell.ess_requiem.homunculus_summon.guide": "Conjure small primitive creatures made of blood to fight for you. They are easy to maintain and don't go on recast, albeit requiring health and mana on cast.",
+ "spell.ess_requiem.homunculus_summon.guide": "Conjure small primitive creatures made of blood to fight for you. They are easy to maintain and don't go on recast, albeit requiring health and mana on cast. They explode on death.",
 
  "spell.ess_requiem.ebony_armor": "Ebony Armor",
  "spell.ess_requiem.ebony_armor.guide": "Take on cursed Ebony Plating upon your body, enhancing all your physical aspects to the supreme. However, the plates shackle your spell casting, preventing it in full.",
@@ -266,6 +266,7 @@
  "item.ess_requiem.summoner_chestplate": "Crimson King Chestplate",
  "item.ess_requiem.summoner_leggings": "Crimson King Leggings",
  "item.ess_requiem.summoner_boots": "Crimson King Boots",
+ "item.ess_requiem.wicked_shard": "Wicked Shard",
 
 
 

@@ -145,7 +145,7 @@ configurations {
 
 dependencies {
     // ISS
-    implementation "curse.maven:irons-spells-n-spellbooks-855414:8364935"
+    implementation "curse.maven:irons-spells-n-spellbooks-855414:8680204"
 
     //IRON LIBBY
     implementation "curse.maven:irons-lib-1492763:8364894"
@@ -156,7 +156,7 @@ dependencies {
 
  
     //DTE
-    implementation "curse.maven:discerning-the-eldritch-1143065:7469786"
+    implementation "curse.maven:aces-spell-utils-1299492:8466924"
     //AZURE
     implementation "curse.maven:azurelib-817423:7119590"
     //TITAN

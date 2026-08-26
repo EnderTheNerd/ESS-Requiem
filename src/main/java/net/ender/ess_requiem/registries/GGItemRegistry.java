@@ -143,6 +143,9 @@ public class GGItemRegistry {
     public static final DeferredItem<Item> EMBOLDENED_INGOT = ITEMS.register("emboldened_ingot",
             () -> new Item(new Item.Properties()));
 
+    public static final DeferredItem<Item> WICKED_SHARD = ITEMS.register("wicked_shard",
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
+
    //DISCS
    public static final DeferredItem<Item> AVANT_GARDE_MUSIC_DISC = ITEMS.register("avant_garde_music_disc",
            () -> new Item(new Item.Properties().rarity(ASRarities.COSMIC_RARITY_PROXY.getValue()).jukeboxPlayable(GGSoundRegistry.AVANT_GARDE_KEY).stacksTo(1)));

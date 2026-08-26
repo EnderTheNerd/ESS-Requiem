@@ -4,11 +4,13 @@ import dev.shadowsoffire.apothic_attributes.api.ALObjects;
 import io.redspace.ironsspellbooks.api.events.*;
 import io.redspace.ironsspellbooks.api.magic.MagicData;
 
+import io.redspace.ironsspellbooks.api.registry.AttributeRegistry;
 import io.redspace.ironsspellbooks.api.registry.SchoolRegistry;
 import io.redspace.ironsspellbooks.api.registry.SpellRegistry;
 import io.redspace.ironsspellbooks.api.spells.CastSource;
 import io.redspace.ironsspellbooks.api.util.Utils;
 import io.redspace.ironsspellbooks.capabilities.magic.MagicManager;
+import io.redspace.ironsspellbooks.capabilities.magic.SummonManager;
 import io.redspace.ironsspellbooks.entity.mobs.IMagicSummon;
 
 import io.redspace.ironsspellbooks.entity.mobs.SummonedZombie;
@@ -23,6 +25,7 @@ import io.redspace.ironsspellbooks.registries.ItemRegistry;
 import io.redspace.ironsspellbooks.registries.MobEffectRegistry;
 import io.redspace.ironsspellbooks.registries.ParticleRegistry;
 import io.redspace.ironsspellbooks.registries.SoundRegistry;
+import io.redspace.ironsspellbooks.spells.blood.SacrificeSpell;
 import io.redspace.ironsspellbooks.spells.eldritch.SculkTentaclesSpell;
 import io.redspace.ironsspellbooks.util.ParticleHelper;
 import net.acetheeldritchking.aces_spell_utils.network.RemoveShaderEffectPacket;
@@ -30,6 +33,7 @@ import net.ender.ess_requiem.EndersSpellsAndStuffRequiem;
 import net.ender.ess_requiem.compat.dte.dte_registry.DTE_EffectRegistry;
 import net.ender.ess_requiem.effects.AdrenalineRushEffect;
 import net.ender.ess_requiem.entity.mobs.death_knight.DeathKnightEntity;
+import net.ender.ess_requiem.entity.mobs.homunculus.HomunculusEntity;
 import net.ender.ess_requiem.entity.mobs.nightmare.NightmareEntity;
 import net.ender.ess_requiem.item.sword_tier.BloodWeapons.ArmOfDecay;
 import net.ender.ess_requiem.item.sword_tier.BloodWeapons.ScytheOfRottenDreams;
@@ -62,6 +66,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -182,6 +187,32 @@ public class ModEvents {
             }
         }
     }
+
+
+
+    @SubscribeEvent
+    public static void HomunculusExplode(LivingDeathEvent event){
+    var guy = event.getEntity();
+
+    if (guy instanceof HomunculusEntity) {
+        SacrificeSpell spell = (SacrificeSpell) SpellRegistry.SACRIFICE_SPELL.get();
+
+
+        float explosionRadius = 1.5F;
+        LivingEntity owner = SummonManager.getOwner(guy) instanceof LivingEntity livingOwner ? livingOwner : guy;
+        float damage = (float) (4 * owner.getAttributeValue(AttributeRegistry.BLOOD_SPELL_POWER));
+        SacrificeSpell.doSacrificeExplosion(
+                guy.level(),
+                spell.getDamageSource(guy, owner),
+                damage,
+                explosionRadius,
+                guy.getBoundingBox().getCenter()
+        );
+        guy.remove(Entity.RemovalReason.KILLED);
+    }
+
+    }
+
 
 
 
