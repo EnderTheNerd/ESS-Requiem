@@ -94,7 +94,7 @@ public class HomunculusSummon extends AbstractSpell {
     public void onCast(Level world, int spellLevel, LivingEntity entity, CastSource castSource, MagicData playerMagicData) {
 
         SummonedEntitiesCastData summonedEntitiesCastData = new SummonedEntitiesCastData();
-        entity.hurt(entity.damageSources().genericKill(), 2.5F);
+        entity.hurt(entity.damageSources().magic(), 2.5F);
         int summonTime = 30 * 65;
         int count = getSummonCount(spellLevel, entity);
         for (int i = 0; i < count; i++) {

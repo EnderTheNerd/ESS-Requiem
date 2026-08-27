@@ -23,6 +23,8 @@ import net.ender.ess_requiem.entity.mobs.skull_mass.SkullMassModel;
 import net.ender.ess_requiem.entity.mobs.skull_mass.SkullMassRenderer;
 import net.ender.ess_requiem.entity.mobs.tombstone.TombstoneModel;
 import net.ender.ess_requiem.entity.mobs.tombstone.TombstoneRenderer;
+import net.ender.ess_requiem.entity.mobs.vessel_skeleton.VesselSkeletonModel;
+import net.ender.ess_requiem.entity.mobs.vessel_skeleton.VesselSkeletonRenderer;
 import net.ender.ess_requiem.entity.spells.black_flame.BlackFlameRenderer;
 import net.ender.ess_requiem.entity.spells.blood_domain.DecayDomainRenderer;
 import net.ender.ess_requiem.entity.spells.claw.ClawEntityRenderer;
@@ -73,6 +75,7 @@ public class ClientSetup {
         event.registerEntityRenderer(GGEntityRegistry.TOMBSTONE.get(), context -> {return new TombstoneRenderer(context, new TombstoneModel());});
         event.registerEntityRenderer(GGEntityRegistry.DEATH_KNIGHT.get(), context -> {return new DeathKnightRenderer(context,new DeathKnightModel());});
         event.registerEntityRenderer(GGEntityRegistry.HOMUNCULUS.get(), context -> {return new HomunculusRenderer(context,new HomunculusModel());});
+        event.registerEntityRenderer(GGEntityRegistry.VESSEL_SKELETON.get(), context -> {return new VesselSkeletonRenderer(context,new VesselSkeletonModel());});
         event.registerEntityRenderer(GGEntityRegistry.DECAY_DOMAIN.get(), DecayDomainRenderer::new);
 
 

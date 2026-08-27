@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-   "ess_requiem:spellblade_spellbook"
+   "ess_requiem:spellblade_spellbook",
+    "ess_requiem:summon_spellbook"
   ]
 }

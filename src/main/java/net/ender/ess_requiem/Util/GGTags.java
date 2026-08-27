@@ -1,12 +1,15 @@
 package net.ender.ess_requiem.Util;
 
 import net.ender.ess_requiem.EndersSpellsAndStuffRequiem;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 
 public class GGTags {
     public static final TagKey<Item> BLADE_FOCUS = ItemTags.create(ResourceLocation.fromNamespaceAndPath(EndersSpellsAndStuffRequiem.MOD_ID, "blade_focus"));
+    public static final TagKey<EntityType<?>> HIGH_TIER_SUMMON = TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(EndersSpellsAndStuffRequiem.MOD_ID, "high_tier_summon"));
     public static final TagKey<Item> DIVINE_FOCUS = ItemTags.create(ResourceLocation.fromNamespaceAndPath(EndersSpellsAndStuffRequiem.MOD_ID, "divine_focus"));
 }

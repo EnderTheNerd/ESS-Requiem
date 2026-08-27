@@ -67,6 +67,7 @@ public class ModCreativeModTabs {
                         output.accept((ItemLike) GGItemRegistry.CRIMSON_LEGGINGS);
                         output.accept((ItemLike) GGItemRegistry.CRIMSON_BOOTS);
                         output.accept(GGItemRegistry.WICKED_SHARD);
+                        output.accept((ItemLike) GGItemRegistry.DEAD_KING_SOUL);
 
                         //output.accept(GGItemRegistry.PRIMAL_FLESH);
 

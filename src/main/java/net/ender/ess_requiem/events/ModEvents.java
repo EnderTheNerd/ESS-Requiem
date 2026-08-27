@@ -30,6 +30,7 @@ import io.redspace.ironsspellbooks.spells.eldritch.SculkTentaclesSpell;
 import io.redspace.ironsspellbooks.util.ParticleHelper;
 import net.acetheeldritchking.aces_spell_utils.network.RemoveShaderEffectPacket;
 import net.ender.ess_requiem.EndersSpellsAndStuffRequiem;
+import net.ender.ess_requiem.Util.GGTags;
 import net.ender.ess_requiem.compat.dte.dte_registry.DTE_EffectRegistry;
 import net.ender.ess_requiem.effects.AdrenalineRushEffect;
 import net.ender.ess_requiem.entity.mobs.death_knight.DeathKnightEntity;
@@ -266,6 +267,24 @@ public class ModEvents {
                     player.displayClientMessage(Component.literal(ChatFormatting.ITALIC + "Protected by the Banner")
                             .withStyle(s -> s.withColor(TextColor.fromRgb(14522123))), true);
                 }
+            }
+        }
+
+    }
+
+    @SubscribeEvent
+    public static void HighTierSummon(CounterSpellEvent event) {
+        if (event.target instanceof LivingEntity livingEntity) {
+            if (livingEntity.getType().is(GGTags.HIGH_TIER_SUMMON)) {
+                final float MAX_HEALTH = livingEntity.getMaxHealth();
+                float baseHealth = livingEntity.getHealth();
+
+
+                event.setCanceled(true);
+                MagicManager.spawnParticles(livingEntity.level(), ParticleHelper.FIERY_SPARKS, livingEntity.getX(), livingEntity.getY() + 1, livingEntity.getZ(), 30, 0, 0, 0, 1, false);
+                livingEntity.level().playSound(null, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), GGSoundRegistry.BANNER_SPELL_PARRY, SoundSource.NEUTRAL, .8F, 1.3F);
+                livingEntity.hurt(livingEntity.damageSources().magic(), livingEntity.getMaxHealth() * .25F);
+
             }
         }
 

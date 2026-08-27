@@ -15,6 +15,7 @@ import net.ender.ess_requiem.entity.mobs.nightmare.NightmareEntity;
 import net.ender.ess_requiem.entity.mobs.skull_mass.SkullMassEntity;
 import net.ender.ess_requiem.entity.mobs.summoned_weapon.SoulmasterSwordEntity;
 import net.ender.ess_requiem.entity.mobs.tombstone.TombstoneEntity;
+import net.ender.ess_requiem.entity.mobs.vessel_skeleton.VesselSkeletonEntity;
 import net.ender.ess_requiem.registries.GGAttributeRegistry;
 import net.ender.ess_requiem.registries.GGEntityRegistry;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -38,6 +39,7 @@ public class CommonSetup {
         event.put(GGEntityRegistry.TOMBSTONE.get(), TombstoneEntity.createAttributes().build());
         event.put(GGEntityRegistry.DEATH_KNIGHT.get(), DeathKnightEntity.createAttributes().build());
         event.put(GGEntityRegistry.HOMUNCULUS.get(), HomunculusEntity.createAttributes().build());
+        event.put(GGEntityRegistry.VESSEL_SKELETON.get(), VesselSkeletonEntity.createAttributes().build());
 
     }
 

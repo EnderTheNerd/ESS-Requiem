@@ -104,13 +104,16 @@ public class DeathKnightEntity extends AbstractSpellCastingMob implements IMagic
         return true;
     }
 
+    @Override
+    public boolean isInvertedHealAndHarm() {
+        return true;
+    }
 
 
     public static AttributeSupplier.Builder createAttributes() {
         return LivingEntity.createLivingAttributes()
                 .add(Attributes.ATTACK_DAMAGE, 8)
                 .add(Attributes.MAX_HEALTH, 180)
-                .add(Attributes.KNOCKBACK_RESISTANCE, 0)
                 .add(Attributes.FOLLOW_RANGE, 45.0)
                 .add(Attributes.ARMOR, 20)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 1)

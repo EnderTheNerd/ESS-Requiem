@@ -13,9 +13,7 @@ import io.redspace.ironsspellbooks.capabilities.magic.SummonedEntitiesCastData;
 import io.redspace.ironsspellbooks.registries.SoundRegistry;
 import net.ender.ess_requiem.EndersSpellsAndStuffRequiem;
 import net.ender.ess_requiem.entity.mobs.death_knight.DeathKnightEntity;
-import net.ender.ess_requiem.entity.mobs.hopping_skull.HoppingSkullEntity;
-import net.ender.ess_requiem.entity.mobs.skull_mass.SkullMassEntity;
-import net.ender.ess_requiem.registries.GGEffectRegistry;
+import net.ender.ess_requiem.entity.mobs.vessel_skeleton.VesselSkeletonEntity;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -24,6 +22,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.NeoForge;
@@ -32,8 +31,8 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Optional;
 
-public class DeathKnightSummon extends AbstractSpell {
-    private final ResourceLocation spellId = ResourceLocation.fromNamespaceAndPath(EndersSpellsAndStuffRequiem.MOD_ID, "summon_death_knight");
+public class VesselSkeletonSummon extends AbstractSpell {
+    private final ResourceLocation spellId = ResourceLocation.fromNamespaceAndPath(EndersSpellsAndStuffRequiem.MOD_ID, "summon_vessel_skeleton");
 
 
     @Override
@@ -47,16 +46,16 @@ public class DeathKnightSummon extends AbstractSpell {
     private final DefaultConfig defaultConfig = new DefaultConfig()
             .setMinRarity(SpellRarity.LEGENDARY)
             .setSchoolResource(SchoolRegistry.BLOOD_RESOURCE)
-            .setMaxLevel(2)
-            .setCooldownSeconds(290)
+            .setMaxLevel(1)
+            .setCooldownSeconds(500)
             .build();
 
-    public DeathKnightSummon() {
-        this.manaCostPerLevel = 120;
+    public VesselSkeletonSummon() {
+        this.manaCostPerLevel = 0;
         this.baseSpellPower = 5;
         this.spellPowerPerLevel = 0;
-        this.castTime = 30;
-        this.baseManaCost = 320;
+        this.castTime = 60;
+        this.baseManaCost = 580;
     }
 
     @Override
@@ -76,19 +75,19 @@ public class DeathKnightSummon extends AbstractSpell {
 
     @Override
     public Optional<SoundEvent> getCastStartSound() {
-        return Optional.of(SoundRegistry.RAISE_DEAD_START.get());
+        return Optional.of(SoundRegistry.DEAD_KING_SUSPENSE.get());
     }
 
     @Override
     public Optional<SoundEvent> getCastFinishSound() {
-        return Optional.of(SoundRegistry.RAISE_DEAD_FINISH.get());
+        return Optional.of(SoundRegistry.DEAD_KING_DEATH.get());
     }
 
 
 
     @Override
     public int getRecastCount(int spellLevel, @Nullable LivingEntity entity) {
-        return 2;
+        return 1;
     }
 
     @Override
@@ -112,27 +111,39 @@ public class DeathKnightSummon extends AbstractSpell {
     public void onCast(Level world, int spellLevel, LivingEntity entity, CastSource castSource, MagicData playerMagicData) {
 
         var recasts = playerMagicData.getPlayerRecasts();
-            if (!recasts.hasRecastForSpell(this)) {
-                SummonedEntitiesCastData summonedEntitiesCastData = new SummonedEntitiesCastData();
-                int summonTime = 20 * 60 * 10;
-                int count = getSummonCount((spellLevel), entity);
-                for (int i = 0; i < count; i++) {
-                    DeathKnightEntity knight = new DeathKnightEntity(world, entity);
-                    knight.moveTo(entity.getEyePosition().add(new Vec3(Utils.getRandomScaled(2), 1, Utils.getRandomScaled(2))));
-                    knight.finalizeSpawn((ServerLevel) world, world.getCurrentDifficultyAt(knight.getOnPos()), MobSpawnType.MOB_SUMMONED, null);
-                    var creature = NeoForge.EVENT_BUS.post(new SpellSummonEvent<>(entity, knight, this.spellId, spellLevel)).getCreature();
-                    world.addFreshEntity(creature);
-                    SummonManager.initSummon(entity, creature, summonTime, summonedEntitiesCastData);
-                }
-                RecastInstance recastInstance = new RecastInstance(this.getSpellId(), spellLevel, getRecastCount(spellLevel, entity), summonTime, castSource, summonedEntitiesCastData);
-                recasts.addRecast(recastInstance, playerMagicData);
+        if (!recasts.hasRecastForSpell(this)) {
+            SummonedEntitiesCastData summonedEntitiesCastData = new SummonedEntitiesCastData();
+            int summonTime = 20 * 60 * 10;
+            int count = getSummonCount((spellLevel), entity);
+            for (int i = 0; i < count; i++) {
+                VesselSkeletonEntity knight = new VesselSkeletonEntity(world, entity);
+                knight.moveTo(entity.getEyePosition().add(new Vec3(Utils.getRandomScaled(2), 1, Utils.getRandomScaled(2))));
+                knight.finalizeSpawn((ServerLevel) world, world.getCurrentDifficultyAt(knight.getOnPos()), MobSpawnType.MOB_SUMMONED, null);
+                var creature = NeoForge.EVENT_BUS.post(new SpellSummonEvent<>(entity, knight, this.spellId, spellLevel)).getCreature();
+                world.addFreshEntity(creature);
+                SummonManager.initSummon(entity, creature, summonTime, summonedEntitiesCastData);
             }
-            super.onCast(world, spellLevel, entity, castSource, playerMagicData);
-
-
-
+            RecastInstance recastInstance = new RecastInstance(this.getSpellId(), spellLevel, getRecastCount(spellLevel, entity), summonTime, castSource, summonedEntitiesCastData);
+            recasts.addRecast(recastInstance, playerMagicData);
         }
+        super.onCast(world, spellLevel, entity, castSource, playerMagicData);
+
+
 
     }
 
+    @Override
+    public boolean canBeCraftedBy(Player player) {
+        return false;
+    }
 
+    @Override
+    public boolean allowCrafting() {
+        return false;
+    }
+
+    @Override
+    public boolean allowLooting() {
+        return false;
+    }
+}

@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "ess_requiem:blademaster_boots"
+    "ess_requiem:blademaster_boots",
+    "ess_requiem:summoner_boots"
   ]
 }

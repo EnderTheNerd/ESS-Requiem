@@ -13,6 +13,7 @@ import net.ender.ess_requiem.entity.mobs.hopping_skull.HoppingSkullEntity;
 import net.ender.ess_requiem.entity.mobs.nightmare.NightmareEntity;
 import net.ender.ess_requiem.entity.mobs.skull_mass.SkullMassEntity;
 import net.ender.ess_requiem.entity.mobs.tombstone.TombstoneEntity;
+import net.ender.ess_requiem.entity.mobs.vessel_skeleton.VesselSkeletonEntity;
 import net.ender.ess_requiem.entity.spells.black_flame.BlackFlameLarge;
 import net.ender.ess_requiem.entity.spells.black_flame.BlackFlameMedium;
 import net.ender.ess_requiem.entity.spells.black_flame.BlackFlameNormal;
@@ -151,6 +152,14 @@ public class GGEntityRegistry {
                     .sized(1f, 3f)
                     .clientTrackingRange(64)
                     .build(ResourceLocation.fromNamespaceAndPath(EndersSpellsAndStuffRequiem.MOD_ID, "death_knight").toString())
+
+            );
+
+    public static final DeferredHolder<EntityType<?>, EntityType<VesselSkeletonEntity>> VESSEL_SKELETON =
+            ENTITIES.register("vessel_skeleton", () -> EntityType.Builder.<VesselSkeletonEntity>of(VesselSkeletonEntity::new, MobCategory.CREATURE)
+                    .sized(1f, 3f)
+                    .clientTrackingRange(64)
+                    .build(ResourceLocation.fromNamespaceAndPath(EndersSpellsAndStuffRequiem.MOD_ID, "vessel_skeleton").toString())
 
             );
 

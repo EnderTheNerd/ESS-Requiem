@@ -4,8 +4,7 @@ import io.redspace.ironsspellbooks.api.spells.AbstractSpell;
 import net.ender.ess_requiem.EndersSpellsAndStuffRequiem;
 
 import net.ender.ess_requiem.spells.blood.*;
-import net.ender.ess_requiem.spells.blood.summons.DeathKnightSummon;
-import net.ender.ess_requiem.spells.blood.summons.HomunculusSummon;
+import net.ender.ess_requiem.spells.blood.summons.*;
 import net.ender.ess_requiem.spells.blood.summons.MaggotBurstSpell;
 import net.ender.ess_requiem.spells.blood.summons.SummonSkullsSpell;
 import net.ender.ess_requiem.spells.blood.uncraftable.*;
@@ -68,6 +67,7 @@ public class GGSpellRegistry {
     public static final Supplier <AbstractSpell> ARM_OF_DECAY_PASSIVE = registerSpell(new ArmOfDecayUndeadRaise());
     public static final Supplier <AbstractSpell> ARM_OF_DECAY_WEAK_PASSIVE = registerSpell(new ArmOfDecayWeakRaise());
     public static final Supplier <AbstractSpell> FIELD_OF_MOURNING = registerSpell(new FieldOfMourningSpell());
+    public static final Supplier <AbstractSpell> VESSEL_SKELETON = registerSpell(new VesselSkeletonSummon());
 
 
     //CRAFTABLE ELDRITCH

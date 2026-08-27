@@ -2,7 +2,9 @@ package net.ender.ess_requiem.registries;
 
 import dev.shadowsoffire.apothic_attributes.api.ALObjects;
 import io.redspace.ironsspellbooks.api.registry.AttributeRegistry;
+import io.redspace.ironsspellbooks.api.registry.SpellDataRegistryHolder;
 import io.redspace.ironsspellbooks.item.SpellBook;
+import io.redspace.ironsspellbooks.item.UniqueSpellBook;
 import io.redspace.ironsspellbooks.item.UpgradeOrbItem;
 import io.redspace.ironsspellbooks.item.curios.CurioBaseItem;
 import io.redspace.ironsspellbooks.item.weapons.AttributeContainer;
@@ -25,6 +27,7 @@ import net.ender.ess_requiem.item.sword_tier.IceWeapons.ScytheOfFrozenDreams;
 import net.ender.ess_requiem.item.sword_tier.SpellbladeWeapons.*;
 import net.ender.ess_requiem.item.sword_tier.Staves.RequiemStaff.RequiemStaff;
 
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
@@ -77,7 +80,7 @@ public class GGItemRegistry {
 
     public static final DeferredItem<CurioBaseItem> GLASS_SUMMON_AMULET = ITEMS.register("glass_summon_amulet", GlassSummonNecklaceCurio::new);
 
-    //SPELLBLADE
+    //SPELLBLADE ARMOR
     public static final DeferredHolder<Item, Item> BLADEMASTER_HELMET = registerItem("blademaster_helmet",
             (properties) -> new BlademasterArmorItem(ArmorItem.Type.HELMET, properties.stacksTo(1).durability(ArmorItem.Type.HELMET.getDurability(37))));
     public static final DeferredHolder<Item, Item> BLADEMASTER_CHESTPLATE = registerItem("blademaster_chestplate",
@@ -99,7 +102,7 @@ public class GGItemRegistry {
     public static final DeferredHolder<Item, Item> CRIMSON_BOOTS = registerItem("summoner_boots",
             (properties) -> new CrimsonKingArmorItem(ArmorItem.Type.BOOTS, properties.stacksTo(1).durability(ArmorItem.Type.BOOTS.getDurability(37))));
 
-
+    //AFTER HERE I GAVE UP ON SORTING XP
     public static final DeferredHolder<Item, Item> SPELLBLADE_UPGRADE_ORB = registerItem("spellblade_upgrade_orb",
             (properties) -> new UpgradeOrbItem(properties.rarity(Rarity.UNCOMMON).fireResistant().component(ComponentRegistry.UPGRADE_ORB_TYPE, GGUpgradeOrbRegistry.SPELLBLADE_SPELL_POWER)));
 
@@ -115,7 +118,15 @@ public class GGItemRegistry {
     public static final DeferredHolder<Item, Item> SPELLBLADE_SPELLBOOK = ITEMS.register("spellblade_spellbook", () -> new SpellBook(10)
          .withSpellbookAttributes(new AttributeContainer(GGAttributeRegistry.BLADE_SPELL_POWER, .15, AttributeModifier.Operation.ADD_MULTIPLIED_BASE), new AttributeContainer(ALObjects.Attributes.ARMOR_PIERCE, 4, AttributeModifier.Operation.ADD_VALUE), new AttributeContainer(AttributeRegistry.MAX_MANA, 300, AttributeModifier.Operation.ADD_VALUE)));
 
-    public static final DeferredItem<Item> POTENTIAL = ITEMS.register("potential", Potential::new);
+ public static final DeferredHolder<Item, Item> DEAD_KING_SOUL = ITEMS.register("summon_spellbook",
+         () -> new UniqueSpellBook(new SpellDataRegistryHolder[]{
+                 new SpellDataRegistryHolder(GGSpellRegistry.VESSEL_SKELETON, 1),
+              },
+                 11)
+         .withSpellbookAttributes(new AttributeContainer(GGAttributeRegistry.SUMMON_HEALTH, .08, AttributeModifier.Operation.ADD_MULTIPLIED_BASE), new AttributeContainer(AttributeRegistry.SUMMON_DAMAGE, .15, AttributeModifier.Operation.ADD_MULTIPLIED_BASE), new AttributeContainer(AttributeRegistry.MAX_MANA, 200, AttributeModifier.Operation.ADD_VALUE)));
+
+
+ public static final DeferredItem<Item> POTENTIAL = ITEMS.register("potential", Potential::new);
     public static final DeferredItem<Item> PRACTICE = ITEMS.register("practice", Practice::new);
     public static final DeferredItem<Item> EXPERTISE = ITEMS.register("expertise", Expertise::new);
     public static final DeferredItem<Item> INTERTWINED_PEAK = ITEMS.register("intertwined_peak", IntertwinedPeak::new);
@@ -144,7 +155,7 @@ public class GGItemRegistry {
             () -> new Item(new Item.Properties()));
 
     public static final DeferredItem<Item> WICKED_SHARD = ITEMS.register("wicked_shard",
-            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON).component(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true)));
 
    //DISCS
    public static final DeferredItem<Item> AVANT_GARDE_MUSIC_DISC = ITEMS.register("avant_garde_music_disc",

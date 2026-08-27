@@ -62,6 +62,11 @@ public class SkullMassEntity  extends AbstractSpellCastingMob implements IMagicS
         xpReward = 0;
     }
 
+    @Override
+    public boolean isInvertedHealAndHarm() {
+        return true;
+    }
+
     @org.jetbrains.annotations.Nullable
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType pSpawnType, @org.jetbrains.annotations.Nullable SpawnGroupData pSpawnGroupData) {

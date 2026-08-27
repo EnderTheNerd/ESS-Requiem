@@ -16,7 +16,11 @@
     "ess_requiem:blademaster_helmet",
     "ess_requiem:blademaster_chestplate",
     "ess_requiem:blademaster_leggings",
-    "ess_requiem:blademaster_boots"
+    "ess_requiem:blademaster_boots",
+    "ess_requiem:summoner_helmet",
+    "ess_requiem:summoner_chestplate",
+    "ess_requiem:summoner_leggings",
+    "ess_requiem:summoner_boots"
       ]
     }
 

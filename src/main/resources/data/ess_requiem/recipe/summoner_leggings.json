@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "ess_requiem:bone_rune"
+  },
+  "base": {
+    "item": "irons_spellbooks:cultist_leggings"
+  },
+  "result": {
+    "count": 1,
+    "id": "ess_requiem:summoner_leggings"
+  },
+  "template": {
+    "item": "ess_requiem:wicked_shard"
+  }
+}

@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "ess_requiem:blademaster_chestplate"
+    "ess_requiem:blademaster_chestplate",
+    "ess_requiem:summoner_chestplate"
   ]
 }

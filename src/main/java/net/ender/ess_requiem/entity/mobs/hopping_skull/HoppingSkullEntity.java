@@ -70,6 +70,11 @@ public class HoppingSkullEntity extends AbstractSpellCastingMob implements IMagi
 
     }
 
+    @Override
+    public boolean isInvertedHealAndHarm() {
+        return true;
+    }
+
 
     protected LookControl createLookControl() {
         return new LookControl(this) {
