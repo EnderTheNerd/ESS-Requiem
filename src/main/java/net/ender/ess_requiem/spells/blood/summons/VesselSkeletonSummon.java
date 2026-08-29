@@ -87,7 +87,7 @@ public class VesselSkeletonSummon extends AbstractSpell {
 
     @Override
     public int getRecastCount(int spellLevel, @Nullable LivingEntity entity) {
-        return 1;
+        return 2;
     }
 
     @Override
@@ -107,13 +107,15 @@ public class VesselSkeletonSummon extends AbstractSpell {
     }
 
 
+
+
     @Override
     public void onCast(Level world, int spellLevel, LivingEntity entity, CastSource castSource, MagicData playerMagicData) {
 
         var recasts = playerMagicData.getPlayerRecasts();
         if (!recasts.hasRecastForSpell(this)) {
             SummonedEntitiesCastData summonedEntitiesCastData = new SummonedEntitiesCastData();
-            int summonTime = 20 * 60 * 10;
+            int summonTime = 20 * 60 * 5;
             int count = getSummonCount((spellLevel), entity);
             for (int i = 0; i < count; i++) {
                 VesselSkeletonEntity knight = new VesselSkeletonEntity(world, entity);

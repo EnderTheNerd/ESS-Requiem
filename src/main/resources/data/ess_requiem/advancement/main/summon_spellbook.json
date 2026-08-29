@@ -1,0 +1,35 @@
+{
+  "display": {
+    "icon": {
+      "id": "ess_requiem:summon_spellbook"
+    },
+    "title": {
+      "translate": "advancements.ess_requiem.summon_spellbook.title"
+    },
+    "description": {
+      "translate": "advancements.ess_requiem.summon_spellbook.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "parent": "ess_requiem:main/scythe_of_rotten_dreams",
+  "criteria": {
+    "soul": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "ess_requiem:summon_spellbook"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "soul"
+    ]
+  ]
+}

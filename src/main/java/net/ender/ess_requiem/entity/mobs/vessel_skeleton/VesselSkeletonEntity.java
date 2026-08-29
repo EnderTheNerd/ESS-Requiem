@@ -30,6 +30,7 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.FlyingMoveControl;
+import net.minecraft.world.entity.ai.control.LookControl;
 import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
@@ -89,12 +90,21 @@ public class VesselSkeletonEntity extends AbstractSpellCastingMob implements IMa
         };
     }
 
-    @org.jetbrains.annotations.Nullable
-    @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType pSpawnType, @org.jetbrains.annotations.Nullable SpawnGroupData pSpawnGroupData) {
-        this.setNoGravity(true);
-        return super.finalizeSpawn(pLevel, pDifficulty, pSpawnType, pSpawnGroupData);
+    protected LookControl createLookControl() {
+        return new LookControl(this) {
+            @Override
+            protected float rotateTowards(float from, float to, float maxDelta) {
+                return super.rotateTowards(from, to, maxDelta * 2.5F);
+            }
+
+            @Override
+            protected boolean resetXRotOnTick() {
+                return getTarget() == null;
+            }
+        };
     }
+
+
 
     @Override
     public boolean canDrownInFluidType(FluidType type) {
@@ -108,13 +118,13 @@ public class VesselSkeletonEntity extends AbstractSpellCastingMob implements IMa
 
     public static AttributeSupplier.Builder createAttributes() {
         return LivingEntity.createLivingAttributes()
-                .add(Attributes.ATTACK_DAMAGE, 15)
-                .add(Attributes.MAX_HEALTH, 300)
+                .add(Attributes.ATTACK_DAMAGE, 5)
+                .add(Attributes.MAX_HEALTH, 200)
                 .add(Attributes.KNOCKBACK_RESISTANCE, .75)
                 .add(Attributes.FOLLOW_RANGE, 45.0)
                 .add(AttributeRegistry.SPELL_POWER, 1)
                 .add(GGAttributeRegistry.SUMMON_HEALTH, .8)
-                .add(AttributeRegistry.BLOOD_SPELL_POWER, .85)
+                .add(AttributeRegistry.BLOOD_SPELL_POWER, 1.25)
                 .add(Attributes.ENTITY_INTERACTION_RANGE, 3)
                 .add(Attributes.MOVEMENT_SPEED, .35);
 

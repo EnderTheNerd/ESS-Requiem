@@ -283,6 +283,7 @@
  "item.ess_requiem.summon_upgrade_orb_damage": "Savage Summon Upgrade Orb",
  "item.ess_requiem.requiem_staff.guide": "Obtained by slaying the ominous version of the Dead King, while holding The Blood Staff, and having the Lord of Decay effect.",
  "item.ess_requiem.broken_promise.guide": "Obtained by having the Ebony Cataphract Effect and hitting something with the Midnight Embrace. Craft a Cataphract Ring in order to cast Ebony Cataphract.",
+ "item.ess_requiem.dead_king_soul.guide": "Obtained by right clicking a dead king's soul with a Signet of the Betrayer.",
  "item.ess_requiem.more_details": "Shift for More...",
  "item.ess_requiem.fragment_of_clarity": "Fragment of Clarity",
  "item.ess_requiem.completed_clarity": "Completed Clarity",
@@ -376,7 +377,13 @@
  "advancements.ess_requiem.dream_ripper.title": "Mind Blowing",
  "advancements.ess_requiem.dream_ripper.description": "Craft Dream Ripper.",
  "advancements.ess_requiem.lord_of_decay.title": "He Without A Name",
- "advancements.ess_requiem.lord_of_decay.description": "Cast decaying will while wearing the Nameless Ring, becoming a Lord of Decay temporarily.",
+ "advancements.ess_requiem.requiem_staff.title": "Name of the Mod",
+ "advancements.ess_requiem.requiem_staff.description": "Obtain the Requiem Staff",
+ "advancements.ess_requiem.avant_garde.title": "OH MY GOSH YOU WON, YOU DID IT, YOU BEAT ENDER'S SPELLS AND STUFF: REQUIEM, YOU TRULY HAVE WON, IM SO PROUD OF YOU, THIS DISC WAS HARD EARNED, YOU SHOULD ENTER THE OLYMPICS YOU'RE SO GOOD AT WHAT YOU DO, WOWIE ZOWIE!!!",
+ "advancements.ess_requiem.avant_garde.description": "CRAFT THE BEST MUSIC DISC IN THE GAME!!!",
+ "advancements.ess_requiem.summon_spellbook.title": "The enemy of my enemy..",
+ "advancements.ess_requiem.summon_spellbook.description": "Befriend the Dead King and gain its soul to use as a spellbook.",
+
 
  "school.ess_requiem.spellblade": "Spellblade",
 

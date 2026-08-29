@@ -1,0 +1,36 @@
+{
+  "display": {
+    "icon": {
+      "id": "ess_requiem:avant_garde_music_disc"
+    },
+    "title": {
+      "translate": "advancements.ess_requiem.avant_garde.title"
+    },
+    "description": {
+      "translate": "advancements.ess_requiem.avant_garde.description"
+    },
+
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "parent": "ess_requiem:main/root",
+  "criteria": {
+    "disc": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "ess_requiem:avant_garde_music_disc"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "disc"
+    ]
+  ]
+}

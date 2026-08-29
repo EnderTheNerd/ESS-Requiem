@@ -15,6 +15,7 @@ import io.redspace.ironsspellbooks.entity.mobs.IMagicSummon;
 
 import io.redspace.ironsspellbooks.entity.mobs.SummonedZombie;
 import io.redspace.ironsspellbooks.entity.mobs.dead_king_boss.DeadKingBoss;
+import io.redspace.ironsspellbooks.entity.mobs.dead_king_boss.DeadKingSoulEntity;
 import io.redspace.ironsspellbooks.entity.mobs.frozen_humanoid.FrozenHumanoid;
 import io.redspace.ironsspellbooks.item.weapons.StaffItem;
 import io.redspace.ironsspellbooks.item.weapons.StaffTier;
@@ -752,6 +753,22 @@ public class ModEvents {
             }
         }
     }
+
+
+
+    @SubscribeEvent
+    public static void SoulBefriending(PlayerInteractEvent.EntityInteract event) {
+    var soul = event.getTarget();
+    var player = event.getEntity();
+
+    if (soul instanceof DeadKingSoulEntity && player.getMainHandItem().is(ItemRegistry.SIGNET_OF_THE_BETRAYER.get())) {
+        soul.discard();
+        player.getInventory().setItem(player.getInventory().selected, new ItemStack(GGItemRegistry.DEAD_KING_SOUL.get()));
+        player.displayClientMessage(Component.literal(ChatFormatting.BOLD + "The soul resonates against the ring, accepting it as proof of your strength. It allows itself to be a catalyst for your magics.")
+                .withStyle(s -> s.withColor(TextColor.fromRgb(3289650))), true);
+    }
+    }
+
 
     //THANKS ACE!!!
     public static String convertTicksToTime(int ticks) {

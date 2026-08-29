@@ -21,6 +21,7 @@ public class JeiDescriptions implements IModPlugin {
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
         registration.addItemStackInfo(new ItemStack(GGItemRegistry.REQUIEM_STAFF.get()), Component.translatable("item.ess_requiem.requiem_staff.guide"));
+        registration.addItemStackInfo(new ItemStack(GGItemRegistry.DEAD_KING_SOUL.get()), Component.translatable("item.ess_requiem.dead_king_soul.guide"));
         registration.addItemStackInfo(new ItemStack(GGItemRegistry.BROKEN_PROMISE.get()), Component.translatable("item.ess_requiem.broken_promise.guide"));
     }
 }
