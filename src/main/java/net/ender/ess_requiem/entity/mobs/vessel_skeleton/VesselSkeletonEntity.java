@@ -71,7 +71,7 @@ public class VesselSkeletonEntity extends AbstractSpellCastingMob implements IMa
         xpReward = 0;
         this.lookControl = createLookControl();
         this.moveControl = createMoveControl();
-        this.moveControl = new FlyingMoveControl(this, 20, true);
+
     }
 
     protected MoveControl createMoveControl() {

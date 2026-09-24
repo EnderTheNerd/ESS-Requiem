@@ -107,27 +107,10 @@ public class BoilingBloodSpell extends AbstractSpell {
 
         super.onCast(level, spellLevel, entity, castSource, playerMagicData);
     }
-
-    private float getDamage(int spellLevel, LivingEntity entity)
-    {
-        float damage = getDamageForAttribute(this, entity, spellLevel, AttributeRegistry.FIRE_SPELL_POWER, 1);
-        return damage;
+    public float getDamage(int spellLevel, @Nullable LivingEntity caster) {
+        return (10 + getSpellPower(spellLevel, caster)) *
+                (caster == null ? 1f : (float) caster.getAttributeValue(AttributeRegistry.FIRE_SPELL_POWER));
     }
-
-    public static float getDamageForAttribute(BoilingBloodSpell spell, LivingEntity entity, int spellLevel, DeferredHolder<Attribute, Attribute> attr1, float modifier)
-    {
-        double attrValue1;
-        if(entity == null) {
-            attrValue1 = entity.getAttributeValue(AttributeRegistry.FIRE_SPELL_POWER);
-        }else{
-            attrValue1 = 1;
-        }
-
-        float damage = (float) (modifier * (spell.getSpellPower(spellLevel, entity) + attrValue1));
-
-        return damage;
-    }
-
     public static float getRange(int level, LivingEntity caster) {
         return 15;
     }

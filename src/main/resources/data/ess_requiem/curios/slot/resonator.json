@@ -1,0 +1,9 @@
+{
+  "order": 6,
+  "size": 1,
+  "icon": "ess_requiem:slot/resonator",
+  "add_cosmetic": false,
+  "operation": "SET",
+  "render_toggle": true,
+  "drop_rule": "DEFAULT"
+}

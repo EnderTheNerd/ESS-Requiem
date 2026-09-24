@@ -97,12 +97,12 @@ public class GongOfWeakeningSpell extends AbstractSpell {
 
 
         MagicManager.spawnParticles(level, new BlastwaveParticleOptions(GGSchoolRegistry.EVOCATION.get().getTargetingColor(), radius), entity.getX(), entity.getY() + .165f, entity.getZ(), 1, 0, 0, 0, 0, true);
-        PacketDistributor.sendToPlayersTrackingEntityAndSelf(entity, new ShockwaveParticlesPacket(new Vec3(entity.getX(), entity.getY() + .165f, entity.getZ()), radius, ParticleTypes.END_ROD));
+        PacketDistributor.sendToPlayersTrackingEntityAndSelf(entity, new ShockwaveParticlesPacket(new Vec3(entity.getX(), entity.getY() + .165f, entity.getZ()), radius, ParticleTypes.GUST_EMITTER_LARGE));
         level.getEntities(entity, entity.getBoundingBox().inflate(radius, 4, radius), (target) -> !DamageSources.isFriendlyFireBetween(target, entity) && Utils.hasLineOfSight(level, entity, target, false)).forEach(target -> {
             if (target instanceof LivingEntity livingEntity && livingEntity.distanceToSqr(entity) < radius * radius) {
                 DamageSources.applyDamage(target, getDamage(spellLevel, entity), getDamageSource(entity));
 
-                target.setDeltaMovement(target.getDeltaMovement().subtract(entity.getLookAngle().scale(3)));
+                target.setDeltaMovement(target.getDeltaMovement().add(target.getLookAngle().scale(4)));
             }
 
         });
@@ -127,7 +127,7 @@ public class GongOfWeakeningSpell extends AbstractSpell {
     }
 
     public float getRadius(int spellPower, LivingEntity caster) {
-        return 5 + spellPower * .5f;
+        return 5 + spellPower * 1.5f;
     }
 
 
