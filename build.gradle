@@ -156,7 +156,7 @@ dependencies {
 
  
     //DTE
-    implementation "curse.maven:aces-spell-utils-1299492:8466924"
+    implementation "curse.maven:aces-spell-utils-1299492:8789930"
     //AZURE
     implementation "curse.maven:azurelib-817423:7119590"
     //TITAN

@@ -62,16 +62,12 @@ public class DecayDomain extends AbstractDomainEntity implements GeoEntity {
 
     @Override
     public void targetSureHit() {
-        final int SUREHIT_BIG_DANGER_RADIUS = 30;
+        final int SURE_HIT_RANGE = 30; //this should be modified as you want
         if (level() instanceof ServerLevel serverLevel && tickCount % 20 == 0) {
             ServerLevel level = serverLevel.getLevel();
             level.getAllEntities().forEach(e -> {
-                if (e instanceof LivingEntity living && canTarget(living)) {
-                    if (tickCount % 100 == 0) {
-                        handleSureHit(living);
-                    } else if (level.getEntitiesOfClass(LivingEntity.class, new AABB(e.position().subtract(SUREHIT_BIG_DANGER_RADIUS, SUREHIT_BIG_DANGER_RADIUS, SUREHIT_BIG_DANGER_RADIUS), e.position().add(SUREHIT_BIG_DANGER_RADIUS, SUREHIT_BIG_DANGER_RADIUS, SUREHIT_BIG_DANGER_RADIUS))).stream().noneMatch(player -> player.hasEffect(GGEffectRegistry.BLOOD_DOMAIN))) {
-                        handleSureHit(living);
-                    }
+                if (e instanceof LivingEntity living && canTarget(living) && e.distanceTo(this) < SURE_HIT_RANGE) {
+                    handleSureHit(living);
                 }
             });
         }

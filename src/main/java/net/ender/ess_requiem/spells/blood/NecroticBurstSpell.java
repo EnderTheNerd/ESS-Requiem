@@ -6,11 +6,14 @@ import io.redspace.ironsspellbooks.api.registry.AttributeRegistry;
 import io.redspace.ironsspellbooks.api.registry.SchoolRegistry;
 import io.redspace.ironsspellbooks.api.spells.*;
 import io.redspace.ironsspellbooks.api.util.AnimationHolder;
+import io.redspace.ironsspellbooks.api.util.CameraShakeData;
+import io.redspace.ironsspellbooks.api.util.CameraShakeManager;
 import io.redspace.ironsspellbooks.api.util.Utils;
 import io.redspace.ironsspellbooks.capabilities.magic.MagicManager;
 import io.redspace.ironsspellbooks.damage.DamageSources;
 import io.redspace.ironsspellbooks.network.particles.ShockwaveParticlesPacket;
 import io.redspace.ironsspellbooks.particle.BlastwaveParticleOptions;
+import net.acetheeldritchking.aces_spell_utils.utils.ImpactFrameHandler;
 import net.ender.ess_requiem.EndersSpellsAndStuffRequiem;
 import net.ender.ess_requiem.registries.GGParticleRegistry;
 import net.ender.ess_requiem.registries.GGSchoolRegistry;
@@ -18,6 +21,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -103,9 +107,20 @@ public class NecroticBurstSpell extends AbstractSpell {
         MagicManager.spawnParticles(level, new BlastwaveParticleOptions(GGSchoolRegistry.BLOOD.get().getTargetingColor(), radius), entity.getX(), entity.getY() + .165f, entity.getZ(), 1, 0, 0, 0, 0, true);
         PacketDistributor.sendToPlayersTrackingEntityAndSelf(entity, new ShockwaveParticlesPacket(new Vec3(entity.getX(), entity.getY() + .165f, entity.getZ()), radius, ParticleTypes.END_ROD));
         level.getEntities(entity, entity.getBoundingBox().inflate(radius, 4, radius), (target) -> !DamageSources.isFriendlyFireBetween(target, entity) && Utils.hasLineOfSight(level, entity, target, false)).forEach(target -> {
+            List<ServerPlayer> serverPlayers = entity.level().getEntitiesOfClass(ServerPlayer.class, entity.getBoundingBox().inflate(5.5F * 2));
+            for (ServerPlayer player : serverPlayers)
+            {
+                ImpactFrameHandler.trigger(player, 0xFF2B00, 0, 0.75F, 0.5F, 10, 2);
+                CameraShakeManager.addCameraShake(new CameraShakeData(entity.level(), 20 + (int) 8.5F, player.position(), 8.5F * 2));
+            }
             if (target instanceof LivingEntity livingEntity && livingEntity.distanceToSqr(entity) < radius * radius) {
                 int i = getDuration(spellLevel, entity);
                 DamageSources.applyDamage(target, getDamage(spellLevel, entity), getDamageSource(entity));
+                if (target instanceof ServerPlayer player){
+                    ImpactFrameHandler.trigger(player, 0xFF2B00, 0, 0.75F, 0.5F, 10, 2);
+                    CameraShakeManager.addCameraShake(new CameraShakeData(entity.level(), 20 + (int) 8.5F, player.position(), 8.5F * 2));
+                }
+
                 livingEntity.addEffect(new MobEffectInstance(MobEffects.WITHER, i, getWitherAmplifier(spellLevel, entity)));
 
 
