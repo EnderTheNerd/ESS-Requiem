@@ -37,6 +37,7 @@ import net.ender.ess_requiem.effects.AdrenalineRushEffect;
 import net.ender.ess_requiem.entity.mobs.death_knight.DeathKnightEntity;
 import net.ender.ess_requiem.entity.mobs.homunculus.HomunculusEntity;
 import net.ender.ess_requiem.entity.mobs.nightmare.NightmareEntity;
+import net.ender.ess_requiem.entity.mobs.tombstone.TombstoneEntity;
 import net.ender.ess_requiem.item.sword_tier.BloodWeapons.ArmOfDecay;
 import net.ender.ess_requiem.item.sword_tier.BloodWeapons.ScytheOfRottenDreams;
 import net.ender.ess_requiem.item.sword_tier.EldritchWeapons.BrokenPromise;
@@ -101,6 +102,27 @@ import java.util.Objects;
 @EventBusSubscriber
 public class ModEvents {
 
+    private static boolean isUnderSunTick(Level level, LivingEntity entity) {
+        if (level.isDay() && !level.isClientSide) {
+            float f = entity.getLightLevelDependentMagicValue();
+            BlockPos blockpos = BlockPos.containing(entity.getX(), entity.getEyeY(), entity.getZ());
+            boolean flag = entity.isInWaterRainOrBubble() || entity.isInPowderSnow || entity.wasInPowderSnow;
+            if (f > 0.5F && !flag && level.canSeeSky(blockpos)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static boolean isUnderMoonTick(Level level, LivingEntity entity) {
+        if (level.isNight() && !level.isClientSide) {
+            return level.isNight();
+        } else {
+            return false;
+        }
+
+    }
 
     @SubscribeEvent
     public static void modifyModNameDisplay(CustomizeScrollModNameEvent event){
@@ -109,8 +131,86 @@ public class ModEvents {
         }
     }
 
+
     @SubscribeEvent
-    public static void CataphractWeaponTransformation(LivingDamageEvent.Pre event) {
+    public static void CounterSpellEvent(CounterSpellEvent event) {
+        //HIGH TIER SUMMON
+        if (event.target instanceof LivingEntity livingEntity) {
+            if (livingEntity.getType().is(GGTags.HIGH_TIER_SUMMON)) {
+                final float MAX_HEALTH = livingEntity.getMaxHealth();
+                float baseHealth = livingEntity.getHealth();
+
+
+                event.setCanceled(true);
+                MagicManager.spawnParticles(livingEntity.level(), ParticleHelper.FIERY_SPARKS, livingEntity.getX(), livingEntity.getY() + 1, livingEntity.getZ(), 30, 0, 0, 0, 1, false);
+                livingEntity.level().playSound(null, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), GGSoundRegistry.BANNER_SPELL_PARRY, SoundSource.NEUTRAL, .8F, 1.3F);
+                livingEntity.hurt(livingEntity.damageSources().magic(), livingEntity.getMaxHealth() * .25F);
+
+            }
+        }
+
+        //NIGHTMARE
+        if (event.target instanceof NightmareEntity livingEntity) {
+
+            event.setCanceled(true);
+            livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 100, 1));
+
+            livingEntity.level().playSound(null, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), GGSoundRegistry.BANNER_SPELL_PARRY, SoundSource.NEUTRAL, .8F, 1.3F);
+
+        }
+
+        //BANNER PROTECTION
+        if (event.target instanceof LivingEntity livingEntity) {
+            if (livingEntity.hasEffect(GGEffectRegistry.BANNER_PROTECTION)) {
+                event.setCanceled(true);
+                MagicManager.spawnParticles(livingEntity.level(), ParticleHelper.FIERY_SPARKS, livingEntity.getX(), livingEntity.getY() + 1, livingEntity.getZ(), 30, 0, 0, 0, 1, false);
+                livingEntity.removeEffect(GGEffectRegistry.BANNER_PROTECTION);
+                livingEntity.level().playSound(null, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), GGSoundRegistry.BANNER_SPELL_PARRY, SoundSource.NEUTRAL, .8F, 1.3F);
+
+                if (livingEntity instanceof ServerPlayer player) {
+                    player.displayClientMessage(Component.literal(ChatFormatting.ITALIC + "Protected by the Banner")
+                            .withStyle(s -> s.withColor(TextColor.fromRgb(14522123))), true);
+                }
+            }
+        }
+
+    }
+
+
+
+
+    @SubscribeEvent
+    public static void LivingDamagePost(LivingDamageEvent.Post event) {
+        var attacker = event.getSource().getDirectEntity();
+        //DAYTIME PACT
+        if (attacker instanceof ServerPlayer livingAttacker && livingAttacker.hasEffect(GGEffectRegistry.UNDEAD_PACT) && isUnderSunTick(attacker.level(), (LivingEntity) attacker)) {
+            attacker.setRemainingFireTicks(100);
+            livingAttacker.addEffect(new MobEffectInstance(GGEffectRegistry.BANE_OF_THE_DEAD, 60, 0));
+            livingAttacker.addEffect(new MobEffectInstance(MobEffects.WITHER, 60, 0));
+            livingAttacker.addEffect(new MobEffectInstance(MobEffects.HARM, 1, 0));
+
+
+        }
+
+        //NIGHTTIME PACT
+        if (attacker instanceof ServerPlayer livingAttacker && livingAttacker.hasEffect(GGEffectRegistry.UNDEAD_PACT) && isUnderMoonTick(attacker.level(), (LivingEntity) attacker)) {
+            livingAttacker.addEffect(new MobEffectInstance(GGEffectRegistry.UNDEAD_RAMPAGE, 60, 0));
+        }
+    }
+
+
+    @SubscribeEvent
+    public static void LivingDamagePre(LivingDamageEvent.Pre event) {
+        var livingEntity = event.getEntity();
+        var attacker = event.getSource().getDirectEntity();
+
+        //HORDE WEAKNESS
+        if (livingEntity.hasEffect(GGEffectRegistry.HORDE_WEAKNESS) && attacker instanceof IMagicSummon) {
+            event.setNewDamage(event.getOriginalDamage() * 1.5F);
+
+        }
+
+        //BROKEN PROMISE
         var sourceEntity = event.getSource().getEntity();
         if (sourceEntity instanceof ServerPlayer serverPlayer) {
             ItemStack mainhandItem = ((LivingEntity) serverPlayer).getMainHandItem();
@@ -125,104 +225,43 @@ public class ModEvents {
                 }
 
             }
-        }
 
-    }
+            var attacked = event.getEntity();
 
-    @SubscribeEvent
-    public static void BloodStaffEvolution(LivingDeathEvent event) {
-        var sourceEntity = event.getSource().getEntity();
-        var dead_thing = event.getEntity();
-        if (sourceEntity instanceof ServerPlayer serverPlayer) {
-            if (serverPlayer.hasEffect(GGEffectRegistry.LORD_OF_DECAY)) {
-                if (serverPlayer.getMainHandItem().is(ItemRegistry.BLOOD_STAFF) && dead_thing instanceof DeadKingBoss deadKingBoss) {
-                    if (deadKingBoss.isOminous()) {
-                        serverPlayer.getInventory().setItem(serverPlayer.getInventory().selected, new ItemStack(GGItemRegistry.REQUIEM_STAFF.get()));
-                    }
+            //ASHES OF THE FALLEN
+            MagicData magicData = MagicData.getPlayerMagicData(attacked);
+            if ((attacked.hasEffect(GGEffectRegistry.PROTECTION_OF_ASHES) && magicData.getMana() > 35)) {
 
+                if (attacker instanceof Projectile projectile) {
+                    var attacker2 = projectile.getOwner();
+                    assert attacker2 != null;
+
+                    magicData.setMana(magicData.getMana() - 35);
+                    attacker2.hurt(attacker2.damageSources().magic(), 10);
+                    attacked.level().playSound(null, attacked.getX(), attacked.getY(), attacked.getZ(),
+                            SoundRegistry.KEEPER_SWORD_IMPACT, SoundSource.PLAYERS, 0.3f, 1f);
+                    MagicManager.spawnParticles(attacked.level(), ParticleTypes.FALLING_OBSIDIAN_TEAR, attacker2.getX(), attacker2.getY() + .25f, attacker2.getZ(), 100, .03, .4, .03, .4, false);
+
+                } else {
+                    magicData.setMana(magicData.getMana() - 35);
+                    assert attacker != null;
+                    attacker.hurt(attacker.damageSources().magic(), 10);
+                    attacked.level().playSound(null, attacked.getX(), attacked.getY(), attacked.getZ(),
+                            SoundRegistry.KEEPER_SWORD_IMPACT, SoundSource.PLAYERS, 0.3f, 1f);
+                    MagicManager.spawnParticles(attacked.level(), ParticleTypes.FALLING_OBSIDIAN_TEAR, attacker.getX(), attacker.getY() + .25f, attacker.getZ(), 100, .03, .4, .03, .4, false);
                 }
 
-            }
-        }
-
-    }
-
-
-
-
-
-
-    @SubscribeEvent
-    public static void SleepingProtection(LivingIncomingDamageEvent event) {
-        var targetEntity = event.getEntity();
-        var damager = event.getSource().getDirectEntity();
-
-        if (targetEntity.hasEffect(DTE_EffectRegistry.BLISSFUL_SLEEP)) {
-            event.setCanceled(true);
-        }
-        if (damager instanceof ServerPlayer player && targetEntity.hasEffect(DTE_EffectRegistry.BLISSFUL_SLEEP)) {
-            player.displayClientMessage(Component.literal(ChatFormatting.ITALIC + "Protected by the veil of dreams. ")
-                    .withStyle(s -> s.withColor(ChatFormatting.DARK_RED)), true);
-        }
-
-    }
-
-    @SubscribeEvent
-    public static void DeathKnightRage(LivingDeathEvent event){
-        var killer = event.getSource();
-
-        if (killer != null && killer.getEntity() instanceof DeathKnightEntity attacker
-        ) {
-
-            var effect = attacker.getEffect(GGEffectRegistry.DEATH_KNIGHT_KILL_RAGE);
-
-
-            if (attacker.hasEffect(GGEffectRegistry.DEATH_KNIGHT_KILL_RAGE)) {
-                var amp = effect.getAmplifier();
-                attacker.addEffect(new MobEffectInstance(GGEffectRegistry.DEATH_KNIGHT_KILL_RAGE, 10000, amp + 1 ));
-                attacker.heal(5F + amp);
 
             }
-            else {
-                attacker.addEffect(new MobEffectInstance(GGEffectRegistry.DEATH_KNIGHT_KILL_RAGE, 10000, 0));
-                attacker.heal(5F);
-            }
         }
-    }
 
-
-
-    @SubscribeEvent
-    public static void HomunculusExplode(LivingDeathEvent event){
-    var guy = event.getEntity();
-
-    if (guy instanceof HomunculusEntity) {
-        SacrificeSpell spell = (SacrificeSpell) SpellRegistry.SACRIFICE_SPELL.get();
-
-
-        float explosionRadius = 1.5F;
-        LivingEntity owner = SummonManager.getOwner(guy) instanceof LivingEntity livingOwner ? livingOwner : guy;
-        float damage = (float) (4 * owner.getAttributeValue(AttributeRegistry.BLOOD_SPELL_POWER));
-        SacrificeSpell.doSacrificeExplosion(
-                guy.level(),
-                spell.getDamageSource(guy, owner),
-                damage,
-                explosionRadius,
-                guy.getBoundingBox().getCenter()
-        );
-        guy.remove(Entity.RemovalReason.KILLED);
-    }
-
-    }
-
-
-
-
-    @SubscribeEvent
-    public static void SkillfulCombos(LivingDamageEvent.Pre event) {
+        //NIGHT VEIL
         var attacked = event.getEntity();
-        var attacker = event.getSource().getDirectEntity();
+        if (attacker instanceof ServerPlayer livingAttacker && livingAttacker.hasEffect(GGEffectRegistry.NIGHT_VEIL) && isUnderMoonTick(attacker.level(), (LivingEntity) attacker) && livingAttacker.hasEffect(MobEffectRegistry.TRUE_INVISIBILITY)) {
+            event.setNewDamage(event.getOriginalDamage() * 2.5F);
+        }
 
+        //SKILLFUL COMBOS
         if (attacked.hasEffect(GGEffectRegistry.OVERWHELMING_DREAD) && attacked.hasEffect(GGEffectRegistry.SKILLFUL_WOUND) && attacker instanceof ServerPlayer) {
             attacked.removeEffect(GGEffectRegistry.OVERWHELMING_DREAD);
             attacked.removeEffect(GGEffectRegistry.SKILLFUL_WOUND);
@@ -252,92 +291,7 @@ public class ModEvents {
 
         }
 
-    }
-
-
-    @SubscribeEvent
-    public static void CounterspellShield(CounterSpellEvent event) {
-        if (event.target instanceof LivingEntity livingEntity) {
-            if (livingEntity.hasEffect(GGEffectRegistry.BANNER_PROTECTION)) {
-                event.setCanceled(true);
-                MagicManager.spawnParticles(livingEntity.level(), ParticleHelper.FIERY_SPARKS, livingEntity.getX(), livingEntity.getY() + 1, livingEntity.getZ(), 30, 0, 0, 0, 1, false);
-                livingEntity.removeEffect(GGEffectRegistry.BANNER_PROTECTION);
-                livingEntity.level().playSound(null, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), GGSoundRegistry.BANNER_SPELL_PARRY, SoundSource.NEUTRAL, .8F, 1.3F);
-
-                if (livingEntity instanceof ServerPlayer player) {
-                    player.displayClientMessage(Component.literal(ChatFormatting.ITALIC + "Protected by the Banner")
-                            .withStyle(s -> s.withColor(TextColor.fromRgb(14522123))), true);
-                }
-            }
-        }
-
-    }
-
-    @SubscribeEvent
-    public static void HighTierSummon(CounterSpellEvent event) {
-        if (event.target instanceof LivingEntity livingEntity) {
-            if (livingEntity.getType().is(GGTags.HIGH_TIER_SUMMON)) {
-                final float MAX_HEALTH = livingEntity.getMaxHealth();
-                float baseHealth = livingEntity.getHealth();
-
-
-                event.setCanceled(true);
-                MagicManager.spawnParticles(livingEntity.level(), ParticleHelper.FIERY_SPARKS, livingEntity.getX(), livingEntity.getY() + 1, livingEntity.getZ(), 30, 0, 0, 0, 1, false);
-                livingEntity.level().playSound(null, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), GGSoundRegistry.BANNER_SPELL_PARRY, SoundSource.NEUTRAL, .8F, 1.3F);
-                livingEntity.hurt(livingEntity.damageSources().magic(), livingEntity.getMaxHealth() * .25F);
-
-            }
-        }
-
-    }
-
-
-    @SubscribeEvent
-    public static void NightmareCounterspellEnrage(CounterSpellEvent event) {
-        if (event.target instanceof NightmareEntity livingEntity) {
-
-            event.setCanceled(true);
-            livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 100, 1));
-
-            livingEntity.level().playSound(null, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), GGSoundRegistry.BANNER_SPELL_PARRY, SoundSource.NEUTRAL, .8F, 1.3F);
-
-        }
-
-}
-
-    @SubscribeEvent
-    public static void PactAttackDay(LivingDamageEvent.Post event) {
-        var attacker = event.getSource().getDirectEntity();
-        if (attacker instanceof ServerPlayer livingAttacker && livingAttacker.hasEffect(GGEffectRegistry.UNDEAD_PACT) && isUnderSunTick(attacker.level(), (LivingEntity) attacker)) {
-            attacker.setRemainingFireTicks(100);
-            livingAttacker.addEffect(new MobEffectInstance(GGEffectRegistry.BANE_OF_THE_DEAD, 60, 0));
-            livingAttacker.addEffect(new MobEffectInstance(MobEffects.WITHER, 60, 0));
-            livingAttacker.addEffect(new MobEffectInstance(MobEffects.HARM, 1, 0));
-
-
-        }
-    }
-
-    @SubscribeEvent
-    public static void VeilAttack(LivingDamageEvent.Pre event) {
-        var attacker = event.getSource().getDirectEntity();
-        if (attacker instanceof ServerPlayer livingAttacker && livingAttacker.hasEffect(GGEffectRegistry.NIGHT_VEIL) && isUnderMoonTick(attacker.level(), (LivingEntity) attacker) && livingAttacker.hasEffect(MobEffectRegistry.TRUE_INVISIBILITY)) {
-            event.setNewDamage(event.getOriginalDamage() * 2.5F);
-        }
-    }
-
-
-    @SubscribeEvent
-    public static void PactAttackNight(LivingDamageEvent.Post event) {
-        var attacker = event.getSource().getDirectEntity();
-        if (attacker instanceof ServerPlayer livingAttacker && livingAttacker.hasEffect(GGEffectRegistry.UNDEAD_PACT) && isUnderMoonTick(attacker.level(), (LivingEntity) attacker)) {
-            livingAttacker.addEffect(new MobEffectInstance(GGEffectRegistry.UNDEAD_RAMPAGE, 60, 0));
-        }
-    }
-
-    @SubscribeEvent
-    public static void Damned(LivingDamageEvent.Pre event) {
-        var attacker = event.getSource().getDirectEntity();
+        //DAMNED
         if (attacker instanceof ServerPlayer livingAttacker && livingAttacker.hasEffect(GGEffectRegistry.DAMNED)) {
             MagicData magicData = MagicData.getPlayerMagicData(livingAttacker);
             if (magicData.getMana() < 100) {
@@ -345,12 +299,100 @@ public class ModEvents {
             }
             magicData.setMana(magicData.getMana() - 25);
         }
+
+        //BROKEN PROMISE
+        if (sourceEntity instanceof ServerPlayer serverPlayer) {
+            ItemStack mainhandItem = ((LivingEntity) serverPlayer).getMainHandItem();
+
+            if (serverPlayer.hasEffect(GGEffectRegistry.EBONY_CATAPHRACT)) {
+                if (mainhandItem.getItem() instanceof MidnightEmbrace) {
+                    serverPlayer.getInventory().setItem(serverPlayer.getInventory().selected, new ItemStack(GGItemRegistry.BROKEN_PROMISE.get()));
+                    serverPlayer.level().playSound(null, serverPlayer.getX(), serverPlayer.getY(), serverPlayer.getZ(), GGSoundRegistry.MIDNIGHT_EMBRACE_GLASS_SHATTER, SoundSource.NEUTRAL, .8F, 1.3F);
+                    serverPlayer.displayClientMessage(Component.literal(ChatFormatting.ITALIC + "Your sword shatters as if it was made of glass.")
+                            .withStyle(s -> s.withColor(TextColor.fromRgb(10032177))), true);
+
+                }
+
+            }
+        }
+
     }
 
 
+
     @SubscribeEvent
-    public static void BastionOfLight(LivingIncomingDamageEvent event) {
+    public static void ProjectileImpact(ProjectileImpactEvent event) {
+        var parried_projectile = event.getProjectile();
+        if (event.getRayTraceResult() instanceof EntityHitResult result && result.getEntity() instanceof LivingEntity entity) {
+            if (entity.hasEffect(GGEffectRegistry.PARRYING)) {
+                event.setCanceled(true);
+                entity.level().playSound(null, entity.getX(), entity.getY(), entity.getZ(), GGSoundRegistry.PARRY, SoundSource.NEUTRAL, .8F, 1.3F);
+                event.getProjectile().deflect(ProjectileDeflection.AIM_DEFLECT, entity, entity, entity instanceof Player);
+            }
+        }
+    }
+
+
+
+
+    @SubscribeEvent
+    public static void EffectExpired(MobEffectEvent.Expired event) {
+        assert event.getEffectInstance() != null;
+        if (event.getEffectInstance().is(GGEffectRegistry.UNDYING_DREAD) && event.getEntity() instanceof ServerPlayer player) {
+            player.kill();
+
+            player.displayClientMessage(Component.literal(ChatFormatting.ITALIC + "Even that...wasn't strong enough...")
+                    .withStyle(s -> s.withColor(TextColor.fromRgb(13383279))), true);
+
+        }
+
+        if (event.getEffectInstance().is(GGEffectRegistry.FINALITY_OF_DECAY) && event.getEntity() instanceof LivingEntity livingEntity) {
+
+
+            livingEntity.hurt(livingEntity.damageSources().magic(), 25);
+            livingEntity.addEffect(new MobEffectInstance(MobEffects.WITHER, 300, 3));
+            livingEntity.addEffect(new MobEffectInstance(GGEffectRegistry.MARK_OF_DECAY, 300, 1));
+
+            livingEntity.playSound(GGSoundRegistry.CLOCK_TICKING.get(), 0.8f, 1.3F);
+
+            if (livingEntity instanceof ServerPlayer serverPlayer) {
+                serverPlayer.displayClientMessage(Component.literal(ChatFormatting.ITALIC + "The Clock Strikes Nil")
+                        .withStyle(s -> s.withColor(TextColor.fromRgb(15556694))), true);
+                serverPlayer.playSound(GGSoundRegistry.CLOCK_TICKING.get(), 0.8f, 1.3F);
+            }
+        }
+        if (event.getEffectInstance().is(GGEffectRegistry.ADRENALINE_RUSH) && event.getEntity() instanceof LivingEntity entity) {
+
+
+
+            var amplifier = event.getEffectInstance().getAmplifier();
+
+
+            entity.addEffect(new MobEffectInstance(GGEffectRegistry.ADRENAL_FATIGUE, 4800, amplifier + 1));
+        }
+
+    }
+
+
+
+    @SubscribeEvent
+    public static void LivingIncomingDamage(LivingIncomingDamageEvent event) {
         var livingEntity = event.getEntity();
+
+        //FADING
+        if (livingEntity instanceof ServerPlayer player && player.hasEffect(GGEffectRegistry.FADING)) {
+            event.setCanceled(true);
+        }
+
+        //PARRY
+        if (livingEntity instanceof ServerPlayer player && player.hasEffect(GGEffectRegistry.PARRYING)) {
+            event.setCanceled(true);
+            MagicManager.spawnParticles(livingEntity.level(), ParticleHelper.FIERY_SPARKS, livingEntity.getX(), livingEntity.getY() + 1, livingEntity.getZ(), 30, 0, 0, 0, 1, false);
+            livingEntity.level().playSound(null, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), GGSoundRegistry.PARRY, SoundSource.NEUTRAL, .8F, 1.3F);
+
+        }
+
+        //BASTION OF LIGHT
         if (livingEntity instanceof ServerPlayer player && player.hasEffect(GGEffectRegistry.BASTION_OF_LIGHT)) {
             MagicData magicData = MagicData.getPlayerMagicData(livingEntity);
             if (magicData.getMana() > 350) {
@@ -363,45 +405,202 @@ public class ModEvents {
             }
 
         }
-    }
 
-    @SubscribeEvent
-    public static void HordeWeakness(LivingDamageEvent.Pre event) {
-        var livingEntity = event.getEntity();
-        var attacker = event.getSource().getDirectEntity();
-        if (livingEntity.hasEffect(GGEffectRegistry.HORDE_WEAKNESS) && attacker instanceof IMagicSummon) {
-            event.setNewDamage(event.getOriginalDamage() * 1.5F);
+        //BLISSFUL SLEEP PROTECTION
+        var targetEntity = event.getEntity();
+        var damager = event.getSource().getDirectEntity();
 
-        }
-
-    }
-
-    @SubscribeEvent
-    public static void ParryMelee(LivingIncomingDamageEvent event) {
-        var livingEntity = event.getEntity();
-        if (livingEntity instanceof ServerPlayer player && player.hasEffect(GGEffectRegistry.PARRYING)) {
+        if (targetEntity.hasEffect(DTE_EffectRegistry.BLISSFUL_SLEEP)) {
             event.setCanceled(true);
-            MagicManager.spawnParticles(livingEntity.level(), ParticleHelper.FIERY_SPARKS, livingEntity.getX(), livingEntity.getY() + 1, livingEntity.getZ(), 30, 0, 0, 0, 1, false);
-            livingEntity.level().playSound(null, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), GGSoundRegistry.PARRY, SoundSource.NEUTRAL, .8F, 1.3F);
-
+        }
+        if (damager instanceof ServerPlayer player && targetEntity.hasEffect(DTE_EffectRegistry.BLISSFUL_SLEEP)) {
+            player.displayClientMessage(Component.literal(ChatFormatting.ITALIC + "Protected by the veil of dreams. ")
+                    .withStyle(s -> s.withColor(ChatFormatting.DARK_RED)), true);
         }
 
     }
 
+
     @SubscribeEvent
-    public static void ParryRanged(ProjectileImpactEvent event) {
-        var parried_projectile = event.getProjectile();
-        if (event.getRayTraceResult() instanceof EntityHitResult result && result.getEntity() instanceof LivingEntity entity) {
-            if (entity.hasEffect(GGEffectRegistry.PARRYING)) {
-                event.setCanceled(true);
-                entity.level().playSound(null, entity.getX(), entity.getY(), entity.getZ(), GGSoundRegistry.PARRY, SoundSource.NEUTRAL, .8F, 1.3F);
-                event.getProjectile().deflect(ProjectileDeflection.AIM_DEFLECT, entity, entity, entity instanceof Player);
+    public static void AttackEntityEvent(AttackEntityEvent event) {
+        var livingEntity = event.getEntity();
+        if (livingEntity instanceof ServerPlayer player && player.hasEffect(GGEffectRegistry.FADING)) {
+            event.setCanceled(true);
+        }
+
+    }
+
+
+
+
+    @SubscribeEvent
+    public static void DeathEvents(LivingDeathEvent event) {
+
+        //HEAL ON SUMMON DEATH
+        if (event.getEntity() instanceof IMagicSummon summon) {
+            if (summon.getSummoner() != null && summon.getSummoner() instanceof ServerPlayer player) {
+                MagicData magicData = MagicData.getPlayerMagicData(player);
+                var mana_return = event.getEntity().getMaxHealth();
+              if (player.hasEffect(GGEffectRegistry.LORD_OF_DECAY)) {
+                  player.addEffect(new MobEffectInstance(MobEffects.HEAL, 5));
+              }
+              else if (player.hasEffect(GGEffectRegistry.DECAYING_MIGHT)) {
+                  player.addEffect(new MobEffectInstance(MobEffects.HEAL, 5));
+              }
+               else if (player.hasEffect(GGEffectRegistry.REAPER)) {
+                    magicData.setMana(magicData.getMana() + mana_return);
+                    player.addEffect(new MobEffectInstance(MobEffects.HEAL, 5));
+                }
+
+
+
             }
         }
-    }
 
-    @SubscribeEvent
-    public static void CursedRevive(LivingDeathEvent event) {
+        //DECAYING WILL
+        if (event.getEntity() instanceof IMagicSummon) {
+            IMagicSummon summon = (IMagicSummon) event.getEntity();
+            if (summon.getSummoner() != null && summon.getSummoner() instanceof ServerPlayer) {
+                ServerPlayer summoner = (ServerPlayer) summon.getSummoner();
+                MagicData magicData = MagicData.getPlayerMagicData(summoner);
+                if (summoner.hasEffect(GGEffectRegistry.DECAYING_MIGHT) && magicData.getMana() > 25) {
+                    magicData.setMana(magicData.getMana() - 25);
+
+
+                    summoner.displayClientMessage(Component.literal(ChatFormatting.ITALIC + "Summon Revived from Dust")
+                            .withStyle(s -> s.withColor(TextColor.fromRgb(3289650))), true);
+                    event.setCanceled(true);
+                    event.getEntity().setHealth(event.getEntity().getMaxHealth());
+                    if (event.getSource().getEntity() instanceof LivingEntity) {
+
+                    }
+                }
+            }
+        }
+
+        //LORD OF DECAY
+        if (event.getEntity() instanceof IMagicSummon) {
+            IMagicSummon summon = (IMagicSummon) event.getEntity();
+            if (summon.getSummoner() != null && summon.getSummoner() instanceof ServerPlayer) {
+                ServerPlayer summoner = (ServerPlayer) summon.getSummoner();
+                MagicData magicData = MagicData.getPlayerMagicData(summoner);
+                if (summoner.hasEffect(GGEffectRegistry.LORD_OF_DECAY) && magicData.getMana() > 15) {
+                    magicData.setMana(magicData.getMana() - 15);
+
+
+                    summoner.displayClientMessage(Component.literal(ChatFormatting.ITALIC + "Summon Commanded to Live")
+                            .withStyle(s -> s.withColor(TextColor.fromRgb(3289650))), true);
+                    event.setCanceled(true);
+                    event.getEntity().setHealth(event.getEntity().getMaxHealth());
+
+                }
+            }
+        }
+
+        //BLOOD DOMAIN REVIVE
+        if (event.getEntity() instanceof IMagicSummon) {
+            IMagicSummon summon = (IMagicSummon) event.getEntity();
+            if (summon.getSummoner() != null && summon.getSummoner() instanceof ServerPlayer) {
+                ServerPlayer summoner = (ServerPlayer) summon.getSummoner();
+                if (summoner.hasEffect(GGEffectRegistry.BLOOD_DOMAIN)) {
+                    event.setCanceled(true);
+                    event.getEntity().setHealth(event.getEntity().getMaxHealth());
+                    event.getEntity().addEffect(new MobEffectInstance(MobEffectRegistry.ABYSSAL_SHROUD, 10));
+
+                }
+            }
+        }
+
+        //LORD OF THE FINAL FROST
+        if (event.getEntity() instanceof IMagicSummon) {
+            IMagicSummon summon = (IMagicSummon) event.getEntity();
+            if (summon.getSummoner() != null && summon.getSummoner() instanceof ServerPlayer) {
+                ServerPlayer summoner = (ServerPlayer) summon.getSummoner();
+                MagicData magicData = MagicData.getPlayerMagicData(summoner);
+                if (summoner.hasEffect(GGEffectRegistry.LORD_OF_FROST) && magicData.getMana() > 10) {
+                    magicData.setMana(magicData.getMana() - 10);
+                    summoner.displayClientMessage(Component.literal(ChatFormatting.ITALIC + "Summon condemned to frost")
+                            .withStyle(s -> s.withColor(TextColor.fromRgb(11131887))), true);
+
+                    FrozenHumanoid iceClone = new FrozenHumanoid(summoner.level(), (LivingEntity) summon);
+                    iceClone.setSummoner(summoner);
+                    iceClone.setShatterDamage(25);
+                    iceClone.setDeathTimer(5);
+                    summoner.level().addFreshEntity(iceClone);
+                    iceClone.deathTime = 1000;
+                    iceClone.playSound(SoundRegistry.FROSTBITE_FREEZE.get(), 2, Utils.random.nextInt(9, 11) * .1f);
+                }
+            }
+        }
+
+        //HOMUNCULUS EXPLODE
+        var guy = event.getEntity();
+        if (guy instanceof HomunculusEntity) {
+            SacrificeSpell spell = (SacrificeSpell) SpellRegistry.SACRIFICE_SPELL.get();
+
+
+            float explosionRadius = 1.5F;
+            LivingEntity owner = SummonManager.getOwner(guy) instanceof LivingEntity livingOwner ? livingOwner : guy;
+            float damage = (float) (4 * owner.getAttributeValue(AttributeRegistry.BLOOD_SPELL_POWER));
+            SacrificeSpell.doSacrificeExplosion(
+                    guy.level(),
+                    spell.getDamageSource(guy, owner),
+                    damage,
+                    explosionRadius,
+                    guy.getBoundingBox().getCenter()
+            );
+            guy.remove(Entity.RemovalReason.KILLED);
+        }
+
+        //DEATH KNIGHT RAGE ON KILL
+        var killer = event.getSource();
+
+        if (killer != null && killer.getEntity() instanceof DeathKnightEntity attacker
+        ) {
+
+            var effect = attacker.getEffect(GGEffectRegistry.DEATH_KNIGHT_KILL_RAGE);
+
+
+            if (attacker.hasEffect(GGEffectRegistry.DEATH_KNIGHT_KILL_RAGE)) {
+                var amp = effect.getAmplifier();
+                attacker.addEffect(new MobEffectInstance(GGEffectRegistry.DEATH_KNIGHT_KILL_RAGE, 10000, amp + 1 ));
+                attacker.heal(5F + amp);
+
+            }
+            else {
+                attacker.addEffect(new MobEffectInstance(GGEffectRegistry.DEATH_KNIGHT_KILL_RAGE, 10000, 0));
+                attacker.heal(5F);
+            }
+        }
+
+        //SPELLBLADE TEMP REVIVE
+        if (event.getEntity() instanceof LivingEntity livingEntity) {
+            if (livingEntity.hasEffect(GGEffectRegistry.SOUL_STRENGTH)) {
+                event.setCanceled(true);
+
+                livingEntity.removeEffect(GGEffectRegistry.SOUL_STRENGTH);
+
+                livingEntity.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 100));
+                livingEntity.addEffect(new MobEffectInstance(MobEffects.DARKNESS, 100));
+                livingEntity.addEffect(new MobEffectInstance(GGEffectRegistry.FADING, 100));
+                livingEntity.addEffect(new MobEffectInstance(GGEffectRegistry.UNDYING_DREAD, 2500));
+
+
+                livingEntity.setHealth(livingEntity.getMaxHealth());
+
+
+                livingEntity.level().playSound(null, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), GGSoundRegistry.SURVIVING, SoundSource.NEUTRAL, .8F, 1.3F);
+
+                if (event.getEntity() instanceof ServerPlayer player) {
+                    player.displayClientMessage(Component.literal(ChatFormatting.ITALIC + "Not...Yet..I won't...die..here")
+                            .withStyle(s -> s.withColor(TextColor.fromRgb(3020845))), true);
+                }
+
+            }
+
+        }
+
+        //CURSED IMMORTALITY
         if (event.getEntity() instanceof LivingEntity livingEntity) {
             if (livingEntity.hasEffect(GGEffectRegistry.CURSED_IMMORTALITY)) {
 
@@ -432,286 +631,28 @@ public class ModEvents {
             }
 
         }
-    }
 
-    @SubscribeEvent
-    public static void UndyneReference(LivingDeathEvent event) {
-        if (event.getEntity() instanceof LivingEntity livingEntity) {
-            if (livingEntity.hasEffect(GGEffectRegistry.SOUL_STRENGTH)) {
-                event.setCanceled(true);
-
-                livingEntity.removeEffect(GGEffectRegistry.SOUL_STRENGTH);
-
-                livingEntity.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 100));
-                livingEntity.addEffect(new MobEffectInstance(MobEffects.DARKNESS, 100));
-                livingEntity.addEffect(new MobEffectInstance(GGEffectRegistry.FADING, 100));
-                livingEntity.addEffect(new MobEffectInstance(GGEffectRegistry.UNDYING_DREAD, 2500));
-
-
-                livingEntity.setHealth(livingEntity.getMaxHealth());
-
-
-                livingEntity.level().playSound(null, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), GGSoundRegistry.SURVIVING, SoundSource.NEUTRAL, .8F, 1.3F);
-
-                if (event.getEntity() instanceof ServerPlayer player) {
-                    player.displayClientMessage(Component.literal(ChatFormatting.ITALIC + "Not...Yet..I won't...die..here")
-                            .withStyle(s -> s.withColor(TextColor.fromRgb(3020845))), true);
-                }
-
-            }
-
-        }
-    }
-
-    @SubscribeEvent
-    public static void UndyneReference2(MobEffectEvent.Expired event) {
-        assert event.getEffectInstance() != null;
-        if (event.getEffectInstance().is(GGEffectRegistry.UNDYING_DREAD) && event.getEntity() instanceof ServerPlayer player) {
-            player.kill();
-
-            player.displayClientMessage(Component.literal(ChatFormatting.ITALIC + "Even that...wasn't strong enough...")
-                    .withStyle(s -> s.withColor(TextColor.fromRgb(13383279))), true);
-
-        }
-
-    }
-
-
-
-    @SubscribeEvent
-    public static void AdrenalineRush(MobEffectEvent.Expired event) {
-        assert event.getEffectInstance() != null;
-        if (event.getEffectInstance().is(GGEffectRegistry.ADRENALINE_RUSH) && event.getEntity() instanceof LivingEntity entity) {
-
-
-
-            var amplifier = event.getEffectInstance().getAmplifier();
-
-
-            entity.addEffect(new MobEffectInstance(GGEffectRegistry.ADRENAL_FATIGUE, 4800, amplifier + 1));
-        }
-
-
-    }
-
-
-
-
-
-    @SubscribeEvent
-    public static void FadingDisable(LivingIncomingDamageEvent event) {
-        var livingEntity = event.getEntity();
-        if (livingEntity instanceof ServerPlayer player && player.hasEffect(GGEffectRegistry.FADING)) {
-            event.setCanceled(true);
-        }
-
-    }
-
-    @SubscribeEvent
-    public static void FadingDisable2(SpellPreCastEvent event) {
-        var livingEntity = event.getEntity();
-        if (livingEntity instanceof ServerPlayer player && player.hasEffect(GGEffectRegistry.FADING)) {
-            event.setCanceled(true);
-        }
-
-    }
-
-    @SubscribeEvent
-    public static void FadingDisable3(AttackEntityEvent event) {
-        var livingEntity = event.getEntity();
-        if (livingEntity instanceof ServerPlayer player && player.hasEffect(GGEffectRegistry.FADING)) {
-            event.setCanceled(true);
-        }
-
-    }
-
-    @SubscribeEvent
-    public static void FinalityOfDecay(MobEffectEvent.Expired event) {
-        assert event.getEffectInstance() != null;
-        if (event.getEffectInstance().is(GGEffectRegistry.FINALITY_OF_DECAY) && event.getEntity() instanceof LivingEntity livingEntity) {
-
-
-            livingEntity.hurt(livingEntity.damageSources().magic(), 25);
-            livingEntity.addEffect(new MobEffectInstance(MobEffects.WITHER, 300, 3));
-            livingEntity.addEffect(new MobEffectInstance(GGEffectRegistry.MARK_OF_DECAY, 300, 1));
-
-            livingEntity.playSound(GGSoundRegistry.CLOCK_TICKING.get(), 0.8f, 1.3F);
-
-            if (livingEntity instanceof ServerPlayer serverPlayer) {
-                serverPlayer.displayClientMessage(Component.literal(ChatFormatting.ITALIC + "The Clock Strikes Nil")
-                        .withStyle(s -> s.withColor(TextColor.fromRgb(15556694))), true);
-                serverPlayer.playSound(GGSoundRegistry.CLOCK_TICKING.get(), 0.8f, 1.3F);
-            }
-        }
-    }
-
-
-
-
-    private static boolean isUnderSunTick(Level level, LivingEntity entity) {
-        if (level.isDay() && !level.isClientSide) {
-            float f = entity.getLightLevelDependentMagicValue();
-            BlockPos blockpos = BlockPos.containing(entity.getX(), entity.getEyeY(), entity.getZ());
-            boolean flag = entity.isInWaterRainOrBubble() || entity.isInPowderSnow || entity.wasInPowderSnow;
-            if (f > 0.5F && !flag && level.canSeeSky(blockpos)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private static boolean isUnderMoonTick(Level level, LivingEntity entity) {
-        if (level.isNight() && !level.isClientSide) {
-            return level.isNight();
-        } else {
-            return false;
-        }
-
-    }
-
-    @SubscribeEvent
-    public static void Reaper(LivingDeathEvent event) {
-
-        if (event.getEntity() instanceof IMagicSummon summon) {
-            if (summon.getSummoner() != null && summon.getSummoner() instanceof ServerPlayer player) {
-                MagicData magicData = MagicData.getPlayerMagicData(player);
-                var mana_return = event.getEntity().getMaxHealth();
-              if (player.hasEffect(GGEffectRegistry.LORD_OF_DECAY)) {
-                  player.addEffect(new MobEffectInstance(MobEffects.HEAL, 5));
-              }
-              else if (player.hasEffect(GGEffectRegistry.DECAYING_MIGHT)) {
-                  player.addEffect(new MobEffectInstance(MobEffects.HEAL, 5));
-              }
-               else if (player.hasEffect(GGEffectRegistry.REAPER)) {
-                    magicData.setMana(magicData.getMana() + mana_return);
-                    player.addEffect(new MobEffectInstance(MobEffects.HEAL, 5));
-                }
-
-
-
-            }
-        }
-    }
-
-
-
-
-    @SubscribeEvent
-    public static void DecayingMightRevive(LivingDeathEvent event) {
-        if (event.getEntity() instanceof IMagicSummon) {
-            IMagicSummon summon = (IMagicSummon) event.getEntity();
-            if (summon.getSummoner() != null && summon.getSummoner() instanceof ServerPlayer) {
-                ServerPlayer summoner = (ServerPlayer) summon.getSummoner();
-                MagicData magicData = MagicData.getPlayerMagicData(summoner);
-                if (summoner.hasEffect(GGEffectRegistry.DECAYING_MIGHT) && magicData.getMana() > 25) {
-                    magicData.setMana(magicData.getMana() - 25);
-
-
-                    summoner.displayClientMessage(Component.literal(ChatFormatting.ITALIC + "Summon Revived from Dust")
-                            .withStyle(s -> s.withColor(TextColor.fromRgb(3289650))), true);
-                    event.setCanceled(true);
-                    event.getEntity().setHealth(event.getEntity().getMaxHealth());
-                    if (event.getSource().getEntity() instanceof LivingEntity) {
-
+        //BLOOD STAFF EVOLUTION
+        var sourceEntity = event.getSource().getEntity();
+        var dead_thing = event.getEntity();
+        if (sourceEntity instanceof ServerPlayer serverPlayer) {
+            if (serverPlayer.hasEffect(GGEffectRegistry.LORD_OF_DECAY)) {
+                if (serverPlayer.getMainHandItem().is(ItemRegistry.BLOOD_STAFF) && dead_thing instanceof DeadKingBoss deadKingBoss) {
+                    if (deadKingBoss.isOminous()) {
+                        serverPlayer.getInventory().setItem(serverPlayer.getInventory().selected, new ItemStack(GGItemRegistry.REQUIEM_STAFF.get()));
                     }
-                }
-            }
-        }
-    }
-
-    @SubscribeEvent
-    public static void LordOfDecayRevive(LivingDeathEvent event) {
-        if (event.getEntity() instanceof IMagicSummon) {
-            IMagicSummon summon = (IMagicSummon) event.getEntity();
-            if (summon.getSummoner() != null && summon.getSummoner() instanceof ServerPlayer) {
-                ServerPlayer summoner = (ServerPlayer) summon.getSummoner();
-                MagicData magicData = MagicData.getPlayerMagicData(summoner);
-                if (summoner.hasEffect(GGEffectRegistry.LORD_OF_DECAY) && magicData.getMana() > 15) {
-                    magicData.setMana(magicData.getMana() - 15);
-
-
-                    summoner.displayClientMessage(Component.literal(ChatFormatting.ITALIC + "Summon Commanded to Live")
-                            .withStyle(s -> s.withColor(TextColor.fromRgb(3289650))), true);
-                    event.setCanceled(true);
-                    event.getEntity().setHealth(event.getEntity().getMaxHealth());
 
                 }
+
             }
         }
-    }
-
-    @SubscribeEvent
-    public static void BloodDomainRevive(LivingDeathEvent event) {
-        if (event.getEntity() instanceof IMagicSummon) {
-            IMagicSummon summon = (IMagicSummon) event.getEntity();
-            if (summon.getSummoner() != null && summon.getSummoner() instanceof ServerPlayer) {
-                ServerPlayer summoner = (ServerPlayer) summon.getSummoner();
-                if (summoner.hasEffect(GGEffectRegistry.BLOOD_DOMAIN)) {
-                    event.setCanceled(true);
-                    event.getEntity().setHealth(event.getEntity().getMaxHealth());
-                    event.getEntity().addEffect(new MobEffectInstance(MobEffectRegistry.ABYSSAL_SHROUD, 10));
-
-                }
-            }
-        }
-    }
 
 
-
-    @SubscribeEvent
-    public static void ShaderRemove(LivingDeathEvent event) {
-        if (event.getEntity() instanceof IMagicSummon) {
-            IMagicSummon summon = (IMagicSummon) event.getEntity();
-            if (summon.getSummoner() != null && summon.getSummoner() instanceof ServerPlayer) {
-                ServerPlayer summoner = (ServerPlayer) summon.getSummoner();
-                MagicData magicData = MagicData.getPlayerMagicData(summoner);
-                if (summoner.hasEffect(GGEffectRegistry.LORD_OF_FROST) && magicData.getMana() > 10) {
-                    magicData.setMana(magicData.getMana() - 10);
-                    summoner.displayClientMessage(Component.literal(ChatFormatting.ITALIC + "Summon condemned to frost")
-                            .withStyle(s -> s.withColor(TextColor.fromRgb(11131887))), true);
-
-                    FrozenHumanoid iceClone = new FrozenHumanoid(summoner.level(), (LivingEntity) summon);
-                    iceClone.setSummoner(summoner);
-                    iceClone.setShatterDamage(25);
-                    iceClone.setDeathTimer(5);
-                    summoner.level().addFreshEntity(iceClone);
-                    iceClone.deathTime = 1000;
-                    iceClone.playSound(SoundRegistry.FROSTBITE_FREEZE.get(), 2, Utils.random.nextInt(9, 11) * .1f);
-                }
-            }
-        }
-    }
-
-
-
-    @SubscribeEvent
-    public static void FreezeStatueExplode(LivingDeathEvent event) {
-        if (event.getEntity() instanceof IMagicSummon) {
-            IMagicSummon summon = (IMagicSummon) event.getEntity();
-            if (summon.getSummoner() != null && summon.getSummoner() instanceof ServerPlayer) {
-                ServerPlayer summoner = (ServerPlayer) summon.getSummoner();
-                MagicData magicData = MagicData.getPlayerMagicData(summoner);
-                if (summoner.hasEffect(GGEffectRegistry.LORD_OF_FROST) && magicData.getMana() > 10) {
-                    magicData.setMana(magicData.getMana() - 10);
-                    summoner.displayClientMessage(Component.literal(ChatFormatting.ITALIC + "Summon condemned to frost")
-                            .withStyle(s -> s.withColor(TextColor.fromRgb(11131887))), true);
-
-                    FrozenHumanoid iceClone = new FrozenHumanoid(summoner.level(), (LivingEntity) summon);
-                    iceClone.setSummoner(summoner);
-                    iceClone.setShatterDamage(25);
-                    iceClone.setDeathTimer(5);
-                    summoner.level().addFreshEntity(iceClone);
-                    iceClone.deathTime = 1000;
-                    iceClone.playSound(SoundRegistry.FROSTBITE_FREEZE.get(), 2, Utils.random.nextInt(9, 11) * .1f);
-                }
-            }
-        }
     }
 
 
     @SubscribeEvent
-    public static void EbonyArmor(SpellPreCastEvent event) {
+    public static void SpellPreCast(SpellPreCastEvent event) {
         var entity = event.getEntity();
         boolean hasEbonyEffect = entity.hasEffect(GGEffectRegistry.EBONY_ARMOR);
         if (entity instanceof ServerPlayer player && !player.level().isClientSide) {
@@ -725,32 +666,26 @@ public class ModEvents {
                         SoundEvents.WITHER_HURT, SoundSource.PLAYERS, 0.3f, 1f);
             }
         }
-    }
 
-    @SubscribeEvent
-    public static void EbonyCataphractTackle(SpellPreCastEvent event) {
-        var entity = event.getEntity();
-        boolean hasEbonyEffect = entity.hasEffect(GGEffectRegistry.EBONY_CATAPHRACT);
+        boolean hasEbonyEffect2 = entity.hasEffect(GGEffectRegistry.EBONY_CATAPHRACT);
         if (entity instanceof ServerPlayer player && !player.level().isClientSide) {
-            if (hasEbonyEffect) {
+            if (hasEbonyEffect2) {
                 event.setCanceled(true);
                 GGSpellRegistry.CATAPHRACT_TACKLE.get().castSpell(event.getEntity().level(), 1, (ServerPlayer) player, CastSource.SPELLBOOK, true);
             }
         }
-    }
 
-    @SubscribeEvent
-    public static void EbonyCataphractSlam(PlayerInteractEvent.RightClickBlock event) {
-        var entity = event.getEntity();
-        boolean hasEbonyEffect = entity.hasEffect(GGEffectRegistry.EBONY_CATAPHRACT);
         if (entity instanceof ServerPlayer player && !player.level().isClientSide) {
-            if (hasEbonyEffect) {
+            if (hasEbonyEffect2) {
                 if (player.isCrouching()) {
                     GGSpellRegistry.CATAPHRACT_HEAL.get().castSpell(event.getEntity().level(), 1, (ServerPlayer) player, CastSource.SPELLBOOK, true);
                 } else {
                     GGSpellRegistry.CATAPHRACT_SLAM.get().castSpell(event.getEntity().level(), 1, (ServerPlayer) player, CastSource.SPELLBOOK, true);
                 }
             }
+        }
+        if (entity instanceof ServerPlayer player && player.hasEffect(GGEffectRegistry.FADING)) {
+            event.setCanceled(true);
         }
     }
 
@@ -784,38 +719,7 @@ public class ModEvents {
     }
 
 
-    @SubscribeEvent
-    public static void AshesOfTheFallen(LivingDamageEvent.Pre event) {
-        var attacked = event.getEntity();
-        var attacker = event.getSource().getDirectEntity();
-
-        MagicData magicData = MagicData.getPlayerMagicData(attacked);
-        if ((attacked.hasEffect(GGEffectRegistry.PROTECTION_OF_ASHES) && magicData.getMana() > 35)) {
-
-            if (attacker instanceof Projectile projectile) {
-                var attacker2 = projectile.getOwner();
-                assert attacker2 != null;
-
-                magicData.setMana(magicData.getMana() - 35);
-                attacker2.hurt(attacker2.damageSources().magic(), 10);
-                attacked.level().playSound(null, attacked.getX(), attacked.getY(), attacked.getZ(),
-                        SoundRegistry.KEEPER_SWORD_IMPACT, SoundSource.PLAYERS, 0.3f, 1f);
-                MagicManager.spawnParticles(attacked.level(), ParticleTypes.FALLING_OBSIDIAN_TEAR, attacker2.getX(), attacker2.getY() + .25f, attacker2.getZ(), 100, .03, .4, .03, .4, false);
-
-            } else {
-                magicData.setMana(magicData.getMana() - 35);
-                assert attacker != null;
-                attacker.hurt(attacker.damageSources().magic(), 10);
-                attacked.level().playSound(null, attacked.getX(), attacked.getY(), attacked.getZ(),
-                        SoundRegistry.KEEPER_SWORD_IMPACT, SoundSource.PLAYERS, 0.3f, 1f);
-                MagicManager.spawnParticles(attacked.level(), ParticleTypes.FALLING_OBSIDIAN_TEAR, attacker.getX(), attacker.getY() + .25f, attacker.getZ(), 100, .03, .4, .03, .4, false);
-            }
-
-
-        }
-    }
-
-    //ALL WEAPON PASSIVE
+    //ALL WEAPON PASSIVES
     @SubscribeEvent
     public static void WeaponPassiveAbilitiesMelee(LivingDamageEvent.Post event) {
 
@@ -963,7 +867,18 @@ public class ModEvents {
 
             }
         }
+        if (summon instanceof IMagicSummon) {
+            var grave = ((IMagicSummon) summon).getSummoner();
+            if (grave instanceof TombstoneEntity tomb){
+                var summoner = tomb.getSummoner();
+                var health = summon.getAttributeValue(Attributes.MAX_HEALTH);
+                var health_new = (health * summoner.getAttributeValue(GGAttributeRegistry.SUMMON_HEALTH));
+                summon.getAttribute(Attributes.MAX_HEALTH).setBaseValue(health_new);
+                summon.setHealth(summon.getMaxHealth());
+            }
+        }
     }
+
 }
 
 

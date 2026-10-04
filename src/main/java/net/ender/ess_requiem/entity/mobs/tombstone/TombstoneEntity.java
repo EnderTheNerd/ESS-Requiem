@@ -69,7 +69,7 @@ public class TombstoneEntity extends AbstractSpellCastingMob implements IMagicSu
     public static AttributeSupplier.Builder createAttributes() {
         return LivingEntity.createLivingAttributes()
                 .add(Attributes.ATTACK_DAMAGE, 0)
-                .add(Attributes.MAX_HEALTH, 15.0)
+                .add(Attributes.MAX_HEALTH, 8.0)
                 .add(Attributes.FOLLOW_RANGE, 60.0)
                 .add(Attributes.ENTITY_INTERACTION_RANGE, 2.0)
                 .add(Attributes.MOVEMENT_SPEED, 0)
@@ -81,12 +81,12 @@ public class TombstoneEntity extends AbstractSpellCastingMob implements IMagicSu
 
     @Override
     public void registerGoals() {
-        this.goalSelector.addGoal(2, new WizardAttackGoal(this, 0, 40, 55)
+        this.goalSelector.addGoal(2, new WizardAttackGoal(this, 0, 50, 60)
                 .setSpells(
-                        List.of(),
                         List.of(SpellRegistry.RAISE_DEAD_SPELL.get()),
                         List.of(SpellRegistry.RAISE_DEAD_SPELL.get()),
-                        List.of()
+                        List.of(SpellRegistry.RAISE_DEAD_SPELL.get(), SpellRegistry.RAISE_DEAD_SPELL.get(), SpellRegistry.RAISE_DEAD_SPELL.get()),
+                        List.of(SpellRegistry.RAISE_DEAD_SPELL.get())
                 ));
 
         this.goalSelector.addGoal(0, new FloatGoal(this));

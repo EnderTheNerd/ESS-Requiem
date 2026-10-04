@@ -106,7 +106,7 @@ public class FieldOfMourningSpell extends AbstractSpell {
     public void onCast(Level world, int spellLevel, LivingEntity entity, CastSource castSource, MagicData playerMagicData) {
 
         SummonedEntitiesCastData summonedEntitiesCastData = new SummonedEntitiesCastData();
-                int summonTime = 30 * 65;
+                int summonTime = 280;
                 int count = getSummonCount(spellLevel, entity);
                 for (int i = 0; i < count; i++) {
                     TombstoneEntity tomb = new TombstoneEntity(world, entity);

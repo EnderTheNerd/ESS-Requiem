@@ -139,6 +139,9 @@ public class GGEffectRegistry {
     public static final DeferredHolder<MobEffect, MobEffect> ADRENAL_FATIGUE = MOB_EFFECT_DEFERRED_REGISTER.register("adrenal_fatigue",
             () -> new AdrenalFatigueEffect(MobEffectCategory.HARMFUL, 2695969));
 
+    public static final DeferredHolder<MobEffect, MobEffect> PARTY_STARTER = MOB_EFFECT_DEFERRED_REGISTER.register("party_starter",
+            () -> new PartyStarterEffect(MobEffectCategory.BENEFICIAL, 16773065));
+
     //MISC EFFECTS
     public static final DeferredHolder<MobEffect, MobEffect> ABILITY_COOLDOWN = MOB_EFFECT_DEFERRED_REGISTER.register("ability_cooldown",
             ()-> new AbilityCooldownEffect(MobEffectCategory.HARMFUL, 789261));
