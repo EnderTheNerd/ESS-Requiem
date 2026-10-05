@@ -329,6 +329,7 @@
  "death.attack.ess_requiem.slashing_ability": "%1$s was sliced and diced by %2$s",
  "death.attack.ess_requiem.battle_standard": "%1$s fell before %2$s's Battle Standard",
  "death.attack.ess_requiem.bone_maggot": "%1$s had their marrow picked clean by %2$s's bone maggots",
+ "death.attack.celebrated": "%1$s partied all night long and exploded",
 
  "attribute.irons_spellbooks.spellblade_spell_power": "Blade Spell Power",
  "attribute.irons_spellbooks.spellblade_magic_resist": "Blade Magic Resist",

@@ -8,6 +8,8 @@ import io.redspace.ironsspellbooks.api.registry.AttributeRegistry;
 import io.redspace.ironsspellbooks.api.registry.SchoolRegistry;
 import io.redspace.ironsspellbooks.api.registry.SpellRegistry;
 import io.redspace.ironsspellbooks.api.spells.CastSource;
+import io.redspace.ironsspellbooks.api.util.CameraShakeData;
+import io.redspace.ironsspellbooks.api.util.CameraShakeManager;
 import io.redspace.ironsspellbooks.api.util.Utils;
 import io.redspace.ironsspellbooks.capabilities.magic.MagicManager;
 import io.redspace.ironsspellbooks.capabilities.magic.SummonManager;
@@ -30,9 +32,11 @@ import io.redspace.ironsspellbooks.spells.blood.SacrificeSpell;
 import io.redspace.ironsspellbooks.spells.eldritch.SculkTentaclesSpell;
 import io.redspace.ironsspellbooks.util.ParticleHelper;
 import net.acetheeldritchking.aces_spell_utils.network.RemoveShaderEffectPacket;
+import net.acetheeldritchking.aces_spell_utils.utils.ImpactFrameHandler;
 import net.ender.ess_requiem.EndersSpellsAndStuffRequiem;
 import net.ender.ess_requiem.Util.GGTags;
 import net.ender.ess_requiem.compat.dte.dte_registry.DTE_EffectRegistry;
+import net.ender.ess_requiem.damage.GGDamageTypes;
 import net.ender.ess_requiem.effects.AdrenalineRushEffect;
 import net.ender.ess_requiem.entity.mobs.death_knight.DeathKnightEntity;
 import net.ender.ess_requiem.entity.mobs.homunculus.HomunculusEntity;
@@ -46,6 +50,7 @@ import net.ender.ess_requiem.item.sword_tier.EldritchWeapons.MidnightEmbrace;
 import net.ender.ess_requiem.item.sword_tier.SpellbladeWeapons.IntertwinedPeak;
 import net.ender.ess_requiem.item.sword_tier.SpellbladeWeapons.SkyfallsCause;
 import net.ender.ess_requiem.item.sword_tier.SpellbladeWeapons.SwiftDemise;
+import net.ender.ess_requiem.particle.particle_managers.GGSpherePManager;
 import net.ender.ess_requiem.registries.*;
 
 
@@ -316,6 +321,40 @@ public class ModEvents {
             }
         }
 
+        //PARTYYYY
+        if (sourceEntity instanceof LivingEntity entity) {
+            if (entity.hasEffect(GGEffectRegistry.PARTY_STARTER)) {
+                var amplifier = Objects.requireNonNull(entity.getEffect(GGEffectRegistry.PARTY_STARTER)).getAmplifier();
+                var effect = entity.getEffect(GGEffectRegistry.PARTY_STARTER);
+                var celebrated = entity.damageSources().source(GGDamageTypes.CELEBRATED);
+                var damageMult = entity.getAttributeValue(AttributeRegistry.EVOCATION_SPELL_POWER);
+
+                if (amplifier > 1) {
+
+                    MagicManager.spawnParticles(attacked.level(), ParticleTypes.FIREWORK, attacked.getX(), attacked.getY() + 1, attacked.getZ(), 30, 0, 0, 0, 1, false);
+
+                    entity.removeEffect(GGEffectRegistry.PARTY_STARTER);
+                    attacked.addEffect(new MobEffectInstance(MobEffects.GLOWING, 180));
+                    assert effect != null;
+                    entity.addEffect(new MobEffectInstance(GGEffectRegistry.PARTY_STARTER, effect.getDuration(), amplifier -1));
+                    attacked.hurt(celebrated, (float) (10 * damageMult));
+
+                }
+                else {
+                    if (entity instanceof ServerPlayer player){
+                        ImpactFrameHandler.trigger(player, 0xFF10F0, 0, 0.75F, 0.5F, 10, 2);
+                        CameraShakeManager.addCameraShake(new CameraShakeData(entity.level(), 20 + (int) 8.5F, player.position(), 8.5F * 2));
+                    }
+                    entity.removeEffect(GGEffectRegistry.PARTY_STARTER);
+                    attacked.addEffect(new MobEffectInstance(MobEffects.GLOWING, 180));
+                    MagicManager.spawnParticles(attacked.level(), ParticleTypes.FIREWORK, attacked.getX(), attacked.getY() + 1, attacked.getZ(), 50, 0, 0, 0, 6, false);
+                    MagicManager.spawnParticles(attacked.level(), ParticleTypes.TOTEM_OF_UNDYING, attacked.getX(), attacked.getY() + 1, attacked.getZ(), 50, 0, 0, 0, 6, false);
+                    attacked.hurt(celebrated, (float) (15 * damageMult));
+                }
+
+            }
+        }
+
     }
 
 
@@ -338,6 +377,7 @@ public class ModEvents {
     @SubscribeEvent
     public static void EffectExpired(MobEffectEvent.Expired event) {
         assert event.getEffectInstance() != null;
+        //SPELLBLADE DIE
         if (event.getEffectInstance().is(GGEffectRegistry.UNDYING_DREAD) && event.getEntity() instanceof ServerPlayer player) {
             player.kill();
 
@@ -346,6 +386,7 @@ public class ModEvents {
 
         }
 
+        //UNUSED
         if (event.getEffectInstance().is(GGEffectRegistry.FINALITY_OF_DECAY) && event.getEntity() instanceof LivingEntity livingEntity) {
 
 
@@ -361,6 +402,8 @@ public class ModEvents {
                 serverPlayer.playSound(GGSoundRegistry.CLOCK_TICKING.get(), 0.8f, 1.3F);
             }
         }
+
+        //ADRENALINE RUSH
         if (event.getEffectInstance().is(GGEffectRegistry.ADRENALINE_RUSH) && event.getEntity() instanceof LivingEntity entity) {
 
 
@@ -692,7 +735,7 @@ public class ModEvents {
 
 
     @SubscribeEvent
-    public static void SoulBefriending(PlayerInteractEvent.EntityInteract event) {
+    public static void PlayerInteractEvent(PlayerInteractEvent.EntityInteract event) {
     var soul = event.getTarget();
     var player = event.getEntity();
 
